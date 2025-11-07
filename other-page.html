@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Info</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Vazirmatn';
+      src: url('assets/Vazirmatn.ttf') format('truetype');
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Vazirmatn';
+      position: relative;
+      color: #000000;
+      line-height: 1.3;
+      background-color: #f7f2eb;
+      
+      
+    }
+
+    .close-button {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.7rem;
+      font-family: 'Vazirmatn';
+      font-weight: 200;
+      border-radius: 100px;
+      background-color: transparent;
+      padding: 1px 8px;
+      cursor: pointer;
+      z-index: 9999;
+      color: black;
+      border: none;
+    }
+
+.our-story-split {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* 🔧 This line aligns tops */
+  justify-content: space-between;
+  background-color: #f7f2eb;
+  gap: 3rem;
+  padding: 3rem;
+  /* padding-top: 3rem; */
+  flex-wrap: wrap;
+  /* border-bottom: 1px solid black; */
+}
+
+
+.our-story-split .text-container {
+  flex: 1;
+  width: 50%;
+    /* padding: 3rem;
+  padding-top: 3rem; */
+}
+
+.our-story-image {
+  max-width: 50%;
+  aspect-ratio: 3/2;
+  height: auto;
+  object-fit: cover;
+  border-radius: 20px;
+    object-position: top; 
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); */
+}
+
+
+    .our-story-split h2 {
+      font-size: 2rem;
+      font-family: 'Noto Naskh Arabic';
+      font-weight: normal;
+      margin: 0; 
+      color: rgb(0, 0, 0);
+      margin-bottom: 20px;
+    }
+
+    .our-story-split .subtitle {
+      font-size: 1.1rem;
+      color: #000000;
+      font-weight: normal;
+      margin: 0;
+      max-width: none; /* Ensure it doesn't restrict width */
+      width: 100%; /* Take full container width */
+    }
+
+    h3 {
+      font-size: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      font-weight: normal;
+      font-family: 'Noto Naskh Arabic';
+    }
+
+    h4 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Noto Naskh Arabic';
+      font-weight: normal;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #000000;
+    }
+
+    .side-by-side {
+      display: flex;
+      align-items: stretch;
+      margin: 0;
+      gap: 0;
+      width: 100vw;
+      /* border-top: 1px solid black; */
+      border-bottom: none;
+       margin-top: 5rem;
+    
+    }
+
+    .side-by-side img {
+      width: 50vw;
+      margin: 3rem;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 20px;
+     
+    }
+
+    .side-by-side.reverse {
+      flex-direction: row-reverse;
+      border-bottom: 1px solid black;
+      border-top: none;
+    }
+
+    .side-by-side.reverse img {
+      /* margin-bottom: 50px;
+      margin-top: 0px; */
+      margin: 3rem;
+      border-radius: 20px;
+     
+    }
+
+.side-by-side > .text-box {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+  margin: 0;
+  padding-right: 3rem;
+   padding-left: 0rem;
+  background-color: #f7f2eb;
+  align-items: flex-start; /* 🔧 This line aligns tops */
+}
+
+.side-by-side.reverse > .text-box {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+  margin: 0;
+  padding-left: 3rem;
+   padding-right: 0rem;
+  background-color: #f7f2eb;
+  align-items: flex-start; /* 🔧 This line aligns tops */
+}
+
+
+    .full-width-featured {
+      width: 100vw;
+      background-color: #f7f2eb;
+      padding: 1rem 0;
+      margin-bottom: 4rem;
+      margin-top: 2rem;
+    }
+
+    .featured-products {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 1rem 2rem;
+      margin: 0;
+    }
+
+    .product-card {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      min-width: 220px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .product-card img {
+      height: 200px;
+      width: auto;
+      object-fit: contain;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-info .product-name {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+      
+    }
+
+    .product-info .product-price {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .cta-button-wrapper {
+      text-align: left;
+      margin-top: 1.5rem;
+      margin-left: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .cta-button {
+      background-color: #000;
+      color: #f7f2eb;
+      border: none;
+      font-size: 1rem;
+      padding: 0.7rem 1.5rem;
+      /* border-radius: 99px; */
+      cursor: pointer;
+      font-family: 'Vazirmatn';
+      transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: #444;
+    }
+
+    .signup-section {
+      background-color: #f7f2eb;
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid #000000;
+      font-family: 'Vazirmatn';
+    }
+
+    .signup-heading {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Noto Naskh Arabic';
+      font-weight: normal;
+    }
+
+    .signup-text {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .signup-form {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0rem;
+      max-width: 600px;
+      margin: 0 auto 1rem;
+    }
+
+    .signup-form input[type="email"] {
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #000000;
+      border-radius: 0px;
+      flex: 1 1 250px;
+      font-family: 'Vazirmatn';
+      background-color: #f7f2eb;
+    }
+
+    .signup-form button {
+      background-color: #f7f2eb;
+      color: #000000;
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+      border-left: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 0px;
+      cursor: pointer;
+      font-family: 'Vazirmatn';
+      transition: background 0.3s ease;
+    }
+
+    .signup-form button:hover {
+      background-color: #000000;
+      color: #f7f2eb;
+    }
+
+    .signup-terms {
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .signup-terms a {
+      color: #555;
+      text-decoration: underline;
+    }
+
+    /* Timeline CSS START */
+    .timeline {
+      position: relative;
+      max-width: 900px;
+      margin: 3rem auto 6rem;
+      padding: 0 20px;
+      overflow: visible;
+        z-index: 1;
+    }
+
+    /* The actual timeline (the vertical ruler) */
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 3px;
+      background-color: #000;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: 0px;
+    }
+
+    /* Container around content */
+    .timeline-item {
+      padding: 1rem 2rem;
+      position: relative;
+      width: 50%;
+      opacity: 0;
+      transform: translateY(40px);
+        z-index: 1000; 
+      /* transition: all 0.6s ease-out; */
+    }
+
+    /* Show timeline items when active */
+    .timeline-item.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Left side timeline */
+    .timeline-item.left {
+      left: -7%;
+    }
+
+    /* Right side timeline */
+    .timeline-item.right {
+      left: 50%;
+    }
+
+    /* Content inside timeline item */
+    .timeline-content {
+      padding: 1rem 2rem;
+      /* background-color: #f7f2eb; */
+      position: relative;
+      border-radius: 6px;
+      /* border: 1px solid #000; */
+    }
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: #A52A2A;
+  border: 5px solid #f7f2eb;
+  border-radius: 50%;
+  top: 50%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  z-index: 1100;
+}
+
+.timeline-item.right::before {
+  left: 1.5px;
+  /* transform: translate(-50%, -50%); */
+}
+
+
+.timeline {
+  --scroll-progress: 0;
+}
+
+/* The vertical ruler track */
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  /* background-color: #ccc;  */
+      background: linear-gradient(to bottom, #ccc 90%, rgba(204, 204, 204, 0));
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  /* margin-left: -3px; */
+  z-index: 0;
+}
+
+/* The animated fill color */
+.timeline::before {
+  content: '';
+  position: absolute;
+  width: 3px;
+  /* background-color: #A52A2A; */
+      background: linear-gradient(to bottom, #A52A2A 95%, rgba(204, 204, 204, 0));
+  top: 0;
+  left: 50%;
+  /* margin-left: -3px; */
+  height: calc(var(--scroll-progress) * 100%);
+  z-index: 1;
+  transition: height 0.05s ease-out;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+.video-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.video-overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 2rem;
+  border-radius: 12px;
+  font-size: 2rem;
+  font-family: 'Noto Naskh Arabic';
+  letter-spacing: 1.5px;
+  text-align: center;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Allows mouse events to pass through */
+}
+
+
+.video-container:hover .video-overlay-text {
+  opacity: 0;
+}
+
+
+
+
+    @media screen and (max-width: 768px) {
+      .timeline::after {
+        left: 20px;
+      }
+      .timeline-item {
+        width: 100%;
+        padding-left: 40px;
+        padding-right: 25px;
+      }
+      .timeline-item.right, .timeline-item.left {
+        left: 0;
+      }
+      .timeline-item::before {
+        left: 10px;
+        right: auto;
+      }
+    }
+    /* Timeline CSS END */
+  </style>
+</head>
+<body>
+  <button class="close-button" onclick="closePanel()">×</button>
+
+<div class="our-story-split">
+  <div class="text-container">
+    <h2>Our Story</h2>
+    <p class="subtitle">
+      Founded in 1998 by artisan and entrepreneur Reza Mehran, our company began with a deep passion for the art of Persian carpet weaving. Reza, a third-generation carpet expert from Tabriz, Iran, grew up surrounded by the textures and traditions of handwoven rugs. Inspired by his family's heritage and a desire to share this cultural treasure with the world, he set out to build a business rooted in authenticity and craftsmanship.
+      <br><br>
+      Starting with just a handful of carefully chosen pieces at local markets, Reza's vision grew into a global platform for genuine Persian rugs. Today, we continue his legacy with the same commitment to quality and tradition that shaped our beginning.
+    </p>
+  </div>
+  <img src="assets/image.jpg" alt="Our Story Image" class="our-story-image">
+</div>
+
+
+
+
+<h3 style="text-align: center; margin-top: 5rem; font-family: 'Noto Naskh Arabic'; color: black; font-size: 50px; font-weight: 600;">Farshestan's Life <br>Journey</h3>
+
+  
+<!-- Timeline section inserted here -->
+<div class="timeline">
+  <div class="timeline-item left">
+    <div class="timeline-content">
+      <h4>1945</h4>
+      <p>Reza Mehran was born in Iran, where the art of rug weaving was part of daily life. From an early age, he was captivated by the textures, colors, and stories that each carpet carried.</p>
+    </div>
+  </div>
+  <div class="timeline-item right">
+    <div class="timeline-content">
+      <h4>1963</h4>
+      <p>As a young man, Reza began selling Persian carpets in Iran’s bustling markets. He earned a reputation for his keen eye and deep respect for craftsmanship passed down through generations.</p>
+    </div>
+  </div>
+  <div class="timeline-item left">
+    <div class="timeline-content">
+      <h4>1980</h4>
+      <p>With a vision to share Persian heritage with the world, Reza moved to the UK. Starting from scratch, he sold carpets in market stalls and small retail spaces, introducing Persian tradition to a new audience.</p>
+    </div>
+  </div>
+  <div class="timeline-item right">
+    <div class="timeline-content">
+      <h4>1998</h4>
+      <p>Reza officially established the brand, rooted in a mission to preserve the soul of Persian rug-making and elevate the voices of the artisans behind each piece.</p>
+    </div>
+  </div>
+  <div class="timeline-item left">
+    <div class="timeline-content">
+      <h4>2001</h4>
+      <p>The first flagship store opened its doors in London, offering not just rugs, but a connection to history, artistry, and culture.</p>
+    </div>
+  </div>
+  
+  <div class="timeline-item right">
+    <div class="timeline-content">
+      <h4>2008</h4>
+      <p>The legend leaves us, but his dream lives on. A legacy of craftsmanship, culture, and connection that continues to inspire generations. His sons took the helm, carrying his vision forward with deep respect and fresh ambition.</p>
+    </div>
+  </div>
+  <div class="timeline-item left">
+    <div class="timeline-content">
+      <h4>2012</h4>
+      <p>The brand took Persian carpets global by launching its e-commerce platform, reaching customers everywhere and transforming how timeless craftsmanship is discovered and loved.</p>
+    </div>
+  </div>
+  
+</div>
+
+<!-- 
+<div class="video-container">
+  <video autoplay muted loop playsinline>
+    <source src="assets/video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="video-overlay-text">
+    <h2>Handcrafted Heritage</h2>
+  </div>
+</div> -->
+
+
+
+  <div class="side-by-side">
+    <video autoplay muted loop playsinline style="width: 50vw; margin: 3rem; height: 400px;  object-fit: cover; border-radius: 20px;">
+  <source src="assets/video.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+    <div class="text-box">
+      <h4>Handcrafted Heritage</h4>
+      <p>We create our rugs from the original works of Reza Mehran, made before his passing. His artistic vision lives on through these works, and new designs continue to be hand-painted in the same spirit today. Inspired by nature, they feature deep reds, pink roses, purple irises and lilies, combined with floral patterns, stylised Islamic motifs and narrative elements. Each rug reflects a balance of tradition and timeless design, turning every piece into a visual story.</p>
+    </div>
+  </div>
+
+  <div class="side-by-side reverse">
+    <img src="assets/weaving1.jpg" alt="Custom Orders">
+    <div class="text-box">
+      <h4>Handwoven in Iran</h4>
+      <p>Every rug we sell is handwoven in Iran using traditional methods passed down through generations. Skilled artisans work with natural wool, silk and vegetable dyes to produce pieces full of colour and character. Some rugs take months to complete, with thousands of knots tied by hand. Each one is a unique expression of craftsmanship, culture and artistry.</p>
+    </div>
+  </div>
+
+<div class="full-width-featured">
+  <h3 style="margin-left: 2rem;">Featured Products</h3>
+  <div class="featured-products">
+
+    <div class="product-card">
+      <img src="assets/ 1.jpg" alt="Tabriz Rug, Floral Medallion">
+      <div class="product-info">
+        <div class="product-name">Tabriz Rug, Floral Medallion</div>
+        <div class="product-price">£2,290</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="assets/ 2.jpg" alt="Nain Rug, Classic Pattern">
+      <div class="product-info">
+        <div class="product-name">Nain Rug, Classic Pattern</div>
+        <div class="product-price">£5,850</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="assets/ 3.jpg" alt="Isfahan Rug, Garden Motif">
+      <div class="product-info">
+        <div class="product-name">Isfahan Rug, Garden Motif</div>
+        <div class="product-price">£4,820</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="assets/ 4.jpg" alt="Kashan Rug, Herati Design">
+      <div class="product-info">
+        <div class="product-name">Kashan Rug, Herati Design</div>
+        <div class="product-price">£2,530</div>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="assets/ 5.jpg" alt="Qom Rug, Silk Medallion">
+      <div class="product-info">
+        <div class="product-name">Qom Rug, Silk Medallion</div>
+        <div class="product-price">£3,555</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="cta-button-wrapper">
+    <button class="cta-button">Shop All Rugs</button>
+  </div>
+</div>
+
+
+
+
+
+  <div class="signup-section">
+    <h2 class="signup-heading">Let us inspire you</h2>
+    <p class="signup-text">Get the latest inspiration from the world of Persian rugs.</p>
+    <form class="signup-form">
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    <p class="signup-terms">By signing up you agree with our <a href="#">Terms & Conditions</a>.</p>
+  </div>
+
+<script>
+  function closePanel() {
+    try {
+      const panel = parent.document.getElementById('slidePanel');
+      if (panel) {
+        panel.style.bottom = '-100%';
+      } else {
+        alert('Error: #slidePanel not found in parent document.');
+      }
+    } catch (err) {
+      alert('Error accessing parent document: ' + err.message);
+    }
+  }
+
+function updateScrollProgress() {
+  const timeline = document.querySelector('.timeline');
+  const rect = timeline.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  
+  // Offset in pixels based on viewport height (e.g., 20vh)
+  const offset = windowHeight * 0.4; 
+  
+  const totalScroll = rect.height;
+  // Adjust scrollY by subtracting the offset so progress starts later
+  const scrollY = windowHeight - rect.top - offset;
+  const rawProgress = scrollY / totalScroll;
+
+  const clampedProgress = Math.max(0, Math.min(1, rawProgress));
+
+  timeline.style.setProperty('--scroll-progress', clampedProgress);
+}
+
+
+window.addEventListener('scroll', updateScrollProgress);
+window.addEventListener('load', updateScrollProgress);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const items = document.querySelectorAll('.timeline-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      } else {
+        entry.target.classList.remove('active');
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  items.forEach(item => observer.observe(item));
+});
+
+
+
+  window.addEventListener('scroll', updateScrollProgress);
+  window.addEventListener('load', updateScrollProgress);
+</script>
+
+
+</body>
+</html>

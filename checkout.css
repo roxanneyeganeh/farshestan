@@ -1,0 +1,162 @@
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('assets/Vazirmatn.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 14px;
+  margin: 0;
+  margin-top: 100px;
+  padding: 20px;
+  background: #fdfdfd;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+#cart-section, #checkout-section {
+  flex: 1 1 400px;
+  max-width: 500px;
+}
+
+.cart-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 15px;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid #000;
+}
+
+.img-wrapper {
+  padding: 8px;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  box-sizing: border-box;
+}
+
+.cart-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+
+.item-details {
+  flex-grow: 1;
+}
+
+.item-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.item-quantity,
+.item-price {
+  font-size: 14px;
+  color: #333;
+}
+
+.total {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+form {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  margin-top: 14px;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 6px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  font-size: 14px;
+  appearance: none;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+.quick-pay {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.quick-pay button {
+  flex: 1;
+  background-color: #000000;
+  border: 1px solid #000;
+  color: #fff;
+  padding: 10px;
+}
+
+.shop-pay {
+  background-color: #000000;
+}
+
+.or-divider {
+  text-align: center;
+  margin: 20px 0;
+  font-style: italic;
+  color: #555;
+}
+
+.login-section {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.login-section a {
+  margin-left: 6px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.login-section a:hover {
+  text-decoration: underline;
+}
