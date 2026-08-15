@@ -33,6 +33,100 @@ body {
 
 
 /* =========================================================
+   SHOP INTRO / HERO
+========================================================= */
+
+#shop-intro {
+  position: relative;
+
+  width: 100%;
+
+  /*
+    Proportional to the reference image.
+    Enough vertical space for the intro,
+    without making the section oversized.
+  */
+  height: 450px;
+
+  background-color: #F7F1EA;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   SHOP INTRO CONTENT
+========================================================= */
+
+.shop-intro-inner {
+  position: absolute;
+
+  left: 72px;
+  top: 50px;
+
+  /*
+    Keep the content compact and editorial.
+  */
+  width: 540px;
+}
+
+
+/* =========================================================
+   SHOP INTRO TITLE
+========================================================= */
+
+.shop-intro-inner h1 {
+  margin-top: 100px;
+  padding: 0;
+
+  font-family:
+    Georgia,
+    'Times New Roman',
+    serif;
+
+  /*
+    Much smaller than the previous version.
+  */
+  font-size: 40px;
+
+  line-height: 1.05;
+
+  font-weight: 400;
+
+  /* letter-spacing: -1.5px; */
+
+  color: #000000;
+}
+
+
+/* =========================================================
+   SHOP INTRO DESCRIPTION
+========================================================= */
+
+.shop-intro-inner p {
+  margin-top: 30px;
+  margin-left: 1px;
+
+  /*
+    Match the compact paragraph in the reference.
+  */
+  width: 450px;
+
+  font-family:
+    'Vazirmatn',
+    sans-serif;
+
+  font-size: 15px;
+
+  line-height: 1.58;
+
+  font-weight: 400;
+
+  color: #000000;
+}
+
+
+/* =========================================================
    SLIDE PANEL
 ========================================================= */
 
@@ -70,11 +164,13 @@ body {
   max-width: none;
 
   /*
-    LEFT ALIGNED like the original.
+    Intro ends first.
+    Filters then appear with a controlled gap.
   */
-  margin: 150px 50px 35px;
+  margin: 0 50px 35px;
 
-  padding: 0;
+  padding-top: 75px;
+  padding-bottom: 0;
 
   display: flex;
 
@@ -121,7 +217,9 @@ body {
 
   font-size: 0;
 
-  font-family: 'Vazirmatn', sans-serif;
+  font-family:
+    'Vazirmatn',
+    sans-serif;
 
   font-weight: 500;
 
@@ -640,7 +738,8 @@ body {
 #image-grid {
   display: grid;
 
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
 
   column-gap: 55px;
 
@@ -679,7 +778,8 @@ body {
 
   display: grid;
 
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns:
+    minmax(0, 1fr) auto;
 
   grid-template-areas:
     "image image"
@@ -841,7 +941,8 @@ body {
   width: 100%;
   height: 100%;
 
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color:
+    rgba(0, 0, 0, 0.6);
 
   display: flex;
 
@@ -956,7 +1057,9 @@ body {
 
   margin-bottom: 0;
 
-  font-family: 'Noto Naskh Arabic', sans-serif;
+  font-family:
+    'Noto Naskh Arabic',
+    sans-serif;
 }
 
 
@@ -1038,7 +1141,8 @@ body {
 
   color: #111111;
 
-  border-bottom: 1px solid #dddddd;
+  border-bottom:
+    1px solid #dddddd;
 }
 
 .collapsible-btn::after {
@@ -1059,13 +1163,15 @@ body {
 ========================================================= */
 
 .collapsible-content {
-  padding: 8px 0 16px 0;
+  padding:
+    8px 0 16px 0;
 
   font-size: 14px;
 
   color: #777777;
 
-  border-bottom: 1px solid #eeeeee;
+  border-bottom:
+    1px solid #eeeeee;
 
   display: none;
 }
@@ -1078,19 +1184,24 @@ body {
 .collapsible-btn .arrow {
   display: inline-block;
 
-  transition: transform 0.3s ease;
+  transition:
+    transform 0.3s ease;
 
-  border: solid #000000;
+  border:
+    solid #000000;
 
-  border-width: 0 1.5px 1.5px 0;
+  border-width:
+    0 1.5px 1.5px 0;
 
   padding: 4px;
 
-  transform: rotate(45deg);
+  transform:
+    rotate(45deg);
 }
 
 .collapsible-btn.expanded .arrow {
-  transform: rotate(-135deg);
+  transform:
+    rotate(-135deg);
 }
 
 
@@ -1100,9 +1211,25 @@ body {
 
 @media (min-width: 1500px) {
 
+  .shop-intro-inner {
+    left: 72px;
+    top: 50px;
+    width: 540px;
+  }
+
+  .shop-intro-inner h1 {
+    font-size: 48px;
+  }
+
+  .shop-intro-inner p {
+    width: 510px;
+    font-size: 18px;
+    margin-top: 78px;
+  }
+
+
   #filter-controls {
     margin-left: 50px;
-
     margin-right: 50px;
 
     gap: 14px;
@@ -1150,6 +1277,25 @@ body {
 
 @media (max-width: 1200px) {
 
+  .shop-intro-inner {
+    left: 55px;
+
+    width: 500px;
+  }
+
+  .shop-intro-inner h1 {
+    font-size: 44px;
+  }
+
+  .shop-intro-inner p {
+    width: 460px;
+
+    font-size: 17px;
+
+    margin-top: 65px;
+  }
+
+
   #filter-controls {
     margin-left: 40px;
 
@@ -1189,7 +1335,8 @@ body {
   }
 
   #image-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
 
     column-gap: 35px;
 
@@ -1211,6 +1358,35 @@ body {
 ========================================================= */
 
 @media (max-width: 900px) {
+
+  #shop-intro {
+    height: 520px;
+  }
+
+  .shop-intro-inner {
+    left: 35px;
+
+    top: 48px;
+
+    width: 440px;
+  }
+
+  .shop-intro-inner h1 {
+    font-size: 40px;
+
+    letter-spacing: -1px;
+  }
+
+  .shop-intro-inner p {
+    width: 400px;
+
+    font-size: 16px;
+
+    line-height: 1.55;
+
+    margin-top: 55px;
+  }
+
 
   #filter-controls {
     margin-left: 25px;
@@ -1265,7 +1441,8 @@ body {
   }
 
   #image-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
 
     column-gap: 25px;
 
@@ -1288,20 +1465,64 @@ body {
 
 @media (max-width: 600px) {
 
-  #filter-controls {
-    width: calc(100% - 24px);
+  /* -------------------------------------------------------
+     SHOP INTRO
+  ------------------------------------------------------- */
 
-    margin: 100px 12px 40px;
+  #shop-intro {
+    height: 500px;
+  }
+
+  .shop-intro-inner {
+    left: 25px;
+
+    top: 45px;
+
+    width:
+      calc(100% - 50px);
+  }
+
+  .shop-intro-inner h1 {
+    font-size: 38px;
+
+    letter-spacing: -1px;
+  }
+
+  .shop-intro-inner p {
+    margin-top: 52px;
+
+    width: 100%;
+
+    font-size: 16px;
+
+    line-height: 1.52;
+  }
+
+
+  /* -------------------------------------------------------
+     FILTERS
+  ------------------------------------------------------- */
+
+  #filter-controls {
+    width:
+      calc(100% - 24px);
+
+    margin:
+      0 12px 40px;
+
+    padding-top: 50px;
 
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+      1fr 1fr;
 
     gap: 8px;
   }
 
   #filter-controls > div:first-child {
-    grid-column: 1 / -1;
+    grid-column:
+      1 / -1;
 
     width: 100% !important;
 
@@ -1359,12 +1580,13 @@ body {
   }
 
 
-  /* =======================================================
+  /* -------------------------------------------------------
      PRODUCT GRID
-  ======================================================= */
+  ------------------------------------------------------- */
 
   #image-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
 
     column-gap: 12px;
 
@@ -1372,7 +1594,8 @@ body {
 
     width: 100%;
 
-    padding: 0 12px 40px;
+    padding:
+      0 12px 40px;
   }
 
   .image-item img {
@@ -1418,9 +1641,9 @@ body {
   }
 
 
-  /* =======================================================
+  /* -------------------------------------------------------
      MOBILE MODAL
-  ======================================================= */
+  ------------------------------------------------------- */
 
   .modal-content {
     flex-direction: column;
@@ -1453,7 +1676,8 @@ body {
 
     margin-left: 0;
 
-    border: 1px solid #000000;
+    border:
+      1px solid #000000;
 
     box-sizing: border-box;
 
@@ -1512,8 +1736,36 @@ body {
 
 @media (max-width: 450px) {
 
+  #shop-intro {
+    height: 480px;
+  }
+
+  .shop-intro-inner {
+    left: 20px;
+
+    top: 42px;
+
+    width:
+      calc(100% - 40px);
+  }
+
+  .shop-intro-inner h1 {
+    font-size: 34px;
+
+    letter-spacing: -0.8px;
+  }
+
+  .shop-intro-inner p {
+    margin-top: 45px;
+
+    font-size: 15px;
+
+    line-height: 1.52;
+  }
+
+
   #filter-controls {
-    margin-top: 80px;
+    margin-top: 0;
 
     gap: 6px;
   }
@@ -1549,7 +1801,8 @@ body {
   }
 
   #image-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
 
     column-gap: 9px;
 
