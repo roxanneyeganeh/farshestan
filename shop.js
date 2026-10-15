@@ -637,3 +637,57 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modal) closeModal();
   });
 });
+
+
+/* =========================================================
+   ZOOM LOUPE (product popup)
+   A magnifying circle follows the cursor (or finger) over the rug.
+========================================================= */
+
+const LOUPE_ZOOM = 2.4;
+const LOUPE_SIZE = 190;
+
+function setupLoupe() {
+  const media = document.querySelector('.modal-media');
+  if (!media) return;
+  const img = document.getElementById('modal-image');
+  const lens = media.querySelector('.loupe-lens');
+  const hint = media.querySelector('.loupe-hint');
+
+  if (!window.matchMedia('(hover: hover)').matches) {
+    hint.textContent = 'Touch the rug to look closer';
+  }
+
+  function move(e) {
+    if (!img.naturalWidth) return;
+    // the visible picture inside the padded, object-fit: contain image box
+    const box = img.getBoundingClientRect();
+    const cs = getComputedStyle(img);
+    const padL = parseFloat(cs.paddingLeft), padR = parseFloat(cs.paddingRight);
+    const padT = parseFloat(cs.paddingTop), padB = parseFloat(cs.paddingBottom);
+    const innerW = box.width - padL - padR, innerH = box.height - padT - padB;
+    const ratio = img.naturalWidth / img.naturalHeight;
+    let w = innerW, h = innerW / ratio;
+    if (h > innerH) { h = innerH; w = h * ratio; }
+    const left = box.left + padL + (innerW - w) / 2;
+    const top = box.top + padT + (innerH - h) / 2;
+    const x = e.clientX - left, y = e.clientY - top;
+
+    if (x < 0 || y < 0 || x > w || y > h) { lens.classList.remove('on'); return; }
+
+    const m = media.getBoundingClientRect();
+    lens.style.left = `${e.clientX - m.left}px`;
+    lens.style.top = `${e.clientY - m.top}px`;
+    lens.style.backgroundImage = `url("${img.currentSrc || img.src}")`;
+    lens.style.backgroundSize = `${w * LOUPE_ZOOM}px ${h * LOUPE_ZOOM}px`;
+    lens.style.backgroundPosition = `${-(x * LOUPE_ZOOM - LOUPE_SIZE / 2)}px ${-(y * LOUPE_ZOOM - LOUPE_SIZE / 2)}px`;
+    lens.classList.add('on');
+  }
+
+  img.addEventListener('pointermove', move);
+  img.addEventListener('pointerdown', move);
+  img.addEventListener('pointerleave', () => lens.classList.remove('on'));
+  img.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') lens.classList.remove('on'); });
+}
+
+document.addEventListener('DOMContentLoaded', setupLoupe);
