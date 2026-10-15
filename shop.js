@@ -481,9 +481,20 @@ function renderGrid(items) {
     img.loading = 'lazy';
     frame.appendChild(img);
 
+    // "Tabriz Rug, Floral Medallion" -> town above, design below
     const title = document.createElement('p');
     title.className = 'caption-title';
-    title.textContent = item.name;
+    const comma = item.name.indexOf(',');
+    const town = document.createElement('span');
+    town.className = 't-town';
+    town.textContent = comma > -1 ? item.name.slice(0, comma) : item.name;
+    title.append(town);
+    if (comma > -1) {
+      const design = document.createElement('span');
+      design.className = 't-design';
+      design.textContent = item.name.slice(comma + 1).trim();
+      title.append(design);
+    }
 
     const price = document.createElement('p');
     price.className = 'caption-subtitle';
