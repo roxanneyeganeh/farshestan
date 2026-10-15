@@ -1,308 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Info</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Links inside this page open in the main window (it is also shown inside the Info panel) -->
+  <base target="_top">
   <style>
-    @font-face {
-      font-family: 'Vazirmatn';
-      src: url('assets/Vazirmatn.ttf') format('truetype');
+
+    @font-face { font-family: 'Vazirmatn'; src: url('assets/Vazirmatn.ttf') format('truetype'); font-display: swap; }
+    @font-face { font-family: 'Naskh Local'; src: url('assets/NotoNaskhArabic.ttf') format('truetype'); font-display: swap; }
+
+    :root {
+      --cream: #f7f2eb;
+      --sand: #ece4d8;
+      --paper: #ffffff;
+      --ink: #000000;
+      --muted: #5e574f;
+      --madder: #A52A2A;
+      --indigo: #1f2a44;
+      --serif: 'Noto Naskh Arabic', 'Naskh Local', serif;
+      --sans: 'Vazirmatn', sans-serif;
+      --gutter: 3rem;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: 'Vazirmatn';
-      position: relative;
-      color: #000000;
-      line-height: 1.3;
-      background-color: #f7f2eb;
-      
-      
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
     }
+    img, video { display: block; max-width: 100%; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--madder); outline-offset: 3px; }
+    .fa { font-family: var(--serif); direction: rtl; unicode-bidi: isolate; }
+    p { font-size: 1.1rem; line-height: 1.6; }
 
+    /* Close (works in the Info panel and when opened directly at /info) */
     .close-button {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.7rem;
-      font-family: 'Vazirmatn';
-      font-weight: 200;
-      border-radius: 100px;
-      background-color: transparent;
-      padding: 1px 8px;
-      cursor: pointer;
-      z-index: 9999;
-      color: black;
-      border: none;
+      position: fixed; top: 1rem; right: 1rem; z-index: 9999;
+      width: 46px; height: 46px; border: 0; border-radius: 50%;
+      background: rgba(247, 242, 235, 0.85);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      color: #000; font-family: var(--sans); font-size: 1.7rem; font-weight: 200; line-height: 1;
+      cursor: pointer; transition: transform 0.35s var(--ease), background-color 0.3s;
     }
+    .close-button:hover { transform: rotate(90deg); background: #fff; }
 
-.our-story-split {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start; /* 🔧 This line aligns tops */
-  justify-content: space-between;
-  background-color: #f7f2eb;
-  gap: 3rem;
-  padding: 3rem;
-  /* padding-top: 3rem; */
-  flex-wrap: wrap;
-  /* border-bottom: 1px solid black; */
-}
-
-
-.our-story-split .text-container {
-  flex: 1;
-  width: 50%;
-    /* padding: 3rem;
-  padding-top: 3rem; */
-}
-
-.our-story-image {
-  max-width: 50%;
-  aspect-ratio: 3/2;
-  height: auto;
-  object-fit: cover;
-  border-radius: 20px;
-    object-position: top; 
-  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); */
-}
-
-
-    .our-story-split h2 {
-      font-size: 2rem;
-      font-family: 'Noto Naskh Arabic';
-      font-weight: normal;
-      margin: 0; 
-      color: rgb(0, 0, 0);
-      margin-bottom: 20px;
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.95rem 1.6rem; border: 1px solid var(--ink);
+      background: var(--ink); color: var(--cream);
+      font-family: var(--sans); font-size: 1rem; text-decoration: none; cursor: pointer;
+      transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     }
+    .btn:hover { background: var(--indigo); border-color: var(--indigo); }
 
-    .our-story-split .subtitle {
-      font-size: 1.1rem;
-      color: #000000;
-      font-weight: normal;
+    .section-title {
       margin: 0;
-      max-width: none; /* Ensure it doesn't restrict width */
-      width: 100%; /* Take full container width */
+      font-family: var(--serif); font-weight: 600;
+      font-size: clamp(2.25rem, 4.5vw, 3.5rem); line-height: 1.05;
+    }
+    .section-fa {
+      display: block; margin-bottom: 0.35rem;
+      font-family: var(--serif); direction: rtl; text-align: left;
+      font-size: clamp(1.3rem, 2vw, 1.7rem); color: var(--madder);
     }
 
-    h3 {
-      font-size: 2rem;
-      margin-top: 3rem;
-      margin-bottom: 1rem;
-      font-weight: normal;
-      font-family: 'Noto Naskh Arabic';
+    /* Timeline headings/text (the timeline itself is unchanged) */
+    .journey-title {
+      text-align: center; margin: 6rem 0 0;
+      font-family: var(--serif); font-weight: 600;
+      font-size: clamp(2.5rem, 5vw, 50px); line-height: 1.1;
     }
+    .timeline h4 { margin: 0 0 0.5rem; font-family: var(--serif); font-weight: normal; font-size: 2rem; }
+    .timeline p { margin: 0; font-size: 1.05rem; line-height: 1.6; }
+    /* The timeline was laid out with the browser's default box model; keep it */
+    .timeline, .timeline *, .timeline *::before, .timeline *::after, .timeline::before, .timeline::after { box-sizing: content-box; }
+    .timeline-item:hover::before { transform: translate(-50%, -50%) scale(1.25); transition: transform 0.3s var(--ease); }
 
-    h4 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      font-family: 'Noto Naskh Arabic';
-      font-weight: normal;
+    /* ---------- Featured carousel ---------- */
+    .featured { padding: 5rem 0 4rem; }
+    .featured-head {
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+      padding: 0 var(--gutter); margin-bottom: 2rem;
     }
-
-    p {
-      font-size: 1.1rem;
-      color: #000000;
+    .car-nav { display: flex; gap: 0.5rem; }
+    .car-btn {
+      width: 48px; height: 48px; border: 1px solid var(--ink); background: transparent;
+      font-size: 1.2rem; cursor: pointer; transition: background-color 0.25s, color 0.25s, opacity 0.25s;
     }
-
-    .side-by-side {
-      display: flex;
-      align-items: stretch;
-      margin: 0;
-      gap: 0;
-      width: 100vw;
-      /* border-top: 1px solid black; */
-      border-bottom: none;
-       margin-top: 5rem;
-    
+    .car-btn:hover:not(:disabled) { background: var(--ink); color: var(--cream); }
+    .car-btn:disabled { opacity: 0.3; cursor: default; }
+    .car-track {
+      display: flex; gap: 1.25rem; overflow-x: auto; padding: 0 var(--gutter) 1rem;
+      scroll-snap-type: x mandatory; scroll-padding: 0 var(--gutter);
+      scrollbar-width: none; cursor: grab; outline: none;
     }
-
-    .side-by-side img {
-      width: 50vw;
-      margin: 3rem;
-      height: 400px;
-      object-fit: cover;
-      border-radius: 20px;
-     
+    .car-track::-webkit-scrollbar { display: none; }
+    .car-track.dragging { cursor: grabbing; scroll-snap-type: none; }
+    .car-track.dragging .car-card { pointer-events: none; }
+    .car-card {
+      flex: 0 0 clamp(220px, 23vw, 300px); scroll-snap-align: start;
+      text-decoration: none; color: inherit;
     }
+    .car-img { aspect-ratio: 4 / 5; padding: 1.25rem; background: var(--paper); overflow: hidden; }
+    .car-img img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.8s var(--ease); -webkit-user-drag: none; user-select: none; }
+    .car-card:hover .car-img img { transform: scale(1.05); }
+    .car-cap { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.85rem; font-size: 1rem; }
+    .car-cap span:last-child { color: var(--muted); white-space: nowrap; }
+    .car-card:hover .car-cap span:first-child { color: var(--madder); }
+    .car-progress { margin: 1.5rem var(--gutter) 0; height: 2px; background: rgba(0,0,0,0.1); }
+    .car-progress span { display: block; height: 100%; width: 0; background: var(--madder); transition: width 0.2s; }
+    .featured-cta { padding: 2rem var(--gutter) 0; }
 
-    .side-by-side.reverse {
-      flex-direction: row-reverse;
-      border-bottom: 1px solid black;
-      border-top: none;
+    /* ---------- Sign-up ---------- */
+    .signup { padding: 5rem var(--gutter); text-align: center; background: var(--sand); }
+    .signup h2 { margin: 0 0 0.5rem; font-family: var(--serif); font-weight: normal; font-size: clamp(2rem, 3.5vw, 2.6rem); }
+    .signup > p { margin: 0 auto 1.75rem; color: var(--muted); max-width: 46ch; }
+    .signup-form { display: flex; max-width: 520px; margin: 0 auto 1rem; }
+    .signup-form input {
+      flex: 1; min-width: 0; padding: 0.95rem 1rem; border: 0; border-radius: 0;
+      background: var(--paper); font-family: var(--sans); font-size: 1rem; outline: none;
     }
+    .signup-form input:focus { box-shadow: inset 0 -2px 0 var(--ink); }
+    .signup-form button { border: 0; }
+    .signup-terms { font-size: 0.9rem; color: var(--muted); margin: 0; }
+    .signup-terms a { text-underline-offset: 3px; }
+    .signup-done { display: none; font-family: var(--serif); font-size: 1.5rem; margin: 0 0 1rem; }
+    .signup.is-done .signup-form, .signup.is-done .signup-terms { display: none; }
+    .signup.is-done .signup-done { display: block; animation: rise 0.6s var(--ease); }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
-    .side-by-side.reverse img {
-      /* margin-bottom: 50px;
-      margin-top: 0px; */
-      margin: 3rem;
-      border-radius: 20px;
-     
+    /* ---------- Video play/pause ---------- */
+    .media { position: relative; background: #000; overflow: hidden; }
+    .media video, .media img { width: 100%; height: 100%; object-fit: cover; }
+    .play-toggle {
+      position: absolute; left: 1rem; bottom: 1rem; z-index: 2;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 0.9rem; border: 0;
+      background: rgba(247, 242, 235, 0.9); color: #000;
+      font-family: var(--sans); font-size: 0.9rem; cursor: pointer;
     }
+    .play-toggle:hover { background: #fff; }
+    .play-toggle i { width: 10px; height: 12px; display: inline-block; border-left: 3px solid #000; border-right: 3px solid #000; }
+    .play-toggle.paused i { border: 0; border-left: 10px solid #000; border-top: 6px solid transparent; border-bottom: 6px solid transparent; width: 0; height: 0; }
 
-.side-by-side > .text-box {
-  display: flex;
-  flex-direction: column;
-
-  flex: 1;
-  margin: 0;
-  padding-right: 3rem;
-   padding-left: 0rem;
-  background-color: #f7f2eb;
-  align-items: flex-start; /* 🔧 This line aligns tops */
-}
-
-.side-by-side.reverse > .text-box {
-  display: flex;
-  flex-direction: column;
-
-  flex: 1;
-  margin: 0;
-  padding-left: 3rem;
-   padding-right: 0rem;
-  background-color: #f7f2eb;
-  align-items: flex-start; /* 🔧 This line aligns tops */
-}
-
-
-    .full-width-featured {
-      width: 100vw;
-      background-color: #f7f2eb;
-      padding: 1rem 0;
-      margin-bottom: 4rem;
-      margin-top: 2rem;
-    }
-
-    .featured-products {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      padding: 1rem 2rem;
-      margin: 0;
-    }
-
-    .product-card {
-      background-color: white;
-      padding: 1rem;
-      border-radius: 8px;
-      min-width: 220px;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      flex-shrink: 0;
-    }
-
-    .product-card img {
-      height: 200px;
-      width: auto;
-      object-fit: contain;
-      margin-bottom: 0.5rem;
-    }
-
-    .product-info .product-name {
-      font-size: 1rem;
-      font-weight: bold;
-      margin-bottom: 0.3rem;
-      
-    }
-
-    .product-info .product-price {
-      font-size: 0.95rem;
-      color: #444;
-    }
-
-    .cta-button-wrapper {
-      text-align: left;
-      margin-top: 1.5rem;
-      margin-left: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .cta-button {
-      background-color: #000;
-      color: #f7f2eb;
-      border: none;
-      font-size: 1rem;
-      padding: 0.7rem 1.5rem;
-      /* border-radius: 99px; */
-      cursor: pointer;
-      font-family: 'Vazirmatn';
-      transition: background 0.3s;
-    }
-
-    .cta-button:hover {
-      background-color: #444;
-    }
-
-    .signup-section {
-      background-color: #f7f2eb;
-      padding: 3rem 2rem;
-      text-align: center;
-      border-top: 1px solid #000000;
-      font-family: 'Vazirmatn';
-    }
-
-    .signup-heading {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      font-family: 'Noto Naskh Arabic';
-      font-weight: normal;
-    }
-
-    .signup-text {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 1.5rem;
-    }
-
-    .signup-form {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0rem;
-      max-width: 600px;
-      margin: 0 auto 1rem;
-    }
-
-    .signup-form input[type="email"] {
-      padding: 0.7rem 1rem;
-      font-size: 1rem;
-      border: 1px solid #000000;
-      border-radius: 0px;
-      flex: 1 1 250px;
-      font-family: 'Vazirmatn';
-      background-color: #f7f2eb;
-    }
-
-    .signup-form button {
-      background-color: #f7f2eb;
-      color: #000000;
-      border-top: 1px solid black;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-      border-left: none;
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 0px;
-      cursor: pointer;
-      font-family: 'Vazirmatn';
-      transition: background 0.3s ease;
-    }
-
-    .signup-form button:hover {
-      background-color: #000000;
-      color: #f7f2eb;
-    }
-
-    .signup-terms {
-      font-size: 0.9rem;
-      color: #888;
-    }
-
-    .signup-terms a {
-      color: #555;
-      text-decoration: underline;
+    @media (max-width: 700px) {
+      :root { --gutter: 1.25rem; }
+      .signup-form { flex-direction: column; gap: 0.5rem; }
+      .featured-head { align-items: flex-start; flex-direction: column; gap: 1rem; }
     }
 
     /* Timeline CSS START */
@@ -472,29 +328,141 @@
       }
     }
     /* Timeline CSS END */
+
+    .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); }
+    .chapters {
+      position: sticky; top: 0; align-self: start; height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; gap: 0.25rem;
+      padding: 2rem 0 2rem var(--gutter);
+    }
+    .chapters a {
+      display: flex; align-items: baseline; gap: 0.75rem;
+      padding: 0.45rem 0; text-decoration: none; color: var(--muted);
+      transition: color 0.3s;
+    }
+    .chapters a .num { font-family: var(--serif); font-size: 1.35rem; color: var(--muted); min-width: 1.2rem; transition: color 0.3s; }
+    .chapters a .label { position: relative; font-size: 1rem; }
+    .chapters a .label::after {
+      content: ''; position: absolute; left: 0; bottom: -2px; height: 1.5px; width: 0;
+      background: var(--madder); transition: width 0.45s var(--ease);
+    }
+    .chapters a:hover { color: var(--ink); }
+    .chapters a.active { color: var(--ink); }
+    .chapters a.active .num { color: var(--madder); }
+    .chapters a.active .label::after { width: 100%; }
+
+    .content { min-width: 0; }
+    .chapter { padding: 5rem var(--gutter) 3rem 2rem; scroll-margin-top: 1rem; }
+
+    .story h1 { margin: 0 0 1.5rem; font-family: var(--serif); font-weight: 600; font-size: clamp(2.75rem, 5vw, 4.25rem); line-height: 1; }
+    .story-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
+    .story p { margin: 0 0 1.1rem; max-width: 56ch; }
+    .story-img { aspect-ratio: 4 / 5; overflow: hidden; }
+    .story-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    #journey-chapter { padding-right: 2rem; }
+    #journey-chapter .journey-title { margin-top: 1rem; }
+
+    .craft-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+    .craft-pair .media { aspect-ratio: 4 / 5; }
+    .craft-pair figcaption { margin-top: 0.75rem; }
+    .craft-pair h3 { margin: 0 0 0.5rem; font-family: var(--serif); font-weight: normal; font-size: 1.6rem; }
+    .craft-pair p { margin: 0; font-size: 1rem; color: var(--muted); }
+
+    /* Rug anatomy */
+    .anatomy-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 2.5rem; align-items: center; margin-top: 2.5rem; }
+    .rug { position: relative; }
+    .rug img { width: 100%; }
+    .hotspot {
+      position: absolute; transform: translate(-50%, -50%);
+      width: 34px; height: 34px; border: 0; border-radius: 50%; padding: 0;
+      background: rgba(247, 242, 235, 0.95); color: var(--ink);
+      font-family: var(--serif); font-size: 1.05rem; line-height: 34px; cursor: pointer;
+      box-shadow: 0 0 0 0 rgba(247, 242, 235, 0.7);
+      animation: pulse 2.4s infinite;
+      transition: background-color 0.25s, color 0.25s, transform 0.3s var(--ease);
+    }
+    .hotspot:hover { transform: translate(-50%, -50%) scale(1.12); }
+    .hotspot.active { background: var(--madder); color: var(--cream); animation: none; }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(247, 242, 235, 0.7); }
+      70% { box-shadow: 0 0 0 12px rgba(247, 242, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(247, 242, 235, 0); }
+    }
+    .anatomy-card { min-height: 240px; }
+    .anatomy-card .part-fa { font-family: var(--serif); direction: rtl; text-align: left; color: var(--madder); font-size: 1.4rem; margin: 0 0 0.25rem; }
+    .anatomy-card h3 { margin: 0 0 0.75rem; font-family: var(--serif); font-weight: normal; font-size: 2rem; }
+    .anatomy-card p { margin: 0 0 1.5rem; color: var(--muted); }
+    .anatomy-steps { display: flex; gap: 0.4rem; }
+    .anatomy-steps button {
+      width: 34px; height: 34px; border: 0; background: var(--sand);
+      font-family: var(--serif); font-size: 1rem; cursor: pointer; transition: background-color 0.25s, color 0.25s;
+    }
+    .anatomy-steps button.active, .anatomy-steps button:hover { background: var(--ink); color: var(--cream); }
+    .anatomy-card .swap { animation: rise 0.45s var(--ease); }
+
+    #collection .featured { padding-top: 1rem; }
+    #collection .featured-head, #collection .car-track, #collection .car-progress, #collection .featured-cta { padding-left: 0; margin-left: 0; }
+    #collection .car-track { scroll-padding: 0; }
+
+    @media (max-width: 1000px) {
+      .layout { display: block; }
+      .chapters {
+        position: sticky; top: 0; z-index: 50; height: auto;
+        flex-direction: row; justify-content: flex-start; overflow-x: auto; gap: 1.25rem;
+        padding: 0.85rem 4.5rem 0.85rem var(--gutter);
+        background: rgba(247, 242, 235, 0.92);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        scrollbar-width: none;
+      }
+      .chapters::-webkit-scrollbar { display: none; }
+      .chapters a { white-space: nowrap; padding: 0.2rem 0; }
+      .chapter { padding: 3.5rem var(--gutter) 2rem; scroll-margin-top: 4rem; }
+      .story-grid, .anatomy-grid { grid-template-columns: 1fr; }
+      #collection .featured-head, #collection .car-track, #collection .car-progress, #collection .featured-cta { padding-left: var(--gutter); }
+      #collection .car-progress { margin-left: var(--gutter); }
+    }
+    @media (max-width: 600px) {
+      .craft-pair { grid-template-columns: 1fr; }
+    }
+
+    /* Phone fix: the red fill line now follows the grey line on the left (it stayed centred before) */
+    @media screen and (max-width: 768px) { .timeline::before { left: 20px; } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+    }
   </style>
 </head>
 <body>
-  <button class="close-button" onclick="closePanel()">×</button>
+  <button class="close-button" onclick="closePanel()" aria-label="Close">&times;</button>
 
-<div class="our-story-split">
-  <div class="text-container">
-    <h2>Our Story</h2>
-    <p class="subtitle">
-      Founded in 1998 by artisan and entrepreneur Reza Mehran, our company began with a deep passion for the art of Persian carpet weaving. Reza, a third-generation carpet expert from Tabriz, Iran, grew up surrounded by the textures and traditions of handwoven rugs. Inspired by his family's heritage and a desire to share this cultural treasure with the world, he set out to build a business rooted in authenticity and craftsmanship.
-      <br><br>
-      Starting with just a handful of carefully chosen pieces at local markets, Reza's vision grew into a global platform for genuine Persian rugs. Today, we continue his legacy with the same commitment to quality and tradition that shaped our beginning.
-    </p>
-  </div>
-  <img src="assets/image.jpg" alt="Our Story Image" class="our-story-image">
-</div>
+  <div class="layout">
+    <nav class="chapters" aria-label="Chapters">
+      <a href="#story" data-target="story"><span class="num">۱</span><span class="label">Our story</span></a>
+      <a href="#journey-chapter" data-target="journey-chapter"><span class="num">۲</span><span class="label">Journey</span></a>
+      <a href="#craft" data-target="craft"><span class="num">۳</span><span class="label">The craft</span></a>
+      <a href="#anatomy" data-target="anatomy"><span class="num">۴</span><span class="label">Anatomy of a rug</span></a>
+      <a href="#collection" data-target="collection"><span class="num">۵</span><span class="label">Collection</span></a>
+    </nav>
 
+    <main class="content">
+      <section class="chapter story" id="story">
+        <span class="section-fa" lang="fa" aria-hidden="true">داستان ما</span>
+        <h1>Our Story</h1>
+        <div class="story-grid">
+          <div>
+            <p>Founded in 1998 by artisan and entrepreneur Reza Mehran, our company began with a deep passion for the art of Persian carpet weaving. Reza, a third-generation carpet expert from Tabriz, Iran, grew up surrounded by the textures and traditions of handwoven rugs. Inspired by his family's heritage and a desire to share this cultural treasure with the world, he set out to build a business rooted in authenticity and craftsmanship.</p>
+            <p>Starting with just a handful of carefully chosen pieces at local markets, Reza's vision grew into a global platform for genuine Persian rugs. Today, we continue his legacy with the same commitment to quality and tradition that shaped our beginning.</p>
+          </div>
+          <div class="story-img"><img src="assets/image.jpg" alt="Reza Mehran painting a rug design"></div>
+        </div>
+      </section>
 
+      <section class="chapter" id="journey-chapter">
 
+  <h3 class="journey-title" id="journey">Farshestan's Life<br>Journey</h3>
 
-<h3 style="text-align: center; margin-top: 5rem; font-family: 'Noto Naskh Arabic'; color: black; font-size: 50px; font-weight: 600;">Farshestan's Life <br>Journey</h3>
-
-  
 <!-- Timeline section inserted here -->
 <div class="timeline">
   <div class="timeline-item left">
@@ -543,117 +511,202 @@
   
 </div>
 
-<!-- 
-<div class="video-container">
-  <video autoplay muted loop playsinline>
-    <source src="assets/video.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <div class="video-overlay-text">
-    <h2>Handcrafted Heritage</h2>
-  </div>
-</div> -->
+      </section>
 
+      <section class="chapter" id="craft">
+        <span class="section-fa" lang="fa" aria-hidden="true">هنر فرش‌بافی</span>
+        <h2 class="section-title">The craft</h2>
+        <div class="craft-pair">
+          <figure style="margin:0">
+            <div class="media ">
+        <video autoplay muted loop playsinline preload="metadata" poster="assets/image.jpg" aria-label="Reza Mehran hand-painting a rug design">
+          <source src="assets/video.mp4" type="video/mp4">
+        </video>
+        <button class="play-toggle" type="button"><i aria-hidden="true"></i><span>Pause</span></button>
+      </div>
+            <figcaption><h3>Handcrafted Heritage</h3><p>We create our rugs from the original works of Reza Mehran, made before his passing. His artistic vision lives on through these works, and new designs continue to be hand-painted in the same spirit today. Inspired by nature, they feature deep reds, pink roses, purple irises and lilies, combined with floral patterns, stylised Islamic motifs and narrative elements. Each rug reflects a balance of tradition and timeless design, turning every piece into a visual story.</p></figcaption>
+          </figure>
+          <figure style="margin:0">
+            <div class="media"><img src="assets/weaving.jpg" alt="Hands tying knots on a loom"></div>
+            <figcaption><h3>Handwoven in Iran</h3><p>Every rug we sell is handwoven in Iran using traditional methods passed down through generations. Skilled artisans work with natural wool, silk and vegetable dyes to produce pieces full of colour and character. Some rugs take months to complete, with thousands of knots tied by hand. Each one is a unique expression of craftsmanship, culture and artistry.</p></figcaption>
+          </figure>
+        </div>
+      </section>
 
+      <section class="chapter" id="anatomy">
+        <span class="section-fa" lang="fa" aria-hidden="true">اجزای فرش</span>
+        <h2 class="section-title">Anatomy of a Persian rug</h2>
+        <div class="anatomy-grid">
+          <div class="rug">
+            <img src="assets/background.jpg" alt="A red Persian rug with a central medallion, seen from above">
+          <button class="hotspot active" style="left:50%;top:50%" data-i="0" aria-label="Medallion">۱</button>
+          <button class="hotspot" style="left:31%;top:63%" data-i="1" aria-label="Field">۲</button>
+          <button class="hotspot" style="left:19%;top:24%" data-i="2" aria-label="Corner pieces">۳</button>
+          <button class="hotspot" style="left:5%;top:50%" data-i="3" aria-label="Main border">۴</button>
+          <button class="hotspot" style="left:66%;top:13%" data-i="4" aria-label="Guard stripes">۵</button>
+          </div>
+          <div class="anatomy-card" aria-live="polite">
+            <div class="swap">
+              <p class="part-fa" lang="fa"></p>
+              <h3></h3>
+              <p class="part-text"></p>
+            </div>
+            <div class="anatomy-steps">
+            <button type="button" data-i="0" class="active" aria-label="Medallion">۱</button>
+            <button type="button" data-i="1" aria-label="Field">۲</button>
+            <button type="button" data-i="2" aria-label="Corner pieces">۳</button>
+            <button type="button" data-i="3" aria-label="Main border">۴</button>
+            <button type="button" data-i="4" aria-label="Guard stripes">۵</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <div class="side-by-side">
-    <video autoplay muted loop playsinline style="width: 50vw; margin: 3rem; height: 400px;  object-fit: cover; border-radius: 20px;">
-  <source src="assets/video.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+      <section class="chapter" id="collection">
 
-    <div class="text-box">
-      <h4>Handcrafted Heritage</h4>
-      <p>We create our rugs from the original works of Reza Mehran, made before his passing. His artistic vision lives on through these works, and new designs continue to be hand-painted in the same spirit today. Inspired by nature, they feature deep reds, pink roses, purple irises and lilies, combined with floral patterns, stylised Islamic motifs and narrative elements. Each rug reflects a balance of tradition and timeless design, turning every piece into a visual story.</p>
-    </div>
-  </div>
-
-  <div class="side-by-side reverse">
-    <img src="assets/weaving1.jpg" alt="Custom Orders">
-    <div class="text-box">
-      <h4>Handwoven in Iran</h4>
-      <p>Every rug we sell is handwoven in Iran using traditional methods passed down through generations. Skilled artisans work with natural wool, silk and vegetable dyes to produce pieces full of colour and character. Some rugs take months to complete, with thousands of knots tied by hand. Each one is a unique expression of craftsmanship, culture and artistry.</p>
-    </div>
-  </div>
-
-<div class="full-width-featured">
-  <h3 style="margin-left: 2rem;">Featured Products</h3>
-  <div class="featured-products">
-
-    <div class="product-card">
-      <img src="assets/ 1.jpg" alt="Tabriz Rug, Floral Medallion">
-      <div class="product-info">
-        <div class="product-name">Tabriz Rug, Floral Medallion</div>
-        <div class="product-price">£2,290</div>
+  <section class="featured" aria-label="From the collection">
+    <div class="featured-head">
+      <div>
+        <span class="section-fa" lang="fa" aria-hidden="true">مجموعه</span>
+        <h2 class="section-title">From the collection</h2>
+      </div>
+      <div class="car-nav">
+        <button class="car-btn" data-dir="-1" aria-label="Previous rugs">&#8592;</button>
+        <button class="car-btn" data-dir="1" aria-label="Next rugs">&#8594;</button>
       </div>
     </div>
-
-    <div class="product-card">
-      <img src="assets/ 2.jpg" alt="Nain Rug, Classic Pattern">
-      <div class="product-info">
-        <div class="product-name">Nain Rug, Classic Pattern</div>
-        <div class="product-price">£5,850</div>
-      </div>
+    <div class="car-track" tabindex="0">
+      <a class="car-card" href="/shop">
+        <div class="car-img"><img src="assets/ 1.jpg" alt="Tabriz Rug, Floral Medallion" loading="lazy" draggable="false"></div>
+        <div class="car-cap"><span>Tabriz Rug, Floral Medallion</span><span>£2,900</span></div>
+      </a>
+      <a class="car-card" href="/shop">
+        <div class="car-img"><img src="assets/ 2.jpg" alt="Nain Rug, Classic Pattern" loading="lazy" draggable="false"></div>
+        <div class="car-cap"><span>Nain Rug, Classic Pattern</span><span>£7,400</span></div>
+      </a>
+      <a class="car-card" href="/shop">
+        <div class="car-img"><img src="assets/ 3.jpg" alt="Isfahan Rug, Garden Motif" loading="lazy" draggable="false"></div>
+        <div class="car-cap"><span>Isfahan Rug, Garden Motif</span><span>£6,100</span></div>
+      </a>
+      <a class="car-card" href="/shop">
+        <div class="car-img"><img src="assets/ 4.jpg" alt="Kashan Rug, Herati Design" loading="lazy" draggable="false"></div>
+        <div class="car-cap"><span>Kashan Rug, Herati Design</span><span>£3,200</span></div>
+      </a>
+      <a class="car-card" href="/shop">
+        <div class="car-img"><img src="assets/ 5.jpg" alt="Qom Rug, Silk Medallion" loading="lazy" draggable="false"></div>
+        <div class="car-cap"><span>Qom Rug, Silk Medallion</span><span>£4,500</span></div>
+      </a>
+      <a class="car-card" href="/shop">
+        <div class="car-img"><img src="assets/ 6.jpg" alt="Mashhad Rug, Geometric" loading="lazy" draggable="false"></div>
+        <div class="car-cap"><span>Mashhad Rug, Geometric</span><span>£8,800</span></div>
+      </a>
+      <a class="car-card" href="/shop">
+        <div class="car-img"><img src="assets/ 7.jpg" alt="Kerman Rug, Rose Medallion" loading="lazy" draggable="false"></div>
+        <div class="car-cap"><span>Kerman Rug, Rose Medallion</span><span>£5,100</span></div>
+      </a>
+      <a class="car-card" href="/shop">
+        <div class="car-img"><img src="assets/ 8.jpg" alt="Heriz Rug, Bold Medallion" loading="lazy" draggable="false"></div>
+        <div class="car-cap"><span>Heriz Rug, Bold Medallion</span><span>£3,900</span></div>
+      </a>
     </div>
+    <div class="car-progress" aria-hidden="true"><span></span></div>
+    <div class="featured-cta"><a class="btn" href="/shop">Shop all rugs</a></div>
+  </section>
 
-    <div class="product-card">
-      <img src="assets/ 3.jpg" alt="Isfahan Rug, Garden Motif">
-      <div class="product-info">
-        <div class="product-name">Isfahan Rug, Garden Motif</div>
-        <div class="product-price">£4,820</div>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <img src="assets/ 4.jpg" alt="Kashan Rug, Herati Design">
-      <div class="product-info">
-        <div class="product-name">Kashan Rug, Herati Design</div>
-        <div class="product-price">£2,530</div>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <img src="assets/ 5.jpg" alt="Qom Rug, Silk Medallion">
-      <div class="product-info">
-        <div class="product-name">Qom Rug, Silk Medallion</div>
-        <div class="product-price">£3,555</div>
-      </div>
-    </div>
-
+      </section>
+    </main>
   </div>
-  <div class="cta-button-wrapper">
-    <button class="cta-button">Shop All Rugs</button>
-  </div>
-</div>
 
-
-
-
-
-  <div class="signup-section">
-    <h2 class="signup-heading">Let us inspire you</h2>
-    <p class="signup-text">Get the latest inspiration from the world of Persian rugs.</p>
+  <section class="signup">
+    <h2>Let us inspire you</h2>
+    <p>Get the latest inspiration from the world of Persian rugs.</p>
     <form class="signup-form">
-      <input type="email" placeholder="Enter your email" required>
-      <button type="submit">Sign Up</button>
+      <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+      <button class="btn" type="submit">Sign up</button>
     </form>
-    <p class="signup-terms">By signing up you agree with our <a href="#">Terms & Conditions</a>.</p>
-  </div>
+    <p class="signup-terms">By signing up you agree with our <a href="#">Terms &amp; Conditions</a>.</p>
+    <p class="signup-done" role="status">Thank you. You're on the list.</p>
+  </section>
+
 
 <script>
+
+  // Close: slides the Info panel down, or goes back when opened directly at /info
   function closePanel() {
     try {
-      const panel = parent.document.getElementById('slidePanel');
-      if (panel) {
-        panel.style.bottom = '-100%';
-      } else {
-        alert('Error: #slidePanel not found in parent document.');
-      }
-    } catch (err) {
-      alert('Error accessing parent document: ' + err.message);
-    }
+      const panel = parent !== window && parent.document.getElementById('slidePanel');
+      if (panel) { panel.style.bottom = '-100%'; return; }
+    } catch (err) { /* not inside the panel */ }
+    if (history.length > 1) history.back(); else window.location.href = '/';
   }
 
+  // Featured carousel: arrows, drag to scroll, keyboard, progress
+  document.querySelectorAll('.featured').forEach(section => {
+    const track = section.querySelector('.car-track');
+    const [prev, next] = section.querySelectorAll('.car-btn');
+    const bar = section.querySelector('.car-progress span');
+    const step = () => track.querySelector('.car-card').getBoundingClientRect().width + 20;
+
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+      bar.style.width = (max > 0 ? (track.scrollLeft / max) * 100 : 100) + '%';
+    };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', update, { passive: true });
+    track.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); next.click(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev.click(); }
+    });
+
+    // Drag with the mouse (touch already scrolls natively)
+    let down = false, startX = 0, startLeft = 0, moved = 0;
+    track.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse') return;
+      down = true; moved = 0; startX = e.clientX; startLeft = track.scrollLeft;
+    });
+    window.addEventListener('pointermove', e => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      if (moved > 5) track.classList.add('dragging');
+      track.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener('pointerup', () => {
+      if (!down) return;
+      down = false;
+      setTimeout(() => track.classList.remove('dragging'), 0);
+    });
+    track.addEventListener('click', e => { if (moved > 5) e.preventDefault(); }, true);
+    window.addEventListener('resize', update);
+    update();
+  });
+
+  // Sign-up: show a confirmation instead of reloading
+  document.querySelectorAll('.signup-form').forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      form.closest('.signup').classList.add('is-done');
+    });
+  });
+
+  // Video play / pause buttons
+  document.querySelectorAll('.play-toggle').forEach(btn => {
+    const video = btn.parentElement.querySelector('video');
+    const label = btn.querySelector('span');
+    const sync = () => {
+      btn.classList.toggle('paused', video.paused);
+      label.textContent = video.paused ? 'Play' : 'Pause';
+    };
+    btn.addEventListener('click', () => { video.paused ? video.play() : video.pause(); });
+    video.addEventListener('play', sync);
+    video.addEventListener('pause', sync);
+    sync();
+  });
+
+  // ---------- Original timeline animation (unchanged) ----------
 function updateScrollProgress() {
   const timeline = document.querySelector('.timeline');
   const rect = timeline.getBoundingClientRect();
@@ -698,8 +751,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', updateScrollProgress);
   window.addEventListener('load', updateScrollProgress);
+
+  // Chapter index: highlight the chapter in view
+  (function () {
+    const links = [...document.querySelectorAll('.chapters a')];
+    const sections = links.map(a => document.getElementById(a.dataset.target));
+    const set = id => links.forEach(a => a.classList.toggle('active', a.dataset.target === id));
+    const onScroll = () => {
+      const mid = window.innerHeight * 0.35;
+      let current = sections[0].id;
+      sections.forEach(s => { if (s.getBoundingClientRect().top < mid) current = s.id; });
+      set(current);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  // Rug anatomy
+  (function () {
+    const parts = [{"name": "Medallion", "fa": "ترنج", "text": "The central motif and the heart of the design. Everything else on the rug is arranged around it, and it is usually the first thing the eye is drawn to."}, {"name": "Field", "fa": "زمینه", "text": "The main ground of the rug around the medallion. Here it is a deep red, filled with flowing floral motifs and vines."}, {"name": "Corner pieces", "fa": "لچک", "text": "Quarter-medallions in each corner of the field that echo the central medallion and frame the design."}, {"name": "Main border", "fa": "حاشیه", "text": "The wide band that runs all the way around the rug and holds the composition together, often with its own repeating pattern."}, {"name": "Guard stripes", "fa": "حاشیه فرعی", "text": "The narrow stripes either side of the main border. They separate the border from the field and add a final layer of detail."}];
+    const card = document.querySelector('.anatomy-card .swap');
+    const hotspots = [...document.querySelectorAll('.hotspot')];
+    const steps = [...document.querySelectorAll('.anatomy-steps button')];
+    function show(i) {
+      const p = parts[i];
+      card.querySelector('.part-fa').textContent = p.fa;
+      card.querySelector('h3').textContent = p.name;
+      card.querySelector('.part-text').textContent = p.text;
+      card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap');
+      hotspots.forEach((h, k) => h.classList.toggle('active', k === i));
+      steps.forEach((s, k) => s.classList.toggle('active', k === i));
+    }
+    [...hotspots, ...steps].forEach(el => el.addEventListener('click', () => show(+el.dataset.i)));
+    show(0);
+  })();
+
 </script>
-
-
 </body>
 </html>
