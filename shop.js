@@ -382,10 +382,13 @@ function setup() {
   };
 
   for (let i = 1; i <= NUM_PRODUCTS; i++) {
-    // Image files are named with a leading space, e.g. "assets/ 1.jpg"
-    const imgPath = `assets/ ${i}.jpg`;
+    // Shown on the site: the rug with its white background removed
+    const imgPath = `assets/rugs/rug-${i}.webp`;
+    // Used for the colour filter: the original photo (file names start with a space),
+    // so the colour groups stay exactly as they were
+    const photoPath = `assets/ ${i}.jpg`;
 
-    loadImage(imgPath, img => {
+    loadImage(photoPath, img => {
       img.loadPixels();
 
       let rSum = 0, gSum = 0, bSum = 0, count = 0;
@@ -412,7 +415,7 @@ function setup() {
 
       done();
     }, err => {
-      console.error(`Failed to load image: ${imgPath}`, err);
+      console.error(`Failed to load image: ${photoPath}`, err);
       done();
     });
   }
