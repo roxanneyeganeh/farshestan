@@ -133,6 +133,10 @@ body.scene-ready .scene-hint.is-faded {
   line-height: 1.15;
 }
 
+.overlayMainText .nowrap {
+  white-space: nowrap;
+}
+
 .overlaySubText {
   margin-top: 1.25rem;
   font-size: clamp(0.95rem, 1.3vw, 1.05rem);
