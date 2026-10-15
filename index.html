@@ -14,7 +14,16 @@
   <link rel="stylesheet" href="homepage.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- three.js for the walk-through (pinned version) -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
 </head>
 <body class="home">
 
@@ -24,24 +33,13 @@
   </div>
 
 
-  <!-- 3D scene -->
-  <model-viewer
-    src="assets/model/scene.gltf"
-    alt="Farshestan 3D Model"
-    camera-controls
-    auto-rotate
-    exposure="0.9"
-    shadow-intensity="1"
-    environment-image="neutral"
-    field-of-view="100deg"
-    camera-orbit="-90deg 90deg 3.9m"
-    min-camera-orbit="auto 89deg 3m"
-    max-camera-orbit="auto 91deg 4.2m"
-    auto-rotate-delay="3000"
-    auto-rotate-speed="20"
-    min-field-of-view="25deg"
-    max-field-of-view="75deg"
-  ></model-viewer>
+  <!-- 3D scene: first-person, always inside the shop -->
+  <div id="scene" aria-label="A 3D walk-through of the Farshestan shop"></div>
+  <p id="sceneLoader" class="scene-loader">Loading the shop</p>
+  <p id="sceneHint" class="scene-hint">
+    <span class="hint-desktop">Drag to look around. Use the arrow keys, scroll, or click the floor to walk.</span>
+    <span class="hint-touch">Drag to look around. Pinch or tap the floor to walk.</span>
+  </p>
 
   <div class="home-vignette" aria-hidden="true"></div>
 
@@ -60,24 +58,13 @@
   <script src="cart.js"></script>
   <script src="menu.js"></script>
 
+  <script type="module" src="home3d.js"></script>
+
   <script>
-    const viewer = document.querySelector('model-viewer');
+    // Hide the headline while the visitor is looking around
+    const scene = document.getElementById('scene');
     const overlay = document.getElementById('overlayText');
-
-    viewer.addEventListener('camera-change', () => {
-      const orbit = viewer.getCameraOrbit();
-
-      // If camera turned to the front (around 0°)
-      if (orbit.theta > -45 && orbit.theta < 45 && orbit.radius > 4)
-        viewer.cameraOrbit = `${orbit.theta}deg ${orbit.phi}deg 1m`;
-
-      // If camera turned to the back (around 180° or -180°)
-      if ((orbit.theta > 135 || orbit.theta < -135) && orbit.radius > 6)
-        viewer.cameraOrbit = `${orbit.theta}deg ${orbit.phi}deg 1m`;
-    });
-
-    // Hide the headline while the visitor is dragging the scene
-    viewer.addEventListener('pointerdown', () => overlay.classList.add('is-hidden'));
+    scene.addEventListener('pointerdown', () => overlay.classList.add('is-hidden'));
     window.addEventListener('pointerup', () => overlay.classList.remove('is-hidden'));
   </script>
 
