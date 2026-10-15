@@ -128,7 +128,7 @@ button {
   grid-area: persian;
   align-self: end;
   margin: 0;
-  font-size: clamp(4.5rem, 13vw, 11rem);
+  font-size: clamp(3.25rem, 9vw, 7.75rem);
   font-weight: 600;
   line-height: 0.9;
   color: var(--madder);
