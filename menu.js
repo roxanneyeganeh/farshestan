@@ -1222,6 +1222,10 @@ function showNormalMenu(menuBar) {
 
     hoverLogo.style.opacity =
       '0';
+
+    /* Bring the wordmark back for the hover effect */
+    hoverLogo.style.display =
+      '';
   }
 
 
@@ -1453,6 +1457,13 @@ function showScrolledMenu(menuBar) {
 
     hoverLogo.style.opacity =
       '0';
+
+    /*
+      Take the hidden wordmark out of the layout so it
+      doesn't push the icon left of centre in the pill.
+    */
+    hoverLogo.style.display =
+      'none';
   }
 
 
