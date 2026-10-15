@@ -744,101 +744,10 @@ function createMenuBar() {
   setupScrollMenu();
 
 
-  /* =========================================================
-     HOMEPAGE HOVER
-  ========================================================= */
-
-  if (isHomePage) {
-
-    menuBar.addEventListener(
-      'mouseenter',
-      () => {
-
-        if (
-          menuBar.classList.contains(
-            'scrolled'
-          )
-        ) {
-          return;
-        }
-
-        if (hoverBackground) {
-
-          hoverBackground.style.backgroundColor =
-            'rgba(255, 255, 255, 1)';
-        }
-
-
-        const items =
-          menuBar.querySelectorAll(
-            '.menu-item'
-          );
-
-        items.forEach(item => {
-
-          item.style.color =
-            '#000000';
-        });
-
-
-        const logo =
-          menuBar.querySelector(
-            '.menu-logo'
-          );
-
-        if (logo) {
-
-          logo.src =
-            'assets/wordmark.png';
-        }
-      }
-    );
-
-
-    menuBar.addEventListener(
-      'mouseleave',
-      () => {
-
-        if (
-          menuBar.classList.contains(
-            'scrolled'
-          )
-        ) {
-          return;
-        }
-
-        if (hoverBackground) {
-
-          hoverBackground.style.backgroundColor =
-            'rgba(255, 255, 255, 0)';
-        }
-
-
-        const items =
-          menuBar.querySelectorAll(
-            '.menu-item'
-          );
-
-        items.forEach(item => {
-
-          item.style.color =
-            '#ffffff';
-        });
-
-
-        const logo =
-          menuBar.querySelector(
-            '.menu-logo'
-          );
-
-        if (logo) {
-
-          logo.src =
-            'assets/wordmark3.png';
-        }
-      }
-    );
-  }
+  /*
+    Homepage: no white hover background on the menu —
+    it stays white text over the 3D scene.
+  */
 }
 
 
