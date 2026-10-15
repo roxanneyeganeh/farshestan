@@ -871,7 +871,7 @@ body.no-intro #filter-controls {
 .region-panel { grid-area: panel; align-self: start; }
 
 .by-region .section-fa {
-  color: var(--rose, #e3a49c);
+  color: var(--madder);
 }
 
 .by-region h2 {
@@ -932,7 +932,7 @@ body.no-intro #filter-controls {
   display: block;
   font-size: 3rem;
   line-height: 1;
-  color: #e3a49c;
+  color: var(--madder);
   text-align: left;
 }
 
@@ -966,7 +966,7 @@ body.no-intro #filter-controls {
 }
 
 .region-thumbs button:hover {
-  outline-color: #e3a49c;
+  outline-color: var(--madder);
   background: rgba(247, 242, 235, 0.18);
 }
 
@@ -983,7 +983,7 @@ body.no-intro #filter-controls {
 }
 
 .region-panel .text-link:hover {
-  color: #e3a49c;
+  color: var(--madder);
 }
 
 /* The map */
@@ -1008,8 +1008,8 @@ body.no-intro #filter-controls {
 .place.region .dot { r: 8; fill-opacity: 0.85; }
 .map-dark .place .dot { fill: var(--cream); }
 .map-dark .place .ring { fill: none; stroke: rgba(247, 242, 235, 0.55); stroke-width: 1.5; stroke-dasharray: 3 4; }
-.place .pulse { fill: none; stroke: #e3a49c; stroke-width: 2; opacity: 0; }
-.place.on .dot { fill: #e3a49c; }
+.place .pulse { fill: none; stroke: var(--madder); stroke-width: 2; opacity: 0; }
+.place.on .dot { fill: var(--madder); }
 .place.on .pulse {
   opacity: 1;
   transform-origin: center;
@@ -1023,7 +1023,7 @@ body.no-intro #filter-controls {
 .place.dim { opacity: 0.45; }
 .place[tabindex] { cursor: pointer; outline: none; }
 .place[tabindex]:hover .dot,
-.place[tabindex]:focus-visible .dot { fill: #e3a49c; }
+.place[tabindex]:focus-visible .dot { fill: var(--madder); }
 .place[tabindex]:focus-visible .pulse { opacity: 1; }
 
 .map-label {
