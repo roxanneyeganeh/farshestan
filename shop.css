@@ -120,7 +120,7 @@ button {
   margin: 0;
   font-family: var(--serif);
   font-weight: 600;
-  font-size: clamp(3rem, 7vw, 6rem);
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
   line-height: 1;
 }
 
