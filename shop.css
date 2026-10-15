@@ -880,8 +880,8 @@ body.no-intro #filter-controls {
   column-gap: 3rem;
   align-items: center;
   padding: 5rem var(--gutter);
-  background: var(--indigo);
-  color: var(--cream);
+  background: var(--sand);
+  color: var(--ink);
 }
 
 .region-head { grid-area: head; align-self: end; }
@@ -903,7 +903,7 @@ body.no-intro #filter-controls {
 .region-intro {
   margin: 0 0 2rem;
   max-width: 46ch;
-  color: rgba(247, 242, 235, 0.8);
+  color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.55;
 }
@@ -911,7 +911,7 @@ body.no-intro #filter-controls {
 .region-panel {
   min-height: 210px;
   padding: 1.5rem;
-  background: rgba(247, 242, 235, 0.07);
+  background: var(--card);
 }
 
 .region-panel .hint {
@@ -924,7 +924,7 @@ body.no-intro #filter-controls {
   flex-wrap: wrap;
   gap: 1.5rem;
   font-size: 0.9rem;
-  color: rgba(247, 242, 235, 0.75);
+  color: var(--muted);
 }
 
 .legend i {
@@ -933,7 +933,7 @@ body.no-intro #filter-controls {
   height: 12px;
   margin-right: 0.45rem;
   border-radius: 50%;
-  background: var(--cream);
+  background: var(--ink);
   vertical-align: -1px;
 }
 
@@ -941,8 +941,8 @@ body.no-intro #filter-controls {
   width: 8px;
   height: 8px;
   background: transparent;
-  box-shadow: 0 0 0 1.5px rgba(247, 242, 235, 0.7);
-  outline: 1.5px dashed rgba(247, 242, 235, 0.55);
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.6);
+  outline: 1.5px dashed rgba(0, 0, 0, 0.45);
   outline-offset: 3px;
 }
 
@@ -963,7 +963,7 @@ body.no-intro #filter-controls {
 
 .region-panel .meta {
   margin: 0 0 1rem;
-  color: rgba(247, 242, 235, 0.75);
+  color: var(--muted);
 }
 
 .region-thumbs {
@@ -977,7 +977,7 @@ body.no-intro #filter-controls {
   aspect-ratio: 4 / 5;
   padding: 6px;
   border: 0;
-  background: rgba(247, 242, 235, 0.1);
+  background: var(--cream);
   cursor: pointer;
   outline: 2px solid transparent;
   transition: outline-color 0.2s, background-color 0.2s;
@@ -985,7 +985,7 @@ body.no-intro #filter-controls {
 
 .region-thumbs button:hover {
   outline-color: var(--madder);
-  background: rgba(247, 242, 235, 0.18);
+  background: var(--sand);
 }
 
 .region-thumbs img {
@@ -997,7 +997,7 @@ body.no-intro #filter-controls {
 .region-panel .text-link {
   display: inline-block;
   margin-top: 1rem;
-  color: var(--cream);
+  color: var(--ink);
 }
 
 .region-panel .text-link:hover {
@@ -1012,7 +1012,7 @@ body.no-intro #filter-controls {
   overflow: visible;
 }
 
-.map-dark .map-grid { fill: rgba(247, 242, 235, 0.13); }
+.map-dark .map-grid { fill: rgba(0, 0, 0, 0.12); }
 
 .map-sea {
   font-family: var(--serif);
@@ -1020,12 +1020,12 @@ body.no-intro #filter-controls {
   font-style: italic;
 }
 
-.map-dark .map-sea { fill: rgba(247, 242, 235, 0.38); }
+.map-dark .map-sea { fill: rgba(0, 0, 0, 0.35); }
 
 .place .dot { r: 9; transition: fill 0.3s; }
 .place.region .dot { r: 8; fill-opacity: 0.85; }
-.map-dark .place .dot { fill: var(--cream); }
-.map-dark .place .ring { fill: none; stroke: rgba(247, 242, 235, 0.55); stroke-width: 1.5; stroke-dasharray: 3 4; }
+.map-dark .place .dot { fill: var(--ink); }
+.map-dark .place .ring { fill: none; stroke: rgba(0, 0, 0, 0.45); stroke-width: 1.5; stroke-dasharray: 3 4; }
 .place .pulse { fill: none; stroke: var(--madder); stroke-width: 2; opacity: 0; }
 .place.on .dot { fill: var(--madder); }
 .place.on .pulse {
@@ -1049,11 +1049,11 @@ body.no-intro #filter-controls {
   font-size: 17px;
 }
 
-.map-dark .map-label { fill: rgba(247, 242, 235, 0.75); }
+.map-dark .map-label { fill: rgba(0, 0, 0, 0.7); }
 
-.map-tip rect { fill: var(--cream); }
-.map-tip-fa { font-family: var(--serif); font-size: 30px; fill: var(--madder); direction: rtl; }
-.map-tip-en { font-family: var(--sans); font-size: 21px; fill: var(--ink); }
+.map-tip rect { fill: var(--indigo); }
+.map-tip-fa { font-family: var(--serif); font-size: 30px; fill: #f0b8a8; direction: rtl; }
+.map-tip-en { font-family: var(--sans); font-size: 21px; fill: var(--cream); }
 
 @media (max-width: 900px) {
   .by-region {
