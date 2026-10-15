@@ -3,23 +3,152 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cart Sidebar</title>
+  <title>Your Cart</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="site.css" />
   <link rel="stylesheet" href="cart.css" />
-  
 </head>
 <body>
-  <!-- Sidebar -->
-  <div id="cartSidebar">
-    <h2>Your Cart</h2>
-    <ul id="cartItems">
-      <!-- Cart items will be added here -->
-    </ul>
-    <div id="checkoutContainer">
-      <!-- Checkout button will be injected here -->
-    </div>
+
+  <!-- Slide-up panel (Info) -->
+  <div id="slidePanel">
+    <iframe id="panelContent" src="" title="Information"></iframe>
   </div>
 
+
+  <main class="cart-page">
+
+    <header class="page-head">
+      <span class="eyebrow">Your Selection</span>
+      <h1 class="page-title">Your Cart</h1>
+    </header>
+
+    <div class="cart-page-grid">
+
+      <section id="cartPageItems" class="cart-list"></section>
+
+      <aside class="summary" id="cartPageSummary">
+        <h2>Order Summary</h2>
+        <div class="summary-line"><span id="cartPageCount">Items</span><span id="cartPageSubtotal">£0</span></div>
+        <div class="summary-total"><span>Total</span><span id="cartPageTotal">£0</span></div>
+        <p class="summary-note">Shipping and taxes calculated at checkout.</p>
+        <a href="/checkout" class="btn btn-block">Checkout</a>
+        <a href="/shop" class="btn btn-outline btn-block continue-btn">Continue shopping</a>
+      </aside>
+
+    </div>
+  </main>
+
+
+  <!-- Footer -->
+  <iframe
+    src="footer.html"
+    title="Footer"
+    style="width: 100%; border: none; display: block;"
+    scrolling="no"
+    onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';"
+  ></iframe>
+
+
   <script src="cart.js"></script>
-  <script src="menu.js" defer></script>
+  <script src="menu.js"></script>
+
+  <script>
+    (function () {
+      const list = document.getElementById('cartPageItems');
+      const summary = document.getElementById('cartPageSummary');
+      const gbp = n => '£' + Number(n).toLocaleString('en-GB', { maximumFractionDigits: 0 });
+
+      function render() {
+        const items = window.getCart ? window.getCart() : [];
+        list.innerHTML = '';
+
+        if (items.length === 0) {
+          summary.hidden = true;
+          list.innerHTML = `
+            <div class="cart-page-empty">
+              <h2>Your cart is empty</h2>
+              <p class="lede">Every rug tells a story. Find the one that belongs in your home.</p>
+              <a class="btn" href="/shop">Explore the collection</a>
+            </div>`;
+          return;
+        }
+
+        summary.hidden = false;
+
+        items.forEach(item => {
+          const row = document.createElement('article');
+          row.className = 'cart-row';
+
+          const frame = document.createElement('div');
+          frame.className = 'cart-row-frame';
+          const img = document.createElement('img');
+          img.src = item.imgPath || '';
+          img.alt = item.name;
+          frame.appendChild(img);
+
+          const info = document.createElement('div');
+          info.className = 'cart-row-info';
+
+          const name = document.createElement('h3');
+          name.textContent = item.name;
+
+          const unit = document.createElement('p');
+          unit.className = 'cart-row-unit';
+          unit.textContent = gbp(item.price);
+
+          const controls = document.createElement('div');
+          controls.className = 'cart-row-controls';
+
+          const qty = document.createElement('div');
+          qty.className = 'cart-qty';
+          const minus = document.createElement('button');
+          minus.type = 'button';
+          minus.textContent = '−';
+          minus.setAttribute('aria-label', 'Decrease quantity');
+          minus.onclick = () => window.updateCartQuantity(item.id, item.quantity - 1);
+          const value = document.createElement('span');
+          value.textContent = item.quantity;
+          const plus = document.createElement('button');
+          plus.type = 'button';
+          plus.textContent = '+';
+          plus.setAttribute('aria-label', 'Increase quantity');
+          plus.onclick = () => window.updateCartQuantity(item.id, item.quantity + 1);
+          qty.append(minus, value, plus);
+
+          const remove = document.createElement('button');
+          remove.type = 'button';
+          remove.className = 'cart-remove';
+          remove.textContent = 'Remove';
+          remove.onclick = () => window.removeFromCart(item.id);
+
+          controls.append(qty, remove);
+          info.append(name, unit, controls);
+
+          const line = document.createElement('p');
+          line.className = 'cart-row-total';
+          line.textContent = gbp(item.price * item.quantity);
+
+          row.append(frame, info, line);
+          list.appendChild(row);
+        });
+
+        const count = items.reduce((s, i) => s + i.quantity, 0);
+        const total = items.reduce((s, i) => s + i.price * i.quantity, 0);
+        document.getElementById('cartPageCount').textContent = `Items (${count})`;
+        document.getElementById('cartPageSubtotal').textContent = gbp(total);
+        document.getElementById('cartPageTotal').textContent = gbp(total);
+      }
+
+      window.addEventListener('cart:updated', render);
+      window.addEventListener('DOMContentLoaded', render);
+    })();
+  </script>
+
 </body>
 </html>

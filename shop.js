@@ -177,142 +177,213 @@ const productMaterials = [
 
 
 
+/* =========================================================
+   SETUP (runs after every product image has loaded)
+========================================================= */
+
 function functionSetup() {
-  createMenuBar();
-  setupCustomDropdown();
+  // menu.js already builds the menu on DOMContentLoaded; only build it here if it's missing.
+  if (!document.getElementById('menuBar') && typeof createMenuBar === 'function') {
+    createMenuBar();
+  }
+
+  setupColourDropdown();
   setupPriceDropdown();
 }
 
+
+/* =========================================================
+   DROPDOWN HELPERS
+========================================================= */
+
+function closeDropdowns(except) {
+  document.querySelectorAll('.custom-select-wrapper.open').forEach(w => {
+    if (w !== except) w.classList.remove('open');
+  });
+}
+
+document.addEventListener('click', e => {
+  document.querySelectorAll('.custom-select-wrapper.open').forEach(w => {
+    if (!w.contains(e.target)) w.classList.remove('open');
+  });
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  closeDropdowns();
+  closeModal();
+});
+
+
+/* =========================================================
+   COLOUR FILTER (multi-select)
+========================================================= */
+
+function setupColourDropdown() {
+  const wrapper =
+    document.querySelector('.colour-select-wrapper') ||
+    document.querySelector('.custom-select-wrapper');
+
+  const trigger = wrapper.querySelector('.custom-select');
+  const options = wrapper.querySelectorAll('.color-option');
+  const allOption = wrapper.querySelector('.color-option[data-value="all"]');
+  const selectedText = wrapper.querySelector('.selected-text');
+  const selectedSwatch = wrapper.querySelector('.selected .color-swatch');
+  const countLabel = wrapper.querySelector('#selected-count');
+  const resetButton = wrapper.querySelector('.reset-button');
+
+  allOption.classList.add('selected');
+
+  trigger.addEventListener('click', () => {
+    closeDropdowns(wrapper);
+    wrapper.classList.toggle('open');
+  });
+
+  wrapper.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target === wrapper) {
+      e.preventDefault();
+      trigger.click();
+    }
+  });
+
+  options.forEach(option => {
+    option.addEventListener('click', e => {
+      e.stopPropagation();
+
+      if (option === allOption) {
+        options.forEach(o => o.classList.remove('selected'));
+      } else {
+        option.classList.toggle('selected');
+      }
+
+      const anyColour = wrapper.querySelector('.color-option.selected:not([data-value="all"])');
+      allOption.classList.toggle('selected', !anyColour);
+
+      refreshLabel();
+      applyFilters();
+    });
+  });
+
+  resetButton.addEventListener('click', e => {
+    e.stopPropagation();
+    options.forEach(o => o.classList.remove('selected'));
+    allOption.classList.add('selected');
+    refreshLabel();
+    applyFilters();
+  });
+
+  function refreshLabel() {
+    const chosen = Array.from(
+      wrapper.querySelectorAll('.color-option.selected:not([data-value="all"])')
+    );
+
+    countLabel.textContent = `${chosen.length} selected`;
+
+    if (chosen.length === 1) {
+      selectedText.textContent = chosen[0].textContent.trim();
+      selectedSwatch.className = 'color-swatch';
+      selectedSwatch.style.background = chosen[0].querySelector('.color-swatch').style.background;
+    } else {
+      selectedText.textContent = chosen.length ? `Colour · ${chosen.length}` : 'Colour';
+      selectedSwatch.className = 'color-swatch swatch-all';
+      selectedSwatch.style.background = '';
+    }
+  }
+
+  refreshLabel();
+}
+
+
+/* =========================================================
+   PRICE FILTER
+========================================================= */
+
+const PRICE_MIN = 0;
+const PRICE_MAX = 9000;
+
+const gbp = n => '£' + Number(n).toLocaleString('en-GB');
+
 function setupPriceDropdown() {
   const wrapper = document.querySelector('.price-select-wrapper');
+  const trigger = wrapper.querySelector('.custom-select');
   const selectedText = wrapper.querySelector('.selected-text');
   const resetButton = wrapper.querySelector('.reset-button');
   const minRange = document.getElementById('minRange');
   const maxRange = document.getElementById('maxRange');
   const label = document.getElementById('priceRangeLabel');
   const track = wrapper.querySelector('.slider-track');
-  const priceSliderContainer = document.querySelector('.price-slider-container');
 
-  // Hide price slider container initially
-  priceSliderContainer.style.display = 'none';
+  trigger.addEventListener('click', () => {
+    closeDropdowns(wrapper);
+    wrapper.classList.toggle('open');
+  });
 
-  function updateSliderVisuals() {
+  wrapper.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target === wrapper) {
+      e.preventDefault();
+      trigger.click();
+    }
+  });
+
+  function update() {
     let min = parseInt(minRange.value, 10);
     let max = parseInt(maxRange.value, 10);
-    if (min > max) [minRange.value, maxRange.value] = [max, min];
 
-    label.textContent = `£${minRange.value}–£${maxRange.value}`;
-    selectedText.innerHTML = `Price: £${minRange.value}–£${maxRange.value}`;
+    if (min > max) {
+      [min, max] = [max, min];
+      minRange.value = min;
+      maxRange.value = max;
+    }
 
-    const range = parseInt(minRange.max) - parseInt(minRange.min);
-    const minPercent = ((minRange.value - minRange.min) / range) * 100;
-    const maxPercent = ((maxRange.value - maxRange.min) / range) * 100;
+    label.textContent = `${gbp(min)} – ${gbp(max)}`;
 
-    track.style.setProperty('--min', minPercent + '%');
-    track.style.setProperty('--max', maxPercent + '%');
-    track.style.background = `linear-gradient(to right, #ccc ${minPercent}%, #000 ${minPercent}%, #000 ${maxPercent}%, #ccc ${maxPercent}%)`;
+    const isDefault = min === PRICE_MIN && max === PRICE_MAX;
+    selectedText.textContent = isDefault ? 'Price' : `${gbp(min)} – ${gbp(max)}`;
+
+    const span = PRICE_MAX - PRICE_MIN;
+    const a = ((min - PRICE_MIN) / span) * 100;
+    const b = ((max - PRICE_MIN) / span) * 100;
+    track.style.background =
+      `linear-gradient(to right, #d8cfc3 ${a}%, #000 ${a}%, #000 ${b}%, #d8cfc3 ${b}%)`;
 
     applyFilters();
   }
 
-  // Show price slider on dropdown open
-  wrapper.querySelector('.custom-select').addEventListener('click', () => {
-    wrapper.classList.toggle('open');
-
-    if (wrapper.classList.contains('open')) {
-      priceSliderContainer.style.display = 'block';
-    } else {
-      priceSliderContainer.style.display = 'none';
-    }
-  });
-
-  // Hide dropdown and slider if clicking outside
-  document.addEventListener('click', e => {
-    if (!wrapper.contains(e.target)) {
-      wrapper.classList.remove('open');
-      priceSliderContainer.style.display = 'none';
-    }
-  });
-
   resetButton.addEventListener('click', e => {
     e.stopPropagation();
-    minRange.value = 0;
-    maxRange.value = 9000;
-    selectedText.textContent = 'Price';
-    label.textContent = '£0–£9000';
-    track.style.background = `linear-gradient(to right, #ccc 0%, #000 0%, #000 100%, #ccc 100%)`;
-    applyFilters();
+    minRange.value = PRICE_MIN;
+    maxRange.value = PRICE_MAX;
+    update();
   });
 
-  minRange.addEventListener('input', updateSliderVisuals);
-  maxRange.addEventListener('input', updateSliderVisuals);
+  minRange.addEventListener('input', update);
+  maxRange.addEventListener('input', update);
 
-  updateSliderVisuals(); // Initialize once
+  update();
 }
 
 
-function setupCustomDropdown() {
-  const wrapper = document.querySelector('.custom-select-wrapper');
-  const options = wrapper.querySelectorAll('.custom-options .color-option');
-  const selectedText = wrapper.querySelector('.selected-text');
-  const selectedSwatch = wrapper.querySelector('.selected .color-swatch');
-  const countLabel = wrapper.querySelector('#selected-count');
-  const resetButton = wrapper.querySelector('.reset-button');
-
-  let currentValue = 'all';
-
-  wrapper.querySelector('.custom-select').addEventListener('click', () => {
-    wrapper.classList.toggle('open');
-  });
-
-  options.forEach(option => {
-    option.addEventListener('click', () => {
-      const value = option.getAttribute('data-value');
-      const label = option.textContent.trim();
-      const swatchColor = option.querySelector('.color-swatch').style.background;
-
-      selectedText.textContent = label;
-      selectedSwatch.style.background = swatchColor;
-      wrapper.classList.remove('open');
-      currentValue = value;
-      selectedColorValue = value;
-
-      updateCountLabel();
-
- selectedColorValue = value;
-applyFilters();
-
-    });
-  });
-
-  resetButton.addEventListener('click', e => {
-    e.stopPropagation();
-    currentValue = 'all';
-    const allOption = wrapper.querySelector('.color-option[data-value="all"]');
-    const label = allOption.textContent.trim();
-    const swatchColor = allOption.querySelector('.color-swatch').style.background;
-
-    selectedText.textContent = label;
-    selectedSwatch.style.background = swatchColor;
-    wrapper.classList.remove('open');
-
-    renderGrid(products);
-    updateCountLabel();
-  });
-
-  function updateCountLabel() {
-    countLabel.textContent = currentValue === 'all' ? '0 selected' : '1 selected';
-  }
-
-  updateCountLabel();
-}
+/* =========================================================
+   LOAD PRODUCTS (p5)
+========================================================= */
 
 function setup() {
   noCanvas();
   let loadedCount = 0;
 
+  const done = () => {
+    loadedCount++;
+    if (loadedCount === NUM_PRODUCTS) {
+      // Images finish loading in random order — put them back in catalogue order.
+      products.sort((a, b) => a.id - b.id);
+      renderGrid(products);
+      functionSetup();
+    }
+  };
+
   for (let i = 1; i <= NUM_PRODUCTS; i++) {
-    const imgPath = `assets/ ${i}.jpg`; // 🔧 FIXED: no space after assets/
+    // Image files are named with a leading space, e.g. "assets/ 1.jpg"
+    const imgPath = `assets/ ${i}.jpg`;
 
     loadImage(imgPath, img => {
       img.loadPixels();
@@ -327,32 +398,22 @@ function setup() {
       }
 
       const avgColor = [rSum / count, gSum / count, bSum / count];
-      const dominantColor = getDominantColorName(avgColor);
-      const fixedPrice = productPrices[i - 1];
 
       products.push({
         id: i,
-        price: fixedPrice,
+        price: productPrices[i - 1],
         imgPath,
         color: avgColor,
-        dominantColor,
+        dominantColor: getDominantColorName(avgColor),
         name: productNames[i - 1],
         description: productDescriptions[i - 1],
         material: productMaterials[i - 1]
       });
 
-      loadedCount++;
-      if (loadedCount === NUM_PRODUCTS) {
-        renderGrid(products);
-        functionSetup();
-      }
+      done();
     }, err => {
       console.error(`Failed to load image: ${imgPath}`, err);
-      loadedCount++;
-      if (loadedCount === NUM_PRODUCTS) {
-        renderGrid(products);
-        functionSetup();
-      }
+      done();
     });
   }
 }
@@ -374,209 +435,199 @@ function getDominantColorName(rgb) {
   return 'gray';
 }
 
+
+/* =========================================================
+   GRID
+========================================================= */
+
 function renderGrid(items) {
   const container = document.getElementById('image-grid');
   container.innerHTML = '';
 
-  items.forEach(item => {
-    const itemDiv = document.createElement('div');
-    itemDiv.classList.add('image-item');
+  const counter = document.getElementById('result-count');
+  if (counter) {
+    counter.textContent = `${items.length} ${items.length === 1 ? 'rug' : 'rugs'}`;
+  }
+
+  if (items.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'grid-message';
+    empty.innerHTML = `
+      <h2>No rugs match these filters</h2>
+      <p>Try a different colour or widen the price range.</p>
+      <button class="cta-button" type="button">Clear filters</button>
+    `;
+    empty.querySelector('button').addEventListener('click', () => {
+      document.querySelectorAll('#filter-controls .reset-button').forEach(b => b.click());
+    });
+    container.appendChild(empty);
+    return;
+  }
+
+  items.forEach((item, index) => {
+    const card = document.createElement('article');
+    card.className = 'image-item';
+    card.tabIndex = 0;
+    card.style.setProperty('--i', index % 12);
+
+    const frame = document.createElement('div');
+    frame.className = 'image-frame';
 
     const img = document.createElement('img');
     img.src = item.imgPath;
     img.alt = item.name;
-    img.style.cursor = 'pointer';
+    img.loading = 'lazy';
+    frame.appendChild(img);
 
-    img.addEventListener('click', () => {
-      openModal(item);
+    const title = document.createElement('p');
+    title.className = 'caption-title';
+    title.textContent = item.name;
+
+    const price = document.createElement('p');
+    price.className = 'caption-subtitle';
+    price.textContent = gbp(item.price);
+
+    card.append(frame, title, price);
+
+    card.addEventListener('click', () => openModal(item));
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(item);
+      }
     });
 
-    const caption1 = document.createElement('p');
-    caption1.textContent = item.name;
-    caption1.classList.add('caption-title');
-
-    const caption2 = document.createElement('p');
-    caption2.textContent = `£${item.price.toLocaleString('en-GB')}`;
-    caption2.classList.add('caption-subtitle');
-
-    itemDiv.appendChild(img);
-    itemDiv.appendChild(caption1);
-    itemDiv.appendChild(caption2);
-
-    container.appendChild(itemDiv);
+    container.appendChild(card);
   });
 }
 
 function applyFilters() {
-  const selectedColors = Array.from(document.querySelectorAll('.color-option.selected')).map(el => el.dataset.value);
+  const selectedColors = Array.from(
+    document.querySelectorAll('.color-option.selected')
+  ).map(el => el.dataset.value);
+
   const minPrice = parseInt(document.getElementById('minRange').value, 10);
   const maxPrice = parseInt(document.getElementById('maxRange').value, 10);
 
   let filtered = products;
 
-  // Color filter
-  if (!selectedColors.includes('all') && selectedColors.length > 0) {
+  if (selectedColors.length > 0 && !selectedColors.includes('all')) {
     filtered = filtered.filter(p => selectedColors.includes(p.dominantColor));
   }
 
-  // Price filter
   filtered = filtered.filter(p => p.price >= minPrice && p.price <= maxPrice);
 
-  // ✅ Render filtered products
   renderGrid(filtered);
 }
 
 
+/* =========================================================
+   PRODUCT MODAL
+========================================================= */
+
+let lastFocused = null;
+
 function openModal(item) {
   const modal = document.getElementById('product-modal');
   const modalImg = document.getElementById('modal-image');
-  const closeBtn = modal.querySelector('.close-button');
   const modalContent = modal.querySelector('.modal-content');
 
   modalImg.src = item.imgPath;
+  modalImg.alt = item.name;
 
-  const oldText = modalContent.querySelector('.modal-text');
-  if (oldText) oldText.remove();
-
-  const existingBtn = modalContent.querySelector('button.add-to-cart');
-  if (existingBtn) existingBtn.remove();
+  const old = modalContent.querySelector('.modal-text');
+  if (old) old.remove();
 
   const modalText = document.createElement('div');
-  modalText.classList.add('modal-text');
+  modalText.className = 'modal-text';
 
   modalText.innerHTML = `
-    <h2 class="modal-title">${item.name}</h2>
-    <p class="modal-price">£${item.price.toLocaleString('en-GB')}</p>
+    <span class="modal-eyebrow">Handwoven in Iran</span>
+    <h2 class="modal-title"></h2>
+    <p class="modal-price"></p>
 
     <div class="collapsible-section">
-      <button class="collapsible-btn">
-  Description <span class="arrow"></span>
-</button>
-
-   <div class="collapsible-content" style="display: block;">
-  <p class="modal-description-text">${item.description}</p>
-</div>
-
-
-
-    <div class="collapsible-section">
-      <button class="collapsible-btn">
-  Material <span class="arrow"></span>
-</button>
-
-      <div class="collapsible-content" style="display: none;">
-        <p class="modal-material"><strong>${item.material}</strong></p>
+      <button class="collapsible-btn expanded" type="button" aria-expanded="true">
+        Description <span class="arrow"></span>
+      </button>
+      <div class="collapsible-content">
+        <p class="modal-description-text"></p>
       </div>
     </div>
+
+    <div class="collapsible-section">
+      <button class="collapsible-btn" type="button" aria-expanded="false">
+        Material &amp; Care <span class="arrow"></span>
+      </button>
+      <div class="collapsible-content" hidden>
+        <p class="modal-material"></p>
+      </div>
+    </div>
+
+    <button class="add-to-cart" type="button">Add to Cart</button>
   `;
 
-  modalContent.appendChild(modalText);
+  modalText.querySelector('.modal-title').textContent = item.name;
+  modalText.querySelector('.modal-price').textContent = gbp(item.price);
+  modalText.querySelector('.modal-description-text').textContent = item.description;
+  modalText.querySelector('.modal-material').textContent = item.material;
 
-  // ✅ Add to Cart button now always inside modal box and full-width on desktop
-  const addButton = document.createElement('button');
-  addButton.textContent = "Add to Cart";
-  addButton.classList.add('add-to-cart');
-
-  const isMobile = window.innerWidth <= 600;
-
-  if (isMobile) {
-    Object.assign(addButton.style, {
-      display: 'block',
-      margin: '24px auto 0 auto',
-      padding: '12px 40px',
-      fontSize: '14px',
-      cursor: 'pointer',
-      backgroundColor: '#000',
-      color: '#fff',
-      border: 'none',
-      width: '100%'
+  modalText.querySelectorAll('.collapsible-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const content = button.nextElementSibling;
+      const open = content.hidden;
+      content.hidden = !open;
+      button.classList.toggle('expanded', open);
+      button.setAttribute('aria-expanded', String(open));
     });
-} else {
-  Object.assign(addButton.style, {
-    display: 'block',
-    width: '100%',               // ⬅️ Fixed width
-    margin: '24px auto 0 auto',
-    padding: '12px 0',             // ⬅️ Horizontal padding removed
-    fontSize: '14px',
-    cursor: 'pointer',
-    backgroundColor: '#000',
-    color: '#fff',
-    border: 'none',
-    whiteSpace: 'nowrap',          // ⬅️ Prevent text wrapping
-    textAlign: 'center'            // ⬅️ Center text inside button
   });
-}
 
-
-  modalText.appendChild(addButton);
-
-  addButton.onmouseover = () => addButton.style.backgroundColor = '#212121';
-  addButton.onmouseout = () => addButton.style.backgroundColor = '#000000';
+  const addButton = modalText.querySelector('.add-to-cart');
+  let resetTimer;
 
   addButton.addEventListener('click', () => {
-    addToCart({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      imgPath: item.imgPath
-    });
+    if (typeof addToCart === 'function') {
+      addToCart({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        imgPath: item.imgPath
+      });
+    }
+
+    addButton.textContent = 'Added to Cart';
+    addButton.classList.add('added');
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+      addButton.textContent = 'Add to Cart';
+      addButton.classList.remove('added');
+    }, 1800);
   });
 
-  // ✅ Working dropdown toggles
-const buttons = modalText.querySelectorAll('.collapsible-btn');
-buttons.forEach(button => {
-  button.addEventListener('click', () => {
-    const content = button.nextElementSibling;
-    const isVisible = content.style.display === 'block';
+  modalContent.appendChild(modalText);
+  modalContent.scrollTop = 0;
 
-    content.style.display = isVisible ? 'none' : 'block';
-    button.classList.toggle('expanded', !isVisible);
-  });
-});
-
-
-
-
-const descBtn = modalText.querySelector('.collapsible-btn');
-const descContent = descBtn.nextElementSibling;
-
-// If content is initially visible, mark button as expanded
-if (descContent.style.display === 'block') {
-  descBtn.classList.add('expanded');
-}
-
-
+  lastFocused = document.activeElement;
   modal.classList.remove('hidden');
-
-  closeBtn.onclick = () => modal.classList.add('hidden');
-  window.onclick = event => {
-    if (event.target === modal) modal.classList.add('hidden');
-  };
+  document.body.classList.add('modal-open');
+  modal.querySelector('.close-button').focus({ preventScroll: true });
 }
 
+function closeModal() {
+  const modal = document.getElementById('product-modal');
+  if (!modal || modal.classList.contains('hidden')) return;
 
-
+  modal.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  if (lastFocused && lastFocused.focus) lastFocused.focus({ preventScroll: true });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-  const priceDropdown = document.getElementById('price-range');
-  if (priceDropdown) priceDropdown.addEventListener('change', applyFilters);
+  const modal = document.getElementById('product-modal');
+  if (!modal) return;
 
-  document.querySelectorAll('.color-option').forEach(option => {
-    option.addEventListener('click', () => {
-      if (option.dataset.value === 'all') {
-        document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-        option.classList.add('selected');
-      } else {
-        option.classList.toggle('selected');
-        if (option.classList.contains('selected')) {
-          const allOption = document.querySelector('.color-option[data-value="all"]');
-          if (allOption) allOption.classList.remove('selected');
-        }
-      }
-      applyFilters();
-    });
+  modal.querySelector('.close-button').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
   });
-
-  const allOption = document.querySelector('.color-option[data-value="all"]');
-  if (allOption) allOption.classList.add('selected');
 });

@@ -3,51 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>account</title>
+  <title>Account</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="site.css" />
   <link rel="stylesheet" href="account.css" />
-
-
-  </style>
 </head>
 <body>
 
-
-  <!-- 🔳 Slide-Up Panel -->
+  <!-- Slide-up panel (Info) -->
   <div id="slidePanel">
-    <iframe id="panelContent" src=""></iframe>
+    <iframe id="panelContent" src="" title="Information"></iframe>
   </div>
 
 
-  <div class="login-container">
-    <h3>Login</h3>
-    <form>
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="Enter username" required />
+  <main class="account-layout">
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter password" required />
+    <figure class="account-visual">
+      <img src="assets/weaving1.jpg" alt="Hands weaving a Persian rug on a loom">
+      <figcaption>
+        <span class="eyebrow">Since 1998</span>
+        Handwoven in Iran,<br>loved in homes everywhere.
+      </figcaption>
+    </figure>
 
-      <button type="submit">Login</button>
-    </form>
-    <button class="create-account-btn">Create an account</button>
-  </div>
+
+    <section class="login-container">
+
+      <span class="eyebrow">Your Account</span>
+      <h3>Welcome back</h3>
+      <p class="lede">Sign in to view your orders and saved rugs.</p>
+
+      <form>
+        <div class="field">
+          <label for="username">Username</label>
+          <input class="input" type="text" id="username" name="username" placeholder="Enter username" autocomplete="username" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input class="input" type="password" id="password" name="password" placeholder="Enter password" autocomplete="current-password" required />
+        </div>
+
+        <div class="form-meta">
+          <a href="#" class="text-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-block">Login</button>
+      </form>
+
+      <div class="divider">New to Farshestan?</div>
+
+      <button type="button" class="create-account-btn btn btn-outline btn-block">Create an account</button>
+
+    </section>
+
+  </main>
+
 
   <script src="account.js"></script>
+  <script src="cart.js"></script>
   <script src="menu.js"></script>
-    <script src="cart.js"></script>
-
-
-      <script>
-    document.getElementById("openPanelLink").addEventListener("click", function(event) {
-      event.preventDefault();
-      const panel = document.getElementById("slidePanel");
-      const iframe = document.getElementById("panelContent");
-      panel.style.bottom = "0";
-      iframe.src = "other-page.html"; // Replace with your actual URL
-    });
-  </script>
 
 </body>
 </html>

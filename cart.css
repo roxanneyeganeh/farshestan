@@ -1,11 +1,128 @@
-@font-face {
-  font-family: 'Vazirmatn';
-  src: url('assets/Vazirmatn.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+/* =========================================================
+   CART PAGE — layout only (shared styles live in site.css;
+   the slide-in cart drawer styles itself from cart.js)
+========================================================= */
+
+.cart-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 140px var(--gutter) 6rem;
 }
 
-body {
-  font-family: 'Vazirmatn', sans-serif;
+.cart-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 4rem;
+  align-items: start;
+}
+
+.cart-row {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr) auto;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--hair);
+  animation: rowIn 0.6s var(--ease) both;
+}
+
+.cart-row:first-child {
+  padding-top: 0;
+}
+
+@keyframes rowIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cart-row-frame {
+  aspect-ratio: 4 / 5;
+  padding: 0.6rem;
+  background: var(--paper);
+  border-radius: 14px;
+}
+
+.cart-row-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cart-row-info h3 {
+  margin: 0 0 0.35rem;
+  font-family: var(--serif);
+  font-weight: normal;
+  font-size: 1.4rem;
+  line-height: 1.25;
+}
+
+.cart-row-unit {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+}
+
+.cart-row-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.cart-row-controls .cart-remove {
+  margin-top: 0;
+  align-self: center;
+}
+
+.cart-row-total {
+  margin: 0;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+.summary-note {
+  margin: 0.75rem 0 1.5rem;
+  font-size: 0.8rem;
+  color: var(--soft);
+}
+
+.continue-btn {
+  margin-top: 0.75rem;
+}
+
+.cart-page-empty {
+  padding: 3rem 0;
+}
+
+.cart-page-empty h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-weight: normal;
+  font-size: 2.25rem;
+}
+
+@media (max-width: 900px) {
+  .cart-page {
+    padding-top: 120px;
+  }
+
+  .cart-page-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .summary {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .cart-row {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .cart-row-total {
+    grid-column: 2;
+  }
+
+  .cart-row-info h3 {
+    font-size: 1.15rem;
+  }
 }

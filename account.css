@@ -1,101 +1,91 @@
-@font-face {
-  font-family: 'Vazirmatn';
-  src: url('assets/Vazirmatn.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+/* =========================================================
+   ACCOUNT — layout only (shared styles live in site.css)
+========================================================= */
 
+.account-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3rem;
+  min-height: 100vh;
+  padding: 110px var(--gutter) var(--gutter);
 }
 
-
-body {
-    font-family: 'Vazirmatn';
-  color: black;
+.account-visual {
+  position: relative;
   margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #ffffff;
- /* background-image: url('assets/background.jpg');
- background-repeat: no-repeat;
- background-size: cover; */
-
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #e9e0d3;
 }
 
-    #slidePanel {
-      position: fixed;
-      bottom: -100%;
-      left: 0;
-      width: 100%;
-      height: 87vh;
-      background: white;
-      transition: bottom 0.8s ease;
-      z-index: 101;
-      overflow: hidden;
-    }
-
-    #slidePanel iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-h3 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* Login Container */
-.login-container {
-  background-color: #ffffff;
-  padding: 40px;
-  border: 1px solid black;
-/* box-shadow: 4px 4px 7px rgba(61, 61, 61, 0.15); */
-
-
-  width: 420px;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-/* Form Elements */
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: left;
-}
-
-input[type="text"],
-input[type="password"],
-button {
+.account-visual img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 20px;
-  border: 1px solid black;
-  font-size: 14px;
-  box-sizing: border-box;
-  /* background-color: #fefbea; */
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Buttons */
-button {
-  background-color: #ffffff;
-  color: black;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 0;
+.account-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 55%);
 }
 
-/* button:hover {
-  background-color: #f0f0f0;
-} */
+.account-visual figcaption {
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 1;
+  color: #ffffff;
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.25;
+}
 
-/* Create Account Button */
-.create-account-btn {
-  margin-top: -10px; /* Optional: tighten spacing */
-    background-color: #ffffff;
+.account-visual figcaption .eyebrow {
+  font-family: var(--sans);
+  margin-bottom: 0.75rem;
+}
+
+.login-container {
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem 0;
+}
+
+.login-container h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--serif);
+  font-weight: normal;
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.form-meta {
+  display: flex;
+  justify-content: flex-end;
+  margin: -0.25rem 0 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .account-layout {
+    grid-template-columns: 1fr;
+    padding-top: 120px;
+  }
+
+  .account-visual {
+    display: none;
+  }
+
+  .login-container {
+    justify-self: stretch;
+    max-width: 480px;
+    margin: 0 auto;
+  }
 }

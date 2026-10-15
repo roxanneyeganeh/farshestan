@@ -2,68 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Farshestan</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="site.css">
   <link rel="stylesheet" href="homepage.css">
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/addons/p5.dom.min.js"></script>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic&display=swap" rel="stylesheet">
-
-  <style>
-    #overlayText {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      z-index: 100;
-      text-align: center;
-      font-family: 'Vazirmatn';
-      padding: 12px 20px;
-      background-color: transparent;
-    }
-
-    .overlayMainText {
-      font-size: 50px;
-      line-height: 1.1;
-      max-width: 800px;
-      margin: 0 auto;
-      font-family: 'Noto Naskh Arabic';
-    }
-
-    .overlaySubText {
-      font-size: 25px;
-      line-height: 1.2;
-      margin-top: 8px;
-      letter-spacing: 1px;
-    }
-
-    #overlayText {
-  transition: opacity 0.3s ease;
-}
-
-#overlayText:hover,
-model-viewer:active + #overlayText {
-  opacity: 0;
-  pointer-events: none;
-}
-
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateX(-50%) translateY(0);
-      }
-      50% {
-        transform: translateX(-50%) translateY(-10px);
-      }
-    }
-  </style>
 </head>
-<body>
+<body class="home">
 
-  <!-- 🎨 Model starts inside, zoom freely but limited -->
-  <model-viewer 
+  <!-- Slide-up panel (Info) -->
+  <div id="slidePanel">
+    <iframe id="panelContent" src="" title="Information"></iframe>
+  </div>
+
+
+  <!-- 3D scene -->
+  <model-viewer
     src="assets/model/scene.gltf"
     alt="Farshestan 3D Model"
     camera-controls
@@ -73,56 +35,51 @@ model-viewer:active + #overlayText {
     environment-image="neutral"
     field-of-view="100deg"
     camera-orbit="-90deg 90deg 3.9m"
-min-camera-orbit="auto 89deg 3m"
-max-camera-orbit="auto 91deg 4.2m"
-auto-rotate-delay="3000" 
-auto-rotate-speed="20"
-
-
-
+    min-camera-orbit="auto 89deg 3m"
+    max-camera-orbit="auto 91deg 4.2m"
+    auto-rotate-delay="3000"
+    auto-rotate-speed="20"
     min-field-of-view="25deg"
     max-field-of-view="75deg"
+  ></model-viewer>
 
-    
-style="margin:0; padding:0; position:fixed; top:0; left:0; width:100%; height:100%; background-color:transparent; filter:brightness(0.8) saturate(1.4) contrast(1.05);"
-></model-viewer>
-
+  <div class="home-vignette" aria-hidden="true"></div>
 
 
-
-
-
-
+  <!-- Overlay text (fades while you drag the scene) -->
   <div id="overlayText">
+    <span class="overlayEyebrow">Est. 1998</span>
     <div class="overlayMainText">Home of traditional Persian carpets.</div>
-    <div class="overlaySubText">Handcrafted in Iran.</div>
+    <div class="overlaySubText">Handcrafted in Iran</div>
   </div>
 
+  <a class="home-cta" href="/shop">Explore the collection</a>
+
+
   <script src="homepage.js"></script>
-  <script src="menu.js"></script>
   <script src="cart.js"></script>
+  <script src="menu.js"></script>
 
+  <script>
+    const viewer = document.querySelector('model-viewer');
+    const overlay = document.getElementById('overlayText');
 
+    viewer.addEventListener('camera-change', () => {
+      const orbit = viewer.getCameraOrbit();
 
+      // If camera turned to the front (around 0°)
+      if (orbit.theta > -45 && orbit.theta < 45 && orbit.radius > 4)
+        viewer.cameraOrbit = `${orbit.theta}deg ${orbit.phi}deg 1m`;
 
-<script>
-  const viewer = document.querySelector('model-viewer');
+      // If camera turned to the back (around 180° or -180°)
+      if ((orbit.theta > 135 || orbit.theta < -135) && orbit.radius > 6)
+        viewer.cameraOrbit = `${orbit.theta}deg ${orbit.phi}deg 1m`;
+    });
 
-  viewer.addEventListener('camera-change', () => {
-    const orbit = viewer.getCameraOrbit();
-
-    // If camera turned to the front (around 0°)
-    if (orbit.theta > -45 && orbit.theta < 45 && orbit.radius > 4)
-      viewer.cameraOrbit = `${orbit.theta}deg ${orbit.phi}deg 1m`;
-
-    // If camera turned to the back (around 180° or -180°)
-    if ((orbit.theta > 135 || orbit.theta < -135) && orbit.radius > 6)
-      viewer.cameraOrbit = `${orbit.theta}deg ${orbit.phi}deg 1m`;
-  });
-</script>
-
-
-
+    // Hide the headline while the visitor is dragging the scene
+    viewer.addEventListener('pointerdown', () => overlay.classList.add('is-hidden'));
+    window.addEventListener('pointerup', () => overlay.classList.remove('is-hidden'));
+  </script>
 
 </body>
 </html>

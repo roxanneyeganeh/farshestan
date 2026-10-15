@@ -6,146 +6,247 @@
   <title>Checkout</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="site.css" />
   <link rel="stylesheet" href="checkout.css" />
-  
-  <script src="menu.js" defer></script>
-  <style>
-    label.required::after {
-      content: ' *';
-      color: #000000;
-      font-weight: normal;
-    }
-    input::placeholder {
-      color: #aaa;
-    }
-  </style>
 </head>
 <body>
 
-  <div id="cart-section">
-    <div id="cartItems"></div>
-    <div class="total" id="subtotal">Total: £0</div>
+  <!-- Slide-up panel (Info) -->
+  <div id="slidePanel">
+    <iframe id="panelContent" src="" title="Information"></iframe>
   </div>
 
-  <div id="checkout-section">
-    <form id="checkoutForm">
-      <label for="email" class="required">Email Address</label>
-      <input type="email" id="email" placeholder="e.g. jane.doe@example.com" required />
 
-      <label for="firstName" class="required">First Name</label>
-      <input type="text" id="firstName" placeholder="e.g. Jane" required />
+  <main class="checkout">
 
-      <label for="lastName" class="required">Last Name</label>
-      <input type="text" id="lastName" placeholder="e.g. Doe" required />
+    <header class="page-head">
+      <span class="eyebrow">Secure Checkout</span>
+      <h1 class="page-title">Checkout</h1>
+    </header>
 
-      <label for="address" class="required">Address</label>
-      <input type="text" id="address" placeholder="e.g. 123 High Street" required />
+    <div class="checkout-grid">
 
-      <label for="postalCode" class="required">Postal Code</label>
-      <input type="text" id="postalCode" placeholder="e.g. W1A 1AA" required />
+      <!-- ===================== FORM ===================== -->
 
-      <label for="phone" class="required">Phone Number</label>
-      <input type="text" id="phone" placeholder="e.g. 07123 456789" required />
+      <section id="checkout-section">
 
-      <div class="login-section">
-        <span>Already a Member?</span>
-        <a href="#">Log In</a>
-      </div>
+        <form id="checkoutForm">
 
-      <div class="quick-pay">
-        <button type="button" class="paypal">PayPal</button>
-        <button type="button" class="shop-pay">Shop Pay</button>
-      </div>
+          <fieldset class="step">
+            <legend><span class="step-num">01</span> Contact</legend>
 
-      <div class="or-divider">Or Pay With Card</div>
+            <div class="field">
+              <label for="email" class="required">Email Address</label>
+              <input class="input" type="email" id="email" placeholder="e.g. jane.doe@example.com" autocomplete="email" required />
+            </div>
 
-      <label for="cardNumber" class="required">Card Number</label>
-      <input type="text" id="cardNumber" placeholder="e.g. 4242 4242 4242 4242" inputmode="numeric" required />
+            <p class="login-section">
+              Already a member? <a href="/account" class="text-link">Log in</a>
+            </p>
+          </fieldset>
 
-      <label for="expiry" class="required">Expiry Date (MM/YY)</label>
-      <input type="text" id="expiry" placeholder="e.g. 09/26" required />
 
-      <label for="cvc" class="required">CVC</label>
-      <input type="text" id="cvc" placeholder="e.g. 123" inputmode="numeric" required />
+          <fieldset class="step">
+            <legend><span class="step-num">02</span> Delivery</legend>
 
-      <button type="submit">Complete Purchase</button>
-    </form>
-  </div>
+            <div class="row-2">
+              <div class="field">
+                <label for="firstName" class="required">First Name</label>
+                <input class="input" type="text" id="firstName" placeholder="e.g. Jane" autocomplete="given-name" required />
+              </div>
+              <div class="field">
+                <label for="lastName" class="required">Last Name</label>
+                <input class="input" type="text" id="lastName" placeholder="e.g. Doe" autocomplete="family-name" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="address" class="required">Address</label>
+              <input class="input" type="text" id="address" placeholder="e.g. 123 High Street" autocomplete="street-address" required />
+            </div>
+
+            <div class="row-2">
+              <div class="field">
+                <label for="postalCode" class="required">Postal Code</label>
+                <input class="input" type="text" id="postalCode" placeholder="e.g. W1A 1AA" autocomplete="postal-code" required />
+              </div>
+              <div class="field">
+                <label for="phone" class="required">Phone Number</label>
+                <input class="input" type="tel" id="phone" placeholder="e.g. 07123 456789" autocomplete="tel" required />
+              </div>
+            </div>
+          </fieldset>
+
+
+          <fieldset class="step">
+            <legend><span class="step-num">03</span> Payment</legend>
+
+            <div class="quick-pay">
+              <button type="button" class="btn btn-outline paypal">PayPal</button>
+              <button type="button" class="btn btn-outline shop-pay">Shop Pay</button>
+            </div>
+
+            <div class="divider">Or pay with card</div>
+
+            <div class="field">
+              <label for="cardNumber" class="required">Card Number</label>
+              <input class="input" type="text" id="cardNumber" placeholder="e.g. 4242 4242 4242 4242" inputmode="numeric" autocomplete="cc-number" maxlength="19" required />
+            </div>
+
+            <div class="row-2">
+              <div class="field">
+                <label for="expiry" class="required">Expiry (MM/YY)</label>
+                <input class="input" type="text" id="expiry" placeholder="e.g. 09/28" inputmode="numeric" autocomplete="cc-exp" maxlength="5" required />
+              </div>
+              <div class="field">
+                <label for="cvc" class="required">CVC</label>
+                <input class="input" type="text" id="cvc" placeholder="e.g. 123" inputmode="numeric" autocomplete="cc-csc" maxlength="4" required />
+              </div>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="btn btn-block complete-btn">Complete Purchase</button>
+
+        </form>
+
+
+        <!-- Shown after the form is submitted -->
+        <div id="orderConfirmation" class="confirmation" hidden>
+          <span class="eyebrow">Order placed</span>
+          <h2 id="confirmationTitle">Thank you</h2>
+          <p id="confirmationText" class="lede"></p>
+          <a href="/shop" class="btn">Continue shopping</a>
+        </div>
+
+      </section>
+
+
+      <!-- ===================== SUMMARY ===================== -->
+
+      <aside id="cart-section" class="summary">
+        <h2>Order Summary</h2>
+        <div id="cartItems"></div>
+        <div class="summary-line"><span id="itemCount">Items</span><span id="summarySubtotal">£0</span></div>
+        <div class="summary-total" id="subtotal"><span>Total</span><span>£0</span></div>
+      </aside>
+
+    </div>
+  </main>
+
+
+  <!-- Footer -->
+  <iframe
+    src="footer.html"
+    title="Footer"
+    style="width: 100%; border: none; display: block;"
+    scrolling="no"
+    onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';"
+  ></iframe>
+
+
+  <script src="cart.js"></script>
+  <script src="menu.js"></script>
 
   <script>
-    const cartKey = 'myCart';
-    const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+    (function () {
+      const itemsEl = document.getElementById('cartItems');
+      const subtotalEl = document.getElementById('subtotal');
+      const lineSubtotalEl = document.getElementById('summarySubtotal');
+      const countEl = document.getElementById('itemCount');
 
-    const cartContainer = document.getElementById('cartItems');
-    const subtotalEl = document.getElementById('subtotal');
+      const gbp = n => '£' + Number(n).toLocaleString('en-GB', { maximumFractionDigits: 0 });
 
-    function formatPrice(price) {
-      return price.toLocaleString('en-UK', {
-        style: 'currency',
-        currency: 'GBP',
-        minimumFractionDigits: 0,
-      });
-    }
+      function render() {
+        const items = window.getCart ? window.getCart() : [];
+        itemsEl.innerHTML = '';
 
-    function renderCart() {
-      cartContainer.innerHTML = '';
+        if (items.length === 0) {
+          itemsEl.innerHTML =
+            '<p class="summary-empty">Your cart is empty. <a class="text-link" href="/shop">Browse the collection</a></p>';
+        }
 
-      if (cart.length === 0) {
-        cartContainer.textContent = 'Your cart is empty.';
-        subtotalEl.textContent = 'Total: £0';
-        return;
+        items.forEach(item => {
+          const row = document.createElement('div');
+          row.className = 'summary-item';
+
+          const img = document.createElement('img');
+          img.className = 'summary-thumb';
+          img.src = item.imgPath || '';
+          img.alt = item.name || 'Product image';
+
+          const info = document.createElement('div');
+          const name = document.createElement('p');
+          name.className = 'summary-name';
+          name.textContent = item.name || 'Unnamed product';
+          const qty = document.createElement('span');
+          qty.className = 'summary-qty';
+          qty.textContent = `Qty ${item.quantity || 1}`;
+          info.append(name, qty);
+
+          const price = document.createElement('span');
+          price.className = 'summary-price';
+          price.textContent = gbp((item.price || 0) * (item.quantity || 1));
+
+          row.append(img, info, price);
+          itemsEl.appendChild(row);
+        });
+
+        const count = items.reduce((s, i) => s + (i.quantity || 1), 0);
+        const total = items.reduce((s, i) => s + (i.price || 0) * (i.quantity || 1), 0);
+
+        countEl.textContent = `Items (${count})`;
+        lineSubtotalEl.textContent = gbp(total);
+        subtotalEl.innerHTML = `<span>Total</span><span>${gbp(total)}</span>`;
       }
 
-      cart.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'cart-item';
+      window.addEventListener('cart:updated', render);
+      window.addEventListener('DOMContentLoaded', render);
 
-        const imgWrapper = document.createElement('div');
-        imgWrapper.className = 'img-wrapper';
 
-        const img = document.createElement('img');
-        img.src = item.imgPath || '';
-        img.alt = item.name || 'Product Image';
-
-        imgWrapper.appendChild(img);
-
-        const details = document.createElement('div');
-        details.className = 'item-details';
-
-        const name = document.createElement('div');
-        name.className = 'item-name';
-        name.textContent = item.name || 'Unnamed Product';
-
-        const qty = document.createElement('div');
-        qty.className = 'item-quantity';
-        qty.textContent = `Quantity: ${item.quantity || 1}`;
-
-        const price = document.createElement('div');
-        price.className = 'item-price';
-        const totalPrice = (item.price || 0) * (item.quantity || 1);
-        price.textContent = `Total: ${formatPrice(totalPrice)}`;
-
-        details.appendChild(name);
-        details.appendChild(qty);
-        details.appendChild(price);
-
-        div.appendChild(imgWrapper);
-        div.appendChild(details);
-
-        cartContainer.appendChild(div);
+      /* Light input formatting */
+      const cardNumber = document.getElementById('cardNumber');
+      cardNumber.addEventListener('input', () => {
+        const digits = cardNumber.value.replace(/\D/g, '').slice(0, 16);
+        cardNumber.value = digits.replace(/(.{4})/g, '$1 ').trim();
       });
 
-      const total = cart.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
-      subtotalEl.textContent = `Total: ${formatPrice(total)}`;
-    }
+      const expiry = document.getElementById('expiry');
+      expiry.addEventListener('input', e => {
+        let digits = expiry.value.replace(/\D/g, '').slice(0, 4);
+        if (digits.length > 2) digits = digits.slice(0, 2) + '/' + digits.slice(2);
+        expiry.value = digits;
+      });
 
-    renderCart();
+      const cvc = document.getElementById('cvc');
+      cvc.addEventListener('input', () => {
+        cvc.value = cvc.value.replace(/\D/g, '').slice(0, 4);
+      });
 
-    const form = document.getElementById('checkoutForm');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      alert('Thank you for your purchase!');
-    });
+
+      /* Submit */
+      const form = document.getElementById('checkoutForm');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const first = document.getElementById('firstName').value.trim();
+        const email = document.getElementById('email').value.trim();
+
+        document.getElementById('confirmationTitle').textContent =
+          first ? `Thank you, ${first}` : 'Thank you';
+        document.getElementById('confirmationText').textContent =
+          `Your order has been placed. A confirmation will be sent to ${email}.`;
+
+        form.hidden = true;
+        document.getElementById('orderConfirmation').hidden = false;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (window.clearCart) window.clearCart();
+      });
+    })();
   </script>
 
 </body>

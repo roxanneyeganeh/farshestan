@@ -1,0 +1,341 @@
+/* =========================================================
+   FARSHESTAN — SHARED STYLES
+   Used by: index, account, cart, checkout.
+   Same visual language as other-page.html and shop.css.
+========================================================= */
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('assets/Vazirmatn.ttf') format('truetype');
+  font-display: swap;
+}
+
+:root {
+  --cream: #f7f2eb;
+  --paper: #ffffff;
+  --ink: #000000;
+  --muted: #555555;
+  --soft: #888888;
+  --hair: rgba(0, 0, 0, 0.12);
+  --accent: #A52A2A;
+
+  --serif: 'Noto Naskh Arabic', serif;
+  --sans: 'Vazirmatn', sans-serif;
+
+  --radius: 20px;
+  --gutter: 3rem;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input {
+  font-family: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+
+/* =========================================================
+   SLIDE-UP INFO PANEL
+========================================================= */
+
+#slidePanel {
+  position: fixed;
+  left: 0;
+  bottom: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--cream);
+  z-index: 100002;
+  transition: bottom 0.6s var(--ease);
+}
+
+#panelContent {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+
+/* =========================================================
+   TYPE
+========================================================= */
+
+.eyebrow {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.page-title {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.05;
+}
+
+.page-head {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--ink);
+}
+
+.lede {
+  margin: 0 0 2rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.5rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn:hover {
+  background: #444;
+  border-color: #444;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-outline:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--cream);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.text-link {
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.text-link:hover {
+  color: var(--accent);
+}
+
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.15rem;
+}
+
+.field label {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.field label.required::after {
+  content: ' *';
+}
+
+.input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input::placeholder {
+  color: #a39a8e;
+}
+
+.input:focus {
+  background: var(--paper);
+  box-shadow: 0 0 0 1px var(--ink);
+}
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.75rem 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--hair);
+}
+
+
+/* =========================================================
+   ORDER SUMMARY (cart page + checkout)
+========================================================= */
+
+.summary {
+  position: sticky;
+  top: 90px;
+  padding: 2rem;
+  background: var(--paper);
+  border-radius: var(--radius);
+}
+
+.summary h2 {
+  margin: 0 0 1.25rem;
+  font-family: var(--serif);
+  font-weight: normal;
+  font-size: 1.6rem;
+}
+
+.summary-item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--hair);
+}
+
+.summary-item:first-child {
+  border-top: 1px solid var(--hair);
+}
+
+.summary-thumb {
+  width: 64px;
+  height: 80px;
+  padding: 4px;
+  object-fit: contain;
+  background: var(--cream);
+  border-radius: 10px;
+}
+
+.summary-name {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+
+.summary-qty {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.summary-price {
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--ink);
+  font-size: 1.2rem;
+}
+
+.summary-empty {
+  padding: 1rem 0;
+  color: var(--muted);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+  :root {
+    --gutter: 1rem;
+  }
+
+  .row-2 {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .summary {
+    padding: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

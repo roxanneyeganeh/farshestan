@@ -6,386 +6,135 @@
 
   <title>Shop</title>
 
-  <link
-    rel="icon"
-    type="image/svg+xml"
-    href="assets/favicon.svg"
-  >
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
-  <link
-    rel="stylesheet"
-    href="shop.css"
-  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="shop.css" />
 </head>
 
 <body>
 
   <!-- =====================================================
-       SLIDE-UP PANEL
+       SLIDE-UP PANEL (Info)
   ====================================================== -->
 
   <div id="slidePanel">
-    <iframe
-      id="panelContent"
-      src=""
-    ></iframe>
+    <iframe id="panelContent" src="" title="Information"></iframe>
   </div>
 
 
   <!-- =====================================================
-       SHOP INTRO / HERO
+       SHOP INTRO
   ====================================================== -->
 
   <section id="shop-intro">
-
     <div class="shop-intro-inner">
 
-      <h1>All Rugs</h1>
+      <div>
+        <span class="eyebrow">The Collection</span>
+        <h1>All Rugs</h1>
+      </div>
 
       <p>
-        Explore our exquisite collection of Persian
-        carpets, where timeless craftsmanship meets
-        elegant design. Each piece is meticulously
-        handwoven by skilled artisans, blending rich
-        colors, intricate patterns, and luxurious textures
-        that transform any space. Inspired by tradition
-        and built to last, our carpets bring artistry,
-        warmth, and character to your home.
+        Explore our collection of Persian carpets, where timeless
+        craftsmanship meets elegant design. Each piece is handwoven by
+        skilled artisans, blending rich colours, intricate patterns and
+        luxurious textures that transform any space. Inspired by tradition
+        and built to last, our carpets bring artistry, warmth and character
+        to your home.
       </p>
 
     </div>
-
   </section>
 
 
   <!-- =====================================================
-       FILTER CONTROLS
+       FILTERS
   ====================================================== -->
 
   <div id="filter-controls">
 
     <div class="filter-heading">
-      <label>FILTERS</label>
+      <label>Filters</label>
     </div>
 
 
-    <!-- ===================================================
-         COLOUR FILTER
-    ==================================================== -->
+    <!-- COLOUR -->
 
-    <div
-      class="custom-select-wrapper"
-      tabindex="0"
-    >
+    <div class="custom-select-wrapper colour-select-wrapper" tabindex="0">
 
       <div class="custom-select">
-
         <span class="selected">
-
-          <span
-            class="color-swatch"
-            style="
-              border-radius: 50%;
-              display: inline-block;
-              background:
-                radial-gradient(
-                  circle at 15% 50%,
-                  red 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 35% 25%,
-                  orange 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 55% 50%,
-                  yellow 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 75% 25%,
-                  green 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 90% 50%,
-                  blue 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 70% 70%,
-                  indigo 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 40% 75%,
-                  violet 10%,
-                  transparent 50%
-                );
-              background-blend-mode: screen;
-            "
-          ></span>
-
-          <span class="selected-text">
-            Colour
-          </span>
-
+          <span class="color-swatch swatch-all"></span>
+          <span class="selected-text">Colour</span>
         </span>
-
         <span class="arrow"></span>
-
       </div>
 
-
-      <!-- COLOUR OPTIONS -->
-
-      <div
-        class="custom-options"
-        role="listbox"
-      >
+      <div class="custom-options" role="listbox" aria-multiselectable="true">
 
         <div class="dropdown-header">
-
-          <span id="selected-count">
-            0 selected
-          </span>
-
-          <button
-            class="reset-button"
-            type="button"
-          >
-            Reset
-          </button>
-
+          <span id="selected-count">0 selected</span>
+          <button class="reset-button" type="button">Reset</button>
         </div>
 
-
-        <!-- ALL -->
-
-        <div
-          class="color-option"
-          data-value="all"
-        >
-
-          <span
-            class="color-swatch"
-            style="
-              border-radius: 50%;
-              display: inline-block;
-              background:
-                radial-gradient(
-                  circle at 15% 50%,
-                  red 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 35% 25%,
-                  orange 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 55% 50%,
-                  yellow 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 75% 25%,
-                  green 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 90% 50%,
-                  blue 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 70% 70%,
-                  indigo 10%,
-                  transparent 50%
-                ),
-                radial-gradient(
-                  circle at 40% 75%,
-                  violet 10%,
-                  transparent 50%
-                );
-              background-blend-mode: screen;
-            "
-          ></span>
-
-          All Colours
-
+        <div class="color-option" data-value="all">
+          <span class="color-swatch swatch-all"></span> All Colours
         </div>
-
-
-        <!-- RED -->
-
-        <div
-          class="color-option"
-          data-value="red"
-        >
-
-          <span
-            class="color-swatch"
-            style="background:#d9534f;"
-          ></span>
-
-          Red
-
+        <div class="color-option" data-value="red">
+          <span class="color-swatch" style="background:#d9534f;"></span> Red
         </div>
-
-
-        <!-- GREEN -->
-
-        <div
-          class="color-option"
-          data-value="green"
-        >
-
-          <span
-            class="color-swatch"
-            style="background:#5cb85c;"
-          ></span>
-
-          Green
-
+        <div class="color-option" data-value="green">
+          <span class="color-swatch" style="background:#5cb85c;"></span> Green
         </div>
-
-
-        <!-- BLUE -->
-
-        <div
-          class="color-option"
-          data-value="blue"
-        >
-
-          <span
-            class="color-swatch"
-            style="background:#337ab7;"
-          ></span>
-
-          Blue
-
+        <div class="color-option" data-value="blue">
+          <span class="color-swatch" style="background:#337ab7;"></span> Blue
         </div>
-
-
-        <!-- YELLOW -->
-
-        <div
-          class="color-option"
-          data-value="yellow"
-        >
-
-          <span
-            class="color-swatch"
-            style="background:#f0ad4e;"
-          ></span>
-
-          Yellow
-
+        <div class="color-option" data-value="yellow">
+          <span class="color-swatch" style="background:#f0ad4e;"></span> Yellow
         </div>
-
-
-        <!-- GREY -->
-
-        <div
-          class="color-option"
-          data-value="gray"
-        >
-
-          <span
-            class="color-swatch"
-            style="background:#999;"
-          ></span>
-
-          Grey
-
+        <div class="color-option" data-value="gray">
+          <span class="color-swatch" style="background:#999;"></span> Grey
         </div>
 
       </div>
-
     </div>
 
 
-    <!-- ===================================================
-         PRICE FILTER
-    ==================================================== -->
+    <!-- PRICE -->
 
-    <div
-      class="custom-select-wrapper price-select-wrapper"
-      tabindex="0"
-    >
+    <div class="custom-select-wrapper price-select-wrapper" tabindex="0">
 
       <div class="custom-select">
-
         <span class="selected">
-
-          <span class="selected-text">
-            Price
-          </span>
-
+          <span class="selected-text">Price</span>
         </span>
-
         <span class="arrow"></span>
-
       </div>
 
-
-      <!-- PRICE OPTIONS -->
-
-      <div
-        class="custom-options price-options"
-        role="listbox"
-      >
+      <div class="custom-options price-options" role="listbox">
 
         <div class="dropdown-header">
-
-          <button
-            class="reset-button"
-            type="button"
-          >
-            Reset
-          </button>
-
+          <button class="reset-button" type="button">Reset</button>
         </div>
-
 
         <div class="price-slider-container">
-
-          <label id="priceRangeLabel">
-            Price
-          </label>
-
+          <label id="priceRangeLabel">Price</label>
 
           <div class="range-slider">
-
-            <input
-              type="range"
-              id="minRange"
-              min="0"
-              max="9000"
-              step="100"
-              value="0"
-            >
-
-            <input
-              type="range"
-              id="maxRange"
-              min="0"
-              max="9000"
-              step="100"
-              value="9000"
-            >
-
+            <input type="range" id="minRange" min="0" max="9000" step="100" value="0" aria-label="Minimum price">
+            <input type="range" id="maxRange" min="0" max="9000" step="100" value="9000" aria-label="Maximum price">
             <div class="slider-track"></div>
-
           </div>
-
         </div>
 
       </div>
-
     </div>
+
+    <span id="result-count"></span>
 
   </div>
 
@@ -401,27 +150,11 @@
        PRODUCT MODAL
   ====================================================== -->
 
-  <div
-    id="product-modal"
-    class="modal hidden"
-  >
-
+  <div id="product-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Product details">
     <div class="modal-content">
-
-      <span class="close-button">
-        &times;
-      </span>
-
-      <img
-        id="modal-image"
-        src=""
-        alt="Product"
-      />
-
-      <p id="modal-description"></p>
-
+      <button class="close-button" type="button" aria-label="Close">&times;</button>
+      <img id="modal-image" src="" alt="Product" />
     </div>
-
   </div>
 
 
@@ -429,14 +162,9 @@
        SCRIPTS
   ====================================================== -->
 
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"
-  ></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
   <script src="shop.js"></script>
-
   <script src="cart.js"></script>
-
   <script src="menu.js"></script>
 
 
@@ -446,20 +174,11 @@
 
   <iframe
     src="footer.html"
-    style="
-      width: 100%;
-      border: none;
-      display: block;
-    "
+    title="Footer"
+    style="width: 100%; border: none; display: block;"
     scrolling="no"
-    onload="
-      this.style.height =
-      this.contentWindow.document
-      .documentElement
-      .scrollHeight + 'px';
-    "
+    onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';"
   ></iframe>
-
 
 </body>
 </html>
