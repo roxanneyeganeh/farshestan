@@ -1,81 +1,73 @@
 /* =========================================================
    ACCOUNT — layout only (shared styles live in site.css)
+   The photo sits in a pointed Persian arch (iwan / mihrab).
 ========================================================= */
 
 .account-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 3rem;
+  gap: 4rem;
+  align-items: center;
   min-height: 100vh;
-  padding: 110px var(--gutter) var(--gutter);
+  padding: 120px var(--gutter) var(--gutter);
 }
 
 .account-visual {
-  position: relative;
   margin: 0;
-  min-height: 520px;
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: #e9e0d3;
+  justify-self: center;
+  width: min(100%, 460px);
 }
 
 .account-visual img {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-}
-
-.account-visual::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 55%);
+  background: var(--sand);
+  /* Pointed arch */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400' preserveAspectRatio='none'%3E%3Cpath d='M0 400V150C0 70 90 25 150 0C210 25 300 70 300 150V400Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400' preserveAspectRatio='none'%3E%3Cpath d='M0 400V150C0 70 90 25 150 0C210 25 300 70 300 150V400Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
 
 .account-visual figcaption {
-  position: absolute;
-  left: 2rem;
-  right: 2rem;
-  bottom: 2rem;
-  z-index: 1;
-  color: #ffffff;
-  font-family: var(--serif);
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
-  line-height: 1.25;
-}
-
-.account-visual figcaption .eyebrow {
-  font-family: var(--sans);
-  margin-bottom: 0.75rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--muted);
 }
 
 .login-container {
-  align-self: center;
-  justify-self: center;
+  justify-self: start;
   width: 100%;
   max-width: 420px;
   padding: 2rem 0;
+}
+
+.account-fa {
+  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--madder);
+  text-align: left;
 }
 
 .login-container h3 {
   margin: 0 0 0.5rem;
   font-family: var(--serif);
   font-weight: normal;
-  font-size: clamp(2.25rem, 4vw, 3rem);
-  line-height: 1.1;
+  font-size: clamp(2.5rem, 4.5vw, 3.5rem);
+  line-height: 1.05;
 }
 
 .form-meta {
   display: flex;
   justify-content: flex-end;
   margin: -0.25rem 0 1.5rem;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 900px) {
   .account-layout {
     grid-template-columns: 1fr;
+    gap: 0;
     padding-top: 120px;
   }
 

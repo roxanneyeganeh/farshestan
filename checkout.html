@@ -24,8 +24,8 @@
   <main class="checkout">
 
     <header class="page-head">
-      <span class="eyebrow">Secure Checkout</span>
       <h1 class="page-title">Checkout</h1>
+      <p class="page-fa fa" lang="fa" aria-hidden="true">پرداخت</p>
     </header>
 
     <div class="checkout-grid">
@@ -37,7 +37,7 @@
         <form id="checkoutForm">
 
           <fieldset class="step">
-            <legend><span class="step-num">01</span> Contact</legend>
+            <legend><span class="step-num" aria-hidden="true">۱</span> Contact</legend>
 
             <div class="field">
               <label for="email" class="required">Email Address</label>
@@ -51,7 +51,7 @@
 
 
           <fieldset class="step">
-            <legend><span class="step-num">02</span> Delivery</legend>
+            <legend><span class="step-num" aria-hidden="true">۲</span> Delivery</legend>
 
             <div class="row-2">
               <div class="field">
@@ -83,14 +83,14 @@
 
 
           <fieldset class="step">
-            <legend><span class="step-num">03</span> Payment</legend>
+            <legend><span class="step-num" aria-hidden="true">۳</span> Payment</legend>
 
             <div class="quick-pay">
               <button type="button" class="btn btn-outline paypal">PayPal</button>
               <button type="button" class="btn btn-outline shop-pay">Shop Pay</button>
             </div>
 
-            <div class="divider">Or pay with card</div>
+            <p class="divider">Or pay with card</p>
 
             <div class="field">
               <label for="cardNumber" class="required">Card Number</label>
@@ -116,7 +116,6 @@
 
         <!-- Shown after the form is submitted -->
         <div id="orderConfirmation" class="confirmation" hidden>
-          <span class="eyebrow">Order placed</span>
           <h2 id="confirmationTitle">Thank you</h2>
           <p id="confirmationText" class="lede"></p>
           <a href="/shop" class="btn">Continue shopping</a>

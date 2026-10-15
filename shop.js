@@ -468,7 +468,6 @@ function renderGrid(items) {
     const card = document.createElement('article');
     card.className = 'image-item';
     card.tabIndex = 0;
-    card.style.setProperty('--i', index % 12);
 
     const frame = document.createElement('div');
     frame.className = 'image-frame';
@@ -487,7 +486,11 @@ function renderGrid(items) {
     price.className = 'caption-subtitle';
     price.textContent = gbp(item.price);
 
-    card.append(frame, title, price);
+    const caption = document.createElement('div');
+    caption.className = 'image-caption';
+    caption.append(title, price);
+
+    card.append(frame, caption);
 
     card.addEventListener('click', () => openModal(item));
     card.addEventListener('keydown', e => {
@@ -542,7 +545,7 @@ function openModal(item) {
   modalText.className = 'modal-text';
 
   modalText.innerHTML = `
-    <span class="modal-eyebrow">Handwoven in Iran</span>
+    <p class="modal-origin fa" lang="fa" title="Handwoven in Iran">دست‌بافت ایران</p>
     <h2 class="modal-title"></h2>
     <p class="modal-price"></p>
 
@@ -557,7 +560,7 @@ function openModal(item) {
 
     <div class="collapsible-section">
       <button class="collapsible-btn" type="button" aria-expanded="false">
-        Material &amp; Care <span class="arrow"></span>
+        Material and care <span class="arrow"></span>
       </button>
       <div class="collapsible-content" hidden>
         <p class="modal-material"></p>

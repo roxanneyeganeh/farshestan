@@ -60,12 +60,13 @@ model-viewer {
   to   { opacity: 1; transform: translate(-50%, -50%); }
 }
 
-.overlayEyebrow {
+.overlayFa {
   display: block;
-  margin-bottom: 1.25rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  font-family: var(--serif);
+  direction: rtl;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.2;
 }
 
 .overlayMainText {
@@ -79,9 +80,7 @@ model-viewer {
 
 .overlaySubText {
   margin-top: 1.25rem;
-  font-size: clamp(0.85rem, 1.4vw, 1rem);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
 }
 
 
@@ -97,7 +96,7 @@ model-viewer {
   transform: translateX(-50%);
   padding: 0.9rem 1.75rem;
   border: 1px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(31, 42, 68, 0.35);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: #ffffff;

@@ -76,7 +76,7 @@ function injectCartStyles() {
 
     #cartOverlay {
       position: fixed; inset: 0;
-      background: rgba(20, 14, 8, 0.35);
+      background: rgba(31, 42, 68, 0.45);
       backdrop-filter: blur(3px);
       -webkit-backdrop-filter: blur(3px);
       opacity: 0; visibility: hidden;
@@ -87,11 +87,10 @@ function injectCartStyles() {
 
     #cartSidebar {
       position: fixed; top: 0; right: 0;
-      width: min(420px, 100vw); height: 100%;
+      width: min(440px, 100vw); height: 100%;
       display: flex; flex-direction: column;
       background: #f7f2eb; color: #000;
-      border-left: 1px solid #000;
-      font-family: 'Vazirmatn', sans-serif; line-height: 1.3;
+      font-family: 'Vazirmatn', sans-serif; line-height: 1.35;
       box-sizing: border-box;
       transform: translateX(100%);
       visibility: hidden;
@@ -100,80 +99,82 @@ function injectCartStyles() {
     }
     #cartSidebar.open {
       transform: none; visibility: visible;
-      box-shadow: -20px 0 60px rgba(0, 0, 0, .08);
+      box-shadow: -30px 0 80px rgba(31, 42, 68, .18);
     }
     #cartSidebar *, #cartSidebar *::before, #cartSidebar *::after { box-sizing: border-box; }
     #cartSidebar button { font-family: inherit; color: inherit; }
+    #cartSidebar :focus-visible { outline: 2px solid #A52A2A; outline-offset: 2px; }
 
     .cart-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.5rem 1.75rem 1.1rem;
-      border-bottom: 1px solid #000;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 2rem 1.75rem 1rem;
+    }
+    .cart-fa {
+      display: block; margin-bottom: .1rem;
+      font-family: 'Noto Naskh Arabic', serif; direction: rtl; text-align: left;
+      font-size: 1.15rem; color: #A52A2A;
     }
     .cart-title {
       margin: 0;
       font-family: 'Noto Naskh Arabic', serif; font-weight: normal;
-      font-size: 1.9rem; line-height: 1.2;
+      font-size: 2rem; line-height: 1.15;
     }
     .cart-title .cart-count {
       font-family: 'Vazirmatn', sans-serif;
-      font-size: .9rem; color: #555; margin-left: .5rem;
+      font-size: .95rem; color: #5e574f; margin-left: .5rem;
     }
     .cart-close {
       background: none; border: 0; padding: 1px 8px;
       font-size: 1.7rem; font-weight: 200; line-height: 1; cursor: pointer;
     }
 
-    .cart-items { flex: 1; overflow-y: auto; padding: 0 1.75rem; }
+    .cart-items { flex: 1; overflow-y: auto; padding: .5rem 1.75rem 1rem; }
 
     .cart-item {
-      display: grid; grid-template-columns: 84px 1fr; gap: 1rem;
-      padding: 1.25rem 0;
-      border-bottom: 1px solid rgba(0, 0, 0, .12);
-      animation: cartItemIn .45s cubic-bezier(0.22, 1, 0.36, 1) both;
+      display: grid; grid-template-columns: 92px 1fr; gap: 1.1rem;
+      padding: .9rem 0;
     }
-    @keyframes cartItemIn { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
 
     .cart-item-img {
-      width: 84px; height: 105px; padding: 6px;
-      object-fit: contain; background: #fff; border-radius: 12px; display: block;
+      width: 92px; height: 115px; padding: 8px;
+      object-fit: contain; background: #fff; display: block;
     }
     .cart-item-info { display: flex; flex-direction: column; min-width: 0; }
-    .cart-item-name { margin: 0 0 .25rem; font-size: .95rem; }
-    .cart-item-unit { font-size: .85rem; color: #555; }
+    .cart-item-name { margin: 0 0 .2rem; font-size: 1rem; }
+    .cart-item-unit { font-size: .9rem; color: #5e574f; }
     .cart-item-row {
       display: flex; align-items: center; justify-content: space-between;
       margin-top: auto; padding-top: .75rem;
     }
-    .cart-qty { display: inline-flex; align-items: center; border: 1px solid #000; }
+    .cart-qty { display: inline-flex; align-items: center; background: #ece4d8; }
     .cart-qty button {
-      width: 30px; height: 30px; border: 0; background: none;
+      width: 32px; height: 32px; border: 0; background: none;
       font-size: 1rem; cursor: pointer; transition: background-color .25s, color .25s;
     }
     .cart-qty button:hover { background: #000; color: #f7f2eb; }
     .cart-qty span { min-width: 28px; text-align: center; font-size: .9rem; }
-    .cart-line-total { font-size: .95rem; }
+    .cart-line-total { font-size: 1rem; }
     .cart-remove {
-      align-self: flex-start; margin-top: .5rem; padding: 0;
-      background: none; border: 0; font-size: .8rem; color: #555;
-      text-decoration: underline; cursor: pointer;
+      align-self: flex-start; margin-top: .4rem; padding: 0;
+      background: none; border: 0; font-size: .85rem; color: #5e574f;
+      text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
     }
-    .cart-remove:hover { color: #000; }
+    .cart-remove:hover { color: #A52A2A; }
 
     .cart-empty {
       height: 100%; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; text-align: center;
+      align-items: flex-start; justify-content: center;
       padding: 2rem 0;
     }
     .cart-empty h3 {
       margin: 0 0 .5rem;
-      font-family: 'Noto Naskh Arabic', serif; font-weight: normal; font-size: 1.6rem;
+      font-family: 'Noto Naskh Arabic', serif; font-weight: normal; font-size: 1.75rem;
     }
-    .cart-empty p { margin: 0 0 1.5rem; color: #555; font-size: 1rem; max-width: 26ch; }
+    .cart-empty p { margin: 0 0 1.5rem; color: #5e574f; font-size: 1rem; max-width: 30ch; line-height: 1.5; }
 
-    .cart-footer { padding: 1.25rem 1.75rem 1.75rem; border-top: 1px solid #000; }
-    .cart-subtotal { display: flex; justify-content: space-between; font-size: 1.05rem; margin-bottom: .3rem; }
-    .cart-note { margin: 0 0 1.1rem; font-size: .8rem; color: #888; }
+    .cart-footer { padding: 1.5rem 1.75rem 1.75rem; background: #ece4d8; }
+    .cart-subtotal { display: flex; justify-content: space-between; font-size: 1.1rem; margin-bottom: .3rem; }
+    .cart-note { margin: 0 0 1.1rem; font-size: .85rem; color: #5e574f; }
 
     .cart-cta {
       display: block; width: 100%; padding: 1rem;
@@ -181,11 +182,11 @@ function injectCartStyles() {
       font-size: 1rem; text-align: center; text-decoration: none;
       cursor: pointer; transition: background-color .3s ease;
     }
-    .cart-cta:hover { background: #444; }
-    .cart-empty .cart-cta { width: auto; padding: .8rem 1.75rem; }
+    .cart-cta:hover { background: #1f2a44; }
+    .cart-empty .cart-cta { width: auto; padding: .9rem 1.75rem; }
 
     @media (prefers-reduced-motion: reduce) {
-      #cartSidebar, #cartOverlay, .cart-item { transition: none; animation: none; }
+      #cartSidebar, #cartOverlay { transition: none; }
     }
   `;
   document.head.appendChild(style);
@@ -236,7 +237,7 @@ function updateCartUI() {
 
   sidebar.innerHTML = `
     <header class="cart-header">
-      <h2 class="cart-title">Your Cart${count ? `<span class="cart-count">(${count})</span>` : ''}</h2>
+      <div><span class="cart-fa" lang="fa" aria-hidden="true">سبد خرید</span><h2 class="cart-title">Your Cart${count ? `<span class="cart-count">(${count})</span>` : ''}</h2></div>
       <button class="cart-close" type="button" aria-label="Close cart">&times;</button>
     </header>
     <div class="cart-items"></div>
@@ -250,7 +251,7 @@ function updateCartUI() {
     list.innerHTML = `
       <div class="cart-empty">
         <h3>Your cart is empty</h3>
-        <p>Every rug tells a story. Find the one that belongs in your home.</p>
+        <p>Rugs you add will appear here.</p>
         <a class="cart-cta" href="/shop">Explore the collection</a>
       </div>
     `;
