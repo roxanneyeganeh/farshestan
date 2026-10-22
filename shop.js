@@ -549,8 +549,16 @@ function openModal(item) {
   const modalImg = document.getElementById('modal-image');
   const modalContent = modal.querySelector('.modal-content');
 
+  // Show the grid image straight away, then swap in the large one
+  // (used for the popup and the zoom) as soon as it has loaded.
   modalImg.src = item.imgPath;
   modalImg.alt = item.name;
+  const largePath = item.imgPath.replace('assets/rugs/', 'assets/rugs/large/');
+  const large = new Image();
+  large.onload = () => {
+    if (modalImg.src.endsWith(item.imgPath)) modalImg.src = largePath;
+  };
+  large.src = largePath;
 
   const old = modalContent.querySelector('.modal-text');
   if (old) old.remove();
