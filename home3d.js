@@ -427,7 +427,7 @@ function hangRealRugs(model) {
       mesh, info, index: i,
       centre: centre.clone().add(off),
       pin: centre.clone().add(right.clone().multiplyScalar(halfW * 0.55)).add(new THREE.Vector3(0, size.y * 0.28, 0)).add(off),
-      tag: centre.clone().add(right.clone().multiplyScalar(halfW * 0.8)).add(new THREE.Vector3(0, -size.y * 0.38, 0)).add(off),
+      tag: centre.clone().add(right.clone().multiplyScalar(halfW * 0.82)).add(new THREE.Vector3(0, size.y * 0.36, 0)).add(off),
       normal
     });
   });
