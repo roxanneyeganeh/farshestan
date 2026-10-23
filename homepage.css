@@ -345,7 +345,7 @@ body.cta-5 .cta-fringe { display: flex; }
    TAGS ON THE RUGS (home-tags.js)
 ========================================================= */
 
-.rug-tags { position: fixed; inset: 0; z-index: 90; pointer-events: none; }
+.rug-tags { position: fixed; inset: 0; z-index: 150; pointer-events: none; }
 .rug-tags .fa { font-family: var(--serif); direction: rtl; }
 
 /* shared card */
