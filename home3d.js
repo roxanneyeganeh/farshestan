@@ -42,6 +42,14 @@ const BODY_RADIUS = 0.35;        // how close you can get to objects
 const PITCH_LIMIT = 40;          // can't look straight up or down
 const IDLE_SPIN = 4;             // deg/s gentle look-around when idle
 const IDLE_DELAY = 4000;         // ms before the idle look-around starts
+const EXPLORE_FADE = 1400;       // ms after the last movement before the headline returns
+
+// Brightness: tone-mapping exposure for each setting (body.bright-0/1/2)
+const EXPOSURE = { 0: 0.9, 1: 1.15, 2: 1.35 };
+
+// The rugs hanging on the walls show real rugs from the collection.
+// Each one links to its product in the shop.
+const WALL_RUGS = [{"id": 1, "name": "Tabriz Rug, Floral Medallion", "price": 2900, "townFa": "تبریز", "town": "Tabriz", "desc": "Hand-knotted in Tabriz, this luxurious rug features an intricate central medallion, detailed floral motifs, and silk highlights that shimmer beautifully.", "material": "Silk & Wool – Soft, lustrous pile with natural sheen"}, {"id": 2, "name": "Nain Rug, Classic Pattern", "price": 7400, "townFa": "نائین", "town": "Nain", "desc": "Woven in Nain with a high knot count, this refined rug displays graceful floral motifs on a soft ivory field accented with delicate blues and golds.", "material": "Wool & Cotton – Durable with soft hand feel"}, {"id": 4, "name": "Kashan Rug, Herati Design", "price": 3200, "townFa": "کاشان", "town": "Kashan", "desc": "An heirloom-quality Kashan rug rich in historical motifs and fine detail.", "material": "Wool – Dense, resilient pile"}, {"id": 6, "name": "Mashhad Rug, Geometric", "price": 8800, "townFa": "مشهد", "town": "Mashhad", "desc": "With deep burgundy and navy tones, this Mashhad rug features a plush wool pile and classic floral symmetry.", "material": "Silk & Wool – Plush texture with subtle sheen"}, {"id": 12, "name": "Malayer Rug, Field Motif", "price": 3600, "townFa": "ملایر", "town": "Malayer", "desc": "Rustic and warm, this Malayer rug reflects the charm of Iranian mountain villages.", "material": "Wool – Plush, durable texture"}, {"id": 17, "name": "Moud Rug, Sapphire Medallion", "price": 6050, "townFa": "مود", "town": "Moud", "desc": "A Moud rug with a sapphire field and flowing garden-of-Eden motifs, hand-knotted with refined detail.", "material": "Wool & Cotton – Strong yet soft fibers"}, {"id": 18, "name": "Baluch Rug, Desert Motif", "price": 8300, "townFa": "بلوچ", "town": "Baluch", "desc": "Woven by the Baluch tribes, this rug combines deep reds, natural wool, and traditional tribal motifs.", "material": "Wool – Dense, robust pile"}, {"id": 22, "name": "Shiraz Rug, Ember Floral", "price": 4700, "townFa": "شیراز", "town": "Shiraz", "desc": "This Shiraz rug features earthy tones and tribal vine patterns, a testament to skilled craftsmanship and Persian heritage.", "material": "Wool – Dense, strong texture"}, {"id": 34, "name": "Tuiserkan Rug, Dust Pattern", "price": 7250, "townFa": "تویسرکان", "town": "Tuiserkan", "desc": "This Tuiserkan wool rug features soft, washed colors and minimalist patterns that bring quiet elegance to both modern and classic interiors.", "material": "Wool – Dense, durable weave"}, {"id": 45, "name": "Maragheh Rug, Crimson Detail", "price": 5200, "townFa": "مراغه", "town": "Maragheh", "desc": "The Maragheh tradition comes alive in this deep crimson rug with layered medallions and a bold tribal character.", "material": "Wool – Plush, robust fibers"}, {"id": 47, "name": "Delijan Rug, Night Bloom", "price": 6150, "townFa": "دلیجان", "town": "Delijan", "desc": "This Delijan rug merges traditional patterns with a modern palette, creating a look that is regal, fresh, and enduring.", "material": "Wool – Dense, durable fibers"}];
 
 
 /* =========================================================
@@ -122,6 +130,8 @@ new GLTFLoader(manager).load(
       }
     });
 
+    hangRealRugs(model);
+
     state.ready = true;
     document.body.classList.add('scene-ready');
     if (loaderEl) loaderEl.hidden = true;
@@ -160,8 +170,16 @@ function walk(forward, strafe) {
   tryMove(-sin * forward + cos * strafe, -cos * forward - sin * strafe);
 }
 
+let exploreTimer = 0;
 function noteInput() {
   state.lastInput = performance.now();
+  // Hide the headline while the visitor is moving around; bring it back when they stop
+  if (!document.body.classList.contains('is-exploring')) document.body.classList.add('is-exploring');
+  clearTimeout(exploreTimer);
+  exploreTimer = setTimeout(() => {
+    if (!dragging && !keys.size && !state.target) document.body.classList.remove('is-exploring');
+    else noteInput();
+  }, EXPLORE_FADE);
   if (hintEl && !hintEl.hidden) {
     hintEl.classList.add('is-faded');
   }
@@ -236,7 +254,11 @@ function endPointer(e) {
   touches.delete(e.pointerId);
   if (touches.size === 0) {
     // A click/tap without dragging = walk to that spot on the floor
-    if (dragging && dragMoved < 6 && e.type === 'pointerup') walkToPointer(e);
+    if (dragging && dragMoved < 6 && e.type === 'pointerup') {
+      const rug = rugAtPointer(e);
+      if (rug) window.dispatchEvent(new CustomEvent('rug:select', { detail: rug }));
+      else walkToPointer(e);
+    }
     dragging = false;
   }
 }
@@ -354,5 +376,162 @@ renderer.setAnimationLoop(() => {
   camera.position.set(state.x, EYE_HEIGHT, state.z);
   camera.rotation.set(state.pitch, state.yaw, 0);
 
+  // Brightness setting
+  const b = document.body.classList.contains('bright-2') ? 2 : document.body.classList.contains('bright-0') ? 0 : 1;
+  renderer.toneMappingExposure += (EXPOSURE[b] - renderer.toneMappingExposure) * 0.15;
+
   renderer.render(scene, camera);
+  updateRugTags();
 });
+
+
+/* =========================================================
+   REAL RUGS ON THE WALLS + THEIR TAGS
+   The hanging rugs show rugs from the collection. Each frame
+   their screen positions are worked out so the tag layer
+   (home-tags.js) can place pins, labels and price tags.
+========================================================= */
+
+const wallRugs = [];          // { mesh, info, centre, corner, tagPoint, normal }
+
+function hangRealRugs(model) {
+  const meshes = [];
+  model.traverse(o => { if (o.isMesh && /^Hanging_rug/.test(o.name)) meshes.push(o); });
+  meshes.sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: true }));
+  const loader = new THREE.TextureLoader();
+  meshes.forEach((mesh, i) => {
+    const info = WALL_RUGS[i % WALL_RUGS.length];
+    const tex = loader.load(`assets/rugs/rug-${info.id}.webp`);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    tex.flipY = false;
+    const old = mesh.material;
+    const mat = old.clone();
+    orientTexture(mesh, tex);
+    mat.map = tex;
+    mat.color = new THREE.Color(0xffffff);
+    mat.alphaTest = 0.5;
+    mat.side = THREE.DoubleSide;
+    mesh.material = mat;
+
+    const box = new THREE.Box3().setFromObject(mesh);
+    const size = box.getSize(new THREE.Vector3());
+    const centre = box.getCenter(new THREE.Vector3());
+    // the rug is a thin vertical sheet: its normal points into the room
+    const alongX = size.x > size.z;
+    const normal = alongX ? new THREE.Vector3(0, 0, centre.z > 0 ? -1 : 1) : new THREE.Vector3(centre.x > 0 ? -1 : 1, 0, 0);
+    const right = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), normal).normalize();
+    const halfW = (alongX ? size.x : size.z) / 2;
+    const off = normal.clone().multiplyScalar(0.03);
+    wallRugs.push({
+      mesh, info, index: i,
+      centre: centre.clone().add(off),
+      pin: centre.clone().add(right.clone().multiplyScalar(halfW * 0.55)).add(new THREE.Vector3(0, size.y * 0.28, 0)).add(off),
+      tag: centre.clone().add(right.clone().multiplyScalar(halfW * 0.8)).add(new THREE.Vector3(0, -size.y * 0.38, 0)).add(off),
+      normal
+    });
+  });
+  window.dispatchEvent(new CustomEvent('rugs:ready', { detail: wallRugs.map(r => r.info) }));
+}
+
+// The wall meshes were made for landscape textures and are draped, so the
+// way the texture runs differs per mesh. Work out from the geometry which
+// texture direction points up the wall and which runs left to right (as
+// seen from inside the room), then map the portrait rug photo onto that.
+function orientTexture(mesh, tex) {
+  const pos = mesh.geometry.attributes.position;
+  const uv = mesh.geometry.attributes.uv;
+  if (!pos || !uv) return;
+  const box = new THREE.Box3().setFromObject(mesh);
+  const size = box.getSize(new THREE.Vector3());
+  const centre = box.getCenter(new THREE.Vector3());
+  const alongX = size.x > size.z;
+  const normal = alongX ? new THREE.Vector3(0, 0, centre.z > 0 ? -1 : 1) : new THREE.Vector3(centre.x > 0 ? -1 : 1, 0, 0);
+  const right = new THREE.Vector3().crossVectors(normal.clone().negate(), new THREE.Vector3(0, 1, 0));
+  const n = pos.count, step = Math.max(1, Math.floor(n / 4000));
+  const p = new THREE.Vector3();
+  const U = [], V = [], Y = [], H = [];
+  for (let i = 0; i < n; i += step) {
+    p.fromBufferAttribute(pos, i).applyMatrix4(mesh.matrixWorld);
+    U.push(uv.getX(i)); V.push(uv.getY(i)); Y.push(p.y); H.push(p.dot(right));
+  }
+  const corr = (a, b) => {
+    const ma = a.reduce((s, x) => s + x, 0) / a.length, mb = b.reduce((s, x) => s + x, 0) / b.length;
+    let sab = 0, saa = 0, sbb = 0;
+    for (let i = 0; i < a.length; i++) { const da = a[i] - ma, db = b[i] - mb; sab += da * db; saa += da * da; sbb += db * db; }
+    return sab / Math.sqrt(saa * sbb || 1);
+  };
+  const range = a => [Math.min(...a), Math.max(...a)];
+  const vertIsV = Math.abs(corr(V, Y)) >= Math.abs(corr(U, Y));
+  const [vert, horiz] = vertIsV ? [V, U] : [U, V];
+  // t: 0 at the top of the rug image, 1 at the bottom; s: 0 left, 1 right
+  const tFlip = corr(vert, Y) > 0;          // texture coordinate grows upwards: flip it
+  const sFlip = corr(horiz, H) < 0;
+  const [v0, v1] = range(vert), [h0, h1] = range(horiz);
+  // s = (horiz - h0) / (h1 - h0), flipped if needed; same for t
+  const axis = (flip, lo, hi) => flip ? [-1 / (hi - lo), hi / (hi - lo)] : [1 / (hi - lo), -lo / (hi - lo)];
+  const [sa, sb] = axis(sFlip, h0, h1);
+  const [ta, tb] = axis(tFlip, v0, v1);
+  tex.matrixAutoUpdate = false;
+  if (vertIsV) tex.matrix.set(sa, 0, sb, 0, ta, tb, 0, 0, 1);   // s from u, t from v
+  else tex.matrix.set(0, sa, sb, ta, 0, tb, 0, 0, 1);            // s from v, t from u
+}
+
+function rugAtPointer(e) {
+  if (!wallRugs.length) return null;
+  pointer.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+  raycaster.setFromCamera(pointer, camera);
+  const hit = raycaster.intersectObjects(walkables, false)[0];
+  const r = hit && wallRugs.find(w => w.mesh === hit.object);
+  return r ? r.index : null;
+}
+
+const _v = new THREE.Vector3();
+const _dir = new THREE.Vector3();
+const occlusion = new THREE.Raycaster();
+let frame = 0;
+const visibleCache = [];
+
+function project(p) {
+  _v.copy(p).project(camera);
+  return { x: (_v.x + 1) / 2 * window.innerWidth, y: (1 - _v.y) / 2 * window.innerHeight, front: _v.z < 1 && _v.z > -1 };
+}
+
+function updateRugTags() {
+  if (!wallRugs.length) return;
+  frame++;
+  const camPos = camera.position;
+  camera.getWorldDirection(_dir);
+  const out = wallRugs.map((r, i) => {
+    // facing: the visitor is on the room side of the rug and roughly looking at it
+    const toCam = camPos.clone().sub(r.centre);
+    const dist = toCam.length();
+    const facing = toCam.normalize().dot(r.normal);
+    // occlusion: re-checked every few frames
+    if (frame % 6 === i % 6 || visibleCache[i] === undefined) {
+      const d = r.centre.clone().sub(camPos);
+      occlusion.set(camPos, d.clone().normalize());
+      occlusion.far = d.length() + 0.05;
+      const hit = occlusion.intersectObjects(walkables, false)[0];
+      visibleCache[i] = !hit || hit.object === r.mesh || hit.distance > d.length() - 0.15;
+    }
+    const c = project(r.centre);
+    const centred = Math.hypot(c.x - window.innerWidth / 2, c.y - window.innerHeight / 2) / Math.hypot(window.innerWidth, window.innerHeight);
+    return {
+      index: i,
+      info: r.info,
+      dist,
+      centred,
+      visible: facing > 0.15 && visibleCache[i] && c.front,
+      centre: c,
+      pin: project(r.pin),
+      tag: project(r.tag)
+    };
+  });
+  // the ray straight out of the middle of the screen: which rug is being looked at
+  occlusion.setFromCamera(new THREE.Vector2(0, 0), camera);
+  occlusion.far = 50;
+  const hit = occlusion.intersectObjects(walkables, false)[0];
+  const lookedAt = hit ? wallRugs.findIndex(w => w.mesh === hit.object) : -1;
+  window.__rugTags = { rugs: out, lookedAt: lookedAt >= 0 && hit.distance < 6 ? lookedAt : -1, frame };
+}

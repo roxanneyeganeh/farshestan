@@ -378,6 +378,12 @@ function setup() {
       products.sort((a, b) => a.id - b.id);
       renderGrid(products);
       functionSetup();
+
+      // A link such as /shop?rug=12 (from the rugs in the homepage's 3D shop)
+      // opens that rug straight away.
+      const wanted = Number(new URLSearchParams(location.search).get('rug'));
+      const item = wanted && products.find(p => p.id === wanted);
+      if (item) openModal(item);
     }
   };
 

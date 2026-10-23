@@ -26,7 +26,7 @@ body.home {
   height: 100%;
   opacity: 0;
   filter: brightness(0.8) saturate(1.4) contrast(1.05);
-  transition: opacity 1.2s ease;
+  transition: opacity 1.2s ease, filter 0.6s ease;
 }
 
 body.scene-ready #scene canvas {
@@ -103,10 +103,12 @@ body.scene-ready .scene-hint.is-faded {
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
   pointer-events: none;
   transition: opacity 0.4s ease;
-  animation: heroIn 1.2s var(--ease) both;
+  animation: heroIn 1.2s var(--ease) backwards;
 }
 
-#overlayText.is-hidden {
+#overlayText.is-hidden,
+body.is-exploring #overlayText,
+body.rug-open #overlayText {
   opacity: 0;
 }
 
@@ -191,4 +193,266 @@ body.scene-ready .scene-hint.is-faded {
     max-width: none;
     text-align: center;
   }
+}
+
+
+/* =========================================================
+   BRIGHTNESS (bright-0 = before, bright-1, bright-2)
+========================================================= */
+
+body.bright-1 #scene canvas { filter: brightness(1) saturate(1.25) contrast(1.04); }
+body.bright-2 #scene canvas { filter: brightness(1.12) saturate(1.2) contrast(1.02); }
+body.bright-1 .home-vignette,
+body.bright-2 .home-vignette {
+  background:
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0) 55%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, 0.3));
+}
+/* the vignette only darkens behind the headline while it shows */
+body.is-exploring .home-vignette { opacity: 0.55; }
+.home-vignette { transition: opacity 0.6s ease; }
+
+
+/* =========================================================
+   EXPLORE THE COLLECTION — design options
+========================================================= */
+
+.home-cta { display: none; }
+body.cta-0 .cta-now,
+body.cta-1 .cta-woven,
+body.cta-2 .cta-strip,
+body.cta-3 .cta-seal,
+body.cta-4 .cta-arch,
+body.cta-5 .cta-fringe { display: flex; }
+
+/* 1. Woven: a cream pill with a guard-stripe edge and a sliding arrow */
+.cta-woven {
+  align-items: center; gap: 0.9rem;
+  padding: 0.55rem 0.55rem 0.55rem 1.5rem !important;
+  border: 0 !important; border-radius: 999px;
+  background: var(--cream) !important; color: var(--ink) !important;
+  box-shadow: 0 0 0 4px rgba(247, 242, 235, 0.25), 0 14px 40px rgba(0, 0, 0, 0.35);
+  font-size: 1rem !important;
+}
+.cta-woven::before {
+  content: ''; position: absolute; inset: 5px 52px 5px 8px; border-radius: 999px; pointer-events: none;
+  border: 1.5px dashed rgba(165, 42, 42, 0.35);
+}
+.cw-fa { font-family: var(--serif); color: var(--madder); font-size: 1.2rem; line-height: 1; }
+.cw-arrow {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--madder); color: var(--cream); font-size: 1.1rem;
+  transition: transform 0.4s var(--ease), background-color 0.3s;
+}
+.cta-woven:hover .cw-arrow { transform: translateX(5px) rotate(-8deg); background: var(--indigo); }
+
+/* 2. Rug strip: a ribbon of tiny rugs drifting along the bottom */
+.cta-strip {
+  left: 0 !important; right: 0; bottom: 0 !important; transform: none !important;
+  height: 112px; padding: 0 !important; border: 0 !important;
+  background: linear-gradient(to top, rgba(20, 14, 10, 0.75), rgba(20, 14, 10, 0)) !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  overflow: hidden; animation: none !important;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+.cs-track { position: absolute; left: 0; bottom: 14px; display: flex; gap: 18px; width: max-content; animation: csMove 60s linear infinite; }
+.cs-track img { height: 66px; width: auto; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45)); transition: transform 0.4s var(--ease); }
+.cta-strip:hover .cs-track { animation-play-state: paused; }
+.cta-strip:hover .cs-track img { transform: translateY(-4px); }
+@keyframes csMove { to { transform: translateX(-50%); } }
+.cs-label {
+  position: absolute; left: 50%; bottom: 34px; transform: translateX(-50%); z-index: 2;
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.7rem 1.3rem; border-radius: 999px;
+  background: var(--cream); color: var(--ink); font-size: 0.95rem; white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: background-color 0.3s, color 0.3s;
+}
+.cs-label b { font-weight: 400; color: var(--muted); font-size: 0.85rem; }
+.cta-strip:hover .cs-label { background: var(--madder); color: var(--cream); }
+.cta-strip:hover .cs-label b { color: rgba(247, 242, 235, 0.75); }
+
+/* 3. Seal: a slowly turning ring of text around a changing rug */
+.cta-seal {
+  left: auto !important; right: 2.5rem; bottom: 2.5rem !important; transform: none !important;
+  width: 132px; height: 132px; padding: 0 !important; border: 0 !important; border-radius: 50%;
+  background: rgba(31, 42, 68, 0.55) !important; backdrop-filter: blur(10px);
+  align-items: center; justify-content: center; animation: sealIn 1.2s var(--ease) 0.3s both !important;
+}
+.cta-seal svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: sealSpin 22s linear infinite; }
+.cta-seal text { fill: var(--cream); font: 600 15px var(--sans); letter-spacing: 3.2px; }
+.seal-rug {
+  width: 46px; height: 62px; background: center / contain no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)); transition: background-image 0.4s, transform 0.5s var(--ease);
+}
+.seal-arrow {
+  position: absolute; right: 8px; bottom: 8px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--madder); color: var(--cream); font-size: 0.9rem; transition: transform 0.4s var(--ease);
+}
+.cta-seal:hover svg { animation-duration: 6s; }
+.cta-seal:hover .seal-rug { transform: scale(1.15) rotate(-4deg); }
+.cta-seal:hover .seal-arrow { transform: translate(3px, -3px); }
+@keyframes sealSpin { to { transform: rotate(360deg); } }
+@keyframes sealIn { from { opacity: 0; transform: scale(0.85); } }
+
+/* 4. Arch: a Persian doorway that fills with a rug when you hover */
+.cta-arch {
+  flex-direction: column; align-items: center; justify-content: flex-end; gap: 0.3rem;
+  width: 150px; height: 112px; padding: 0 0 1rem !important; border: 0 !important;
+  background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  text-align: center; line-height: 1.15; white-space: normal !important;
+}
+.cta-arch::before, .cta-arch::after {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  clip-path: path('M0 112 L0 56 C0 24 40 8 75 0 C110 8 150 24 150 56 L150 112 Z');
+}
+.cta-arch::before { background: rgba(247, 242, 235, 0.92); }
+.cta-arch::after {
+  inset: 7px 7px 0; background: url('assets/rugs/rug-1.webp') center 30% / cover;
+  clip-path: path('M0 105 L0 51 C0 22 36 7 68 0 C100 7 136 22 136 51 L136 105 Z');
+  opacity: 0; transform: translateY(10px); transition: opacity 0.5s, transform 0.6s var(--ease);
+}
+.ca-fa { font-family: var(--serif); color: var(--madder); font-size: 1.15rem; line-height: 1; transition: color 0.3s; }
+.ca-text { color: var(--ink); font-size: 0.9rem; transition: color 0.3s; }
+.cta-arch:hover::after { opacity: 1; transform: none; }
+.cta-arch:hover .ca-fa, .cta-arch:hover .ca-text { color: var(--cream); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8); }
+
+/* 5. Fringe: the button is a small rug, with tassels that sway */
+.cta-fringe { padding: 0 !important; border: 0 !important; background: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+.cf-rug {
+  position: relative; display: block; padding: 0.95rem 1.9rem;
+  background:
+    linear-gradient(var(--madder), var(--madder)) padding-box,
+    repeating-linear-gradient(45deg, var(--indigo) 0 4px, var(--cream) 4px 6px, var(--madder) 6px 10px) border-box;
+  border: 5px solid transparent;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(247, 242, 235, 0.35);
+  color: var(--cream); font-size: 0.95rem; letter-spacing: 0.02em;
+}
+.cf-rug::before, .cf-rug::after {
+  content: ''; position: absolute; top: -5px; bottom: -5px; width: 12px;
+  background: repeating-linear-gradient(to bottom, #efe4d0 0 2px, transparent 2px 4px);
+  transform-origin: left center; transition: transform 0.5s var(--ease);
+}
+.cf-rug::before { left: -17px; transform-origin: right center; }
+.cf-rug::after { right: -17px; }
+.cta-fringe:hover .cf-rug::before { animation: tassel 0.9s ease-in-out infinite; }
+.cta-fringe:hover .cf-rug::after { animation: tassel 0.9s ease-in-out infinite reverse; }
+.cta-fringe:hover .cf-rug { background: linear-gradient(var(--indigo), var(--indigo)) padding-box, repeating-linear-gradient(45deg, var(--madder) 0 4px, var(--cream) 4px 6px, var(--indigo) 6px 10px) border-box; }
+@keyframes tassel { 50% { transform: skewY(8deg) scaleX(1.15); } }
+
+
+/* =========================================================
+   TAGS ON THE RUGS (home-tags.js)
+========================================================= */
+
+.rug-tags { position: fixed; inset: 0; z-index: 90; pointer-events: none; }
+.rug-tags .fa { font-family: var(--serif); direction: rtl; }
+
+/* shared card */
+.rug-card {
+  position: fixed; left: 0; top: 0; z-index: 2000; width: 280px;
+  background: var(--cream); color: var(--ink); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.rug-card.open { opacity: 1; visibility: visible; pointer-events: auto; }
+.rug-card-x { position: absolute; top: 6px; right: 8px; z-index: 2; border: 0; background: none; color: var(--ink); font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.rug-card-img { display: block; width: 100%; height: 170px; object-fit: contain; padding: 1.1rem 1rem 0.6rem; background: #fffdf9; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.2)); }
+.rug-card-body { padding: 0.9rem 1.1rem 1.1rem; }
+.rug-card-body p { margin: 0; }
+.rug-card-fa { color: var(--madder); font-size: 1.5rem; line-height: 1.2; text-align: left; }
+.rug-card-town { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.rug-card-name { font-family: var(--serif); font-size: 1.3rem; line-height: 1.2; }
+.rug-card-meta { margin-top: 0.35rem !important; color: var(--muted); font-size: 0.85rem; }
+.rug-card-price { margin-top: 0.6rem !important; display: flex; justify-content: space-between; align-items: baseline; font-size: 1.05rem; }
+.rug-card-price .fa { color: var(--muted); font-size: 1rem; }
+.rug-card-link { display: block; margin-top: 0.9rem; padding: 0.75rem 1rem; background: var(--ink); color: var(--cream); text-align: center; text-decoration: none; font-size: 0.9rem; transition: background-color 0.3s; }
+.rug-card-link:hover { background: var(--madder); }
+/* label and look styles: the card sits at the side of the screen instead of on the rug */
+.rug-tags[data-mode="2"] .rug-card, .rug-tags[data-mode="3"] .rug-card { left: auto; right: 2rem; top: 50%; transform: translateY(-50%) !important; }
+.rug-tags[data-mode="1"] .rug-card, .rug-tags[data-mode="4"] .rug-card { transition: opacity 0.3s, visibility 0.3s; }
+
+/* 1. Pins */
+.rug-pin { position: fixed; left: 0; top: 0; display: none; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; transform-origin: 0 0; }
+.rug-tags[data-mode="1"] .rug-pin.on, .rug-tags[data-mode="4"] .rug-pin.on { display: block; }
+.pin-dot { position: absolute; left: -11px; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: var(--cream); box-shadow: 0 0 0 3px rgba(247, 242, 235, 0.35), 0 4px 12px rgba(0, 0, 0, 0.4); }
+.pin-dot::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--madder); }
+.pin-dot::before { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--cream); animation: pinPulse 2.2s ease-out infinite; }
+@keyframes pinPulse { from { transform: scale(0.6); opacity: 0.9; } to { transform: scale(1.7); opacity: 0; } }
+.pin-peek {
+  position: absolute; left: 18px; top: -15px; padding: 0.35rem 0.7rem; white-space: nowrap;
+  background: rgba(247, 242, 235, 0.95); color: var(--ink); font: 0.8rem var(--sans);
+  opacity: 0; transform: translateX(-6px); transition: opacity 0.25s, transform 0.25s var(--ease); pointer-events: none;
+}
+.pin-peek b { font-weight: 600; }
+.rug-pin:hover .pin-peek, .rug-pin:focus-visible .pin-peek { opacity: 1; transform: none; }
+.rug-tags[data-mode="4"] .pin-dot, .rug-tags[data-mode="4"] .pin-peek { display: none; }
+.ptag { display: none; }
+
+/* 4. Price tags: a paper tag on a string, price in Persian numerals; tap to flip */
+.rug-tags[data-mode="4"] .ptag { display: block; position: absolute; left: -2px; top: -4px; transform-origin: 2px 0; animation: tagSway 4s ease-in-out infinite; }
+.ptag-string { position: absolute; left: 1px; top: 0; width: 1.5px; height: 26px; background: #e9dcc6; }
+.ptag-paper {
+  position: absolute; left: -36px; top: 24px; width: 76px; height: 54px; perspective: 400px;
+}
+.ptag-front, .ptag-back {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+  background: #f4ead8; color: var(--ink); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+  clip-path: polygon(22% 0, 78% 0, 100% 22%, 100% 100%, 0 100%, 0 22%);
+  backface-visibility: hidden; transition: transform 0.6s var(--ease);
+}
+.ptag-front::before, .ptag-back::before { content: ''; position: absolute; top: 6px; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: rgba(0,0,0,0.35); }
+.ptag-front .fa { margin-top: 8px; font-size: 1.15rem; line-height: 1; color: var(--madder); }
+.ptag-front small, .ptag-back small { font: 0.7rem var(--sans); color: var(--muted); }
+.ptag-back { transform: rotateY(180deg); background: var(--madder); }
+.ptag-back .fa { margin-top: 8px; color: var(--cream); font-size: 1.05rem; line-height: 1.1; }
+.ptag-back small { color: rgba(247, 242, 235, 0.85); }
+.rug-pin.flipped .ptag-front { transform: rotateY(-180deg); }
+.rug-pin.flipped .ptag-back { transform: rotateY(0); }
+.rug-pin.flipped .ptag { animation-play-state: paused; }
+@keyframes tagSway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+
+/* 2. Gallery label for the rug in front of you */
+.rug-label {
+  position: fixed; left: 3rem; top: 50%; display: grid; min-width: 240px; max-width: 290px; padding: 1.2rem 1.3rem 1.1rem;
+  background: rgba(247, 242, 235, 0.96); color: var(--ink); text-decoration: none; pointer-events: auto;
+  border-left: 4px solid var(--madder); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  opacity: 0; visibility: hidden; transform: translate(-12px, -50%); transition: opacity 0.4s, transform 0.5s var(--ease), visibility 0.4s;
+}
+.rug-label.on { opacity: 1; visibility: visible; transform: translate(0, -50%); }
+.rug-label.swap > * { animation: lbSwap 0.45s var(--ease) both; }
+@keyframes lbSwap { from { opacity: 0; transform: translateY(6px); } }
+.lb-fa { color: var(--madder); font-size: 1.8rem; line-height: 1.15; text-align: left; }
+.lb-town { margin-top: 0.15rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.lb-name { margin-top: 0.15rem; color: var(--muted); font-size: 0.88rem; }
+.lb-price { margin-top: 0.7rem; font-family: var(--serif); font-size: 1.35rem; }
+.lb-go { margin-top: 0.6rem; font-size: 0.85rem; text-decoration: underline; text-underline-offset: 3px; }
+.rug-label:hover .lb-go { color: var(--madder); }
+
+/* 3. Look closer: a centre dot that fills while you look at a rug */
+.rug-reticle { position: fixed; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; display: none; }
+.rug-reticle.on { display: block; }
+.rug-reticle svg { width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.rug-reticle circle { fill: none; stroke-width: 2.5; }
+.rt-track { stroke: rgba(255, 255, 255, 0.0); transition: stroke 0.3s; }
+.rug-reticle::after { content: ''; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px rgba(0, 0, 0, 0.6); }
+.rug-reticle.aiming .rt-track { stroke: rgba(255, 255, 255, 0.35); }
+.rt-fill { stroke: var(--cream); stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p, 0)); filter: drop-shadow(0 0 3px rgba(0,0,0,0.5)); }
+.rt-hint { position: absolute; left: 50%; top: 52px; transform: translateX(-50%); white-space: nowrap; color: rgba(255,255,255,0.85); font-size: 0.8rem; text-shadow: 0 1px 8px rgba(0,0,0,0.6); opacity: 0; transition: opacity 0.4s; }
+.rug-reticle.aiming .rt-hint { opacity: 1; }
+body.rug-open .rug-reticle { opacity: 0.4; }
+
+@media (max-width: 700px) {
+  .cta-seal { right: 1rem; bottom: 1.5rem !important; width: 112px; height: 112px; }
+  .rug-label { left: 1rem; right: 1rem; top: auto; bottom: 7rem; max-width: none; transform: translateY(10px); }
+  .rug-label.on { transform: none; }
+  .rug-tags[data-mode="2"] .rug-card, .rug-tags[data-mode="3"] .rug-card,
+  .rug-tags[data-mode="1"] .rug-card, .rug-tags[data-mode="4"] .rug-card {
+    left: 1rem !important; right: 1rem; top: auto !important; bottom: 1rem; width: auto; transform: none !important;
+    display: grid; grid-template-columns: 110px 1fr;
+  }
+  .rug-card-img { height: 100%; min-height: 150px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-track, .cta-seal svg, .pin-dot::before, .ptag { animation: none !important; }
 }

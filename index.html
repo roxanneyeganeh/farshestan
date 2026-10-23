@@ -25,7 +25,7 @@
     }
   </script>
 </head>
-<body class="home">
+<body class="home tags-1 cta-1 bright-1">
 
   <!-- Slide-up panel (Info) -->
   <div id="slidePanel">
@@ -51,7 +51,37 @@
     <div class="overlaySubText">Handcrafted in Iran since 1998</div>
   </div>
 
-  <a class="home-cta" href="/shop">Explore the collection</a>
+  <!-- Explore the collection (cta-1 … cta-5 are design options for the preview) -->
+  <a class="home-cta cta-now" href="/shop">Explore the collection</a>
+
+  <a class="home-cta cta-woven" href="/shop">
+    <span class="cw-fa" lang="fa" aria-hidden="true">مجموعه</span>
+    <span class="cw-text">Explore the collection</span>
+    <span class="cw-arrow" aria-hidden="true">→</span>
+  </a>
+
+  <a class="home-cta cta-strip" href="/shop" aria-label="Explore the collection, 48 rugs">
+    <span class="cs-track" aria-hidden="true"></span>
+    <span class="cs-label">Explore the collection <b>48 rugs</b> <span aria-hidden="true">→</span></span>
+  </a>
+
+  <a class="home-cta cta-seal" href="/shop" aria-label="Explore the collection">
+    <svg viewBox="0 0 200 200" aria-hidden="true">
+      <defs><path id="sealPath" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+      <text><textPath href="#sealPath">EXPLORE THE COLLECTION · مجموعه · EXPLORE THE COLLECTION · مجموعه ·</textPath></text>
+    </svg>
+    <span class="seal-rug" aria-hidden="true"></span>
+    <span class="seal-arrow" aria-hidden="true">→</span>
+  </a>
+
+  <a class="home-cta cta-arch" href="/shop">
+    <span class="ca-fa" lang="fa" aria-hidden="true">ورود</span>
+    <span class="ca-text">Explore the<br>collection</span>
+  </a>
+
+  <a class="home-cta cta-fringe" href="/shop">
+    <span class="cf-rug"><span class="cf-text">Explore the collection</span></span>
+  </a>
 
 
   <script src="homepage.js"></script>
@@ -60,12 +90,21 @@
 
   <script type="module" src="home3d.js"></script>
 
+  <script src="home-tags.js"></script>
   <script>
-    // Hide the headline while the visitor is looking around
-    const scene = document.getElementById('scene');
-    const overlay = document.getElementById('overlayText');
-    scene.addEventListener('pointerdown', () => overlay.classList.add('is-hidden'));
-    window.addEventListener('pointerup', () => overlay.classList.remove('is-hidden'));
+    // A strip of small rugs for the "Explore the collection" strip design
+    (function () {
+      const track = document.querySelector('.cs-track');
+      if (!track) return;
+      const ids = [1, 3, 7, 12, 17, 22, 26, 34, 39, 45, 2, 6, 18, 47, 9, 31];
+      const html = ids.map(i => `<img src="assets/rugs/rug-${i}.webp" alt="" loading="lazy">`).join('');
+      track.innerHTML = html + html;
+      // the seal shows a rug that changes every few seconds
+      const seal = document.querySelector('.seal-rug');
+      let k = 0;
+      const next = () => { seal.style.backgroundImage = `url("assets/rugs/rug-${ids[k++ % ids.length]}.webp")`; };
+      next(); setInterval(next, 2600);
+    })();
   </script>
 
 </body>
