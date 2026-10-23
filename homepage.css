@@ -280,7 +280,7 @@ body.cta-5 .cta-fringe { display: flex; }
   align-items: center; justify-content: center; animation: sealIn 1.2s var(--ease) 0.3s both !important;
 }
 .cta-seal svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: sealSpin 22s linear infinite; }
-.cta-seal text { fill: var(--cream); font: 600 15px var(--sans); letter-spacing: 3.2px; }
+.cta-seal text { fill: var(--cream); font: 600 14px var(--sans); }
 .seal-rug {
   width: 46px; height: 62px; background: center / contain no-repeat;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)); transition: background-image 0.4s, transform 0.5s var(--ease);
