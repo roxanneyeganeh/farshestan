@@ -40,12 +40,7 @@ const START = { x: -4.2, z: 0.1, yaw: -90 };  // by the door, looking down the r
 const WALK_SPEED = 1.8;          // m/s
 const BODY_RADIUS = 0.35;        // how close you can get to objects
 const PITCH_LIMIT = 40;          // can't look straight up or down
-const IDLE_SPIN = 4;             // deg/s gentle look-around when idle
-const IDLE_DELAY = 4000;         // ms before the idle look-around starts
 const EXPLORE_FADE = 1400;       // ms after the last movement before the headline returns
-
-// Brightness: tone-mapping exposure for each setting (body.bright-0/1/2)
-const EXPOSURE = { 0: 0.9, 1: 1.15, 2: 1.35 };
 
 // The rugs hanging on the walls show real rugs from the collection.
 // Each one links to its product in the shop.
@@ -65,7 +60,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.9;
+renderer.toneMappingExposure = 1.15;
 container.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -367,18 +362,8 @@ renderer.setAnimationLoop(() => {
     }
   }
 
-  // Gentle look-around when nobody is interacting
-  if (performance.now() - state.lastInput > IDLE_DELAY && !dragging) {
-    state.yaw += THREE.MathUtils.degToRad(IDLE_SPIN) * dt;
-    state.pitch *= 0.98;
-  }
-
   camera.position.set(state.x, EYE_HEIGHT, state.z);
   camera.rotation.set(state.pitch, state.yaw, 0);
-
-  // Brightness setting
-  const b = document.body.classList.contains('bright-2') ? 2 : document.body.classList.contains('bright-0') ? 0 : 1;
-  renderer.toneMappingExposure += (EXPOSURE[b] - renderer.toneMappingExposure) * 0.15;
 
   renderer.render(scene, camera);
   updateRugTags();
@@ -388,11 +373,11 @@ renderer.setAnimationLoop(() => {
 /* =========================================================
    REAL RUGS ON THE WALLS + THEIR TAGS
    The hanging rugs show rugs from the collection. Each frame
-   their screen positions are worked out so the tag layer
-   (home-tags.js) can place pins, labels and price tags.
+   their screen positions are worked out so home-tags.js
+   can place a pin on each one.
 ========================================================= */
 
-const wallRugs = [];          // { mesh, info, centre, corner, tagPoint, normal }
+const wallRugs = [];          // { mesh, info, index, centre, pin, normal }
 
 function hangRealRugs(model) {
   const meshes = [];
@@ -427,7 +412,6 @@ function hangRealRugs(model) {
       mesh, info, index: i,
       centre: centre.clone().add(off),
       pin: centre.clone().add(right.clone().multiplyScalar(halfW * 0.55)).add(new THREE.Vector3(0, size.y * 0.28, 0)).add(off),
-      tag: centre.clone().add(right.clone().multiplyScalar(halfW * 0.82)).add(new THREE.Vector3(0, size.y * 0.36, 0)).add(off),
       normal
     });
   });
@@ -516,22 +500,14 @@ function updateRugTags() {
       visibleCache[i] = !hit || hit.object === r.mesh || hit.distance > d.length() - 0.15;
     }
     const c = project(r.centre);
-    const centred = Math.hypot(c.x - window.innerWidth / 2, c.y - window.innerHeight / 2) / Math.hypot(window.innerWidth, window.innerHeight);
     return {
       index: i,
       info: r.info,
       dist,
-      centred,
       visible: facing > 0.15 && visibleCache[i] && c.front,
       centre: c,
-      pin: project(r.pin),
-      tag: project(r.tag)
+      pin: project(r.pin)
     };
   });
-  // the ray straight out of the middle of the screen: which rug is being looked at
-  occlusion.setFromCamera(new THREE.Vector2(0, 0), camera);
-  occlusion.far = 50;
-  const hit = occlusion.intersectObjects(walkables, false)[0];
-  const lookedAt = hit ? wallRugs.findIndex(w => w.mesh === hit.object) : -1;
-  window.__rugTags = { rugs: out, lookedAt: lookedAt >= 0 && hit.distance < 6 ? lookedAt : -1, frame };
+  window.__rugTags = { rugs: out };
 }
