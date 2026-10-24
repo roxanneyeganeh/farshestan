@@ -43,7 +43,7 @@
 
 .account-fa {
   margin: 0 0 0.25rem;
-  font-size: 1.6rem;
+  font-size: var(--h-fa);
   line-height: 1.2;
   color: var(--madder);
   text-align: left;
@@ -53,8 +53,8 @@
   margin: 0 0 0.5rem;
   font-family: var(--serif);
   font-weight: normal;
-  font-size: clamp(2.5rem, 4.5vw, 3.5rem);
-  line-height: 1.05;
+  font-size: var(--h-display);
+  line-height: 1.1;
 }
 
 .form-meta {

@@ -16,6 +16,12 @@
     @font-face { font-family: 'Naskh Local'; src: url('assets/NotoNaskhArabic.ttf') format('truetype'); font-display: swap; }
 
     :root {
+      /* Type scale shared by every page (the homepage headline sets it) */
+      --h-display: clamp(1.75rem, 3.4vw, 2.75rem);   /* page titles and section headings */
+      --h-fa: clamp(1.5rem, 2.4vw, 2rem);            /* the Persian word above a heading */
+      --h-title: clamp(1.4rem, 2vw, 1.75rem);        /* product names, empty states, smaller headings */
+      --h-sub: clamp(1.2rem, 1.6vw, 1.45rem);        /* card and list headings */
+
       --cream: #f7f2eb;
       --sand: #ece4d8;
       --paper: #ffffff;
@@ -68,19 +74,19 @@
     .section-title {
       margin: 0;
       font-family: var(--serif); font-weight: 600;
-      font-size: clamp(2.25rem, 4.5vw, 3.5rem); line-height: 1.05;
+      font-size: var(--h-display); line-height: 1.1;
     }
     .section-fa {
       display: block; margin-bottom: 0.35rem;
       font-family: var(--serif); direction: rtl; text-align: left;
-      font-size: clamp(1.3rem, 2vw, 1.7rem); color: var(--madder);
+      font-size: var(--h-fa); color: var(--madder);
     }
 
     /* Timeline headings/text (the timeline itself is unchanged) */
     .journey-title {
       text-align: center; margin: 6rem 0 0;
       font-family: var(--serif); font-weight: 600;
-      font-size: clamp(2.5rem, 5vw, 50px); line-height: 1.1;
+      font-size: var(--h-display); line-height: 1.1;
     }
     .timeline h4 { margin: 0 0 0.5rem; font-family: var(--serif); font-weight: normal; font-size: 2rem; }
     .timeline p { margin: 0; font-size: 1.05rem; line-height: 1.6; }
@@ -131,7 +137,7 @@
 
     /* ---------- Sign-up ---------- */
     .signup { padding: 5rem var(--gutter); text-align: center; background: var(--sand); }
-    .signup h2 { margin: 0 0 0.5rem; font-family: var(--serif); font-weight: normal; font-size: clamp(2rem, 3.5vw, 2.6rem); }
+    .signup h2 { margin: 0 0 0.5rem; font-family: var(--serif); font-weight: normal; font-size: var(--h-title); }
     .signup > p { margin: 0 auto 1.75rem; color: var(--muted); max-width: 46ch; }
     .signup-form { display: flex; max-width: 520px; margin: 0 auto 1rem; }
     .signup-form input {
@@ -360,7 +366,7 @@
     .content { min-width: 0; }
     .chapter { padding: 5rem var(--gutter) 3rem 2rem; scroll-margin-top: 1rem; }
 
-    .story h1 { margin: 0 0 1.5rem; font-family: var(--serif); font-weight: 600; font-size: clamp(2.75rem, 5vw, 4.25rem); line-height: 1; }
+    .story h1 { margin: 0 0 1.5rem; font-family: var(--serif); font-weight: 600; font-size: var(--h-display); line-height: 1.1; }
     .story-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
     .story p { margin: 0 0 1.1rem; max-width: 56ch; }
     .story-img { aspect-ratio: 4 / 5; overflow: hidden; }
@@ -372,7 +378,7 @@
     .craft-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
     .craft-pair .media { aspect-ratio: 4 / 5; }
     .craft-pair figcaption { margin-top: 0.75rem; }
-    .craft-pair h3 { margin: 0 0 0.5rem; font-family: var(--serif); font-weight: normal; font-size: 1.6rem; }
+    .craft-pair h3 { margin: 0 0 0.5rem; font-family: var(--serif); font-weight: normal; font-size: var(--h-sub); }
     .craft-pair p { margin: 0; font-size: 1rem; color: var(--muted); }
 
     /* Rug anatomy */
@@ -397,7 +403,7 @@
     }
     .anatomy-card { min-height: 240px; }
     .anatomy-card .part-fa { font-family: var(--serif); direction: rtl; text-align: left; color: var(--madder); font-size: 1.4rem; margin: 0 0 0.25rem; }
-    .anatomy-card h3 { margin: 0 0 0.75rem; font-family: var(--serif); font-weight: normal; font-size: 2rem; }
+    .anatomy-card h3 { margin: 0 0 0.75rem; font-family: var(--serif); font-weight: normal; font-size: var(--h-title); }
     .anatomy-card p { margin: 0 0 1.5rem; color: var(--muted); }
     .anatomy-steps { display: flex; gap: 0.4rem; }
     .anatomy-steps button {

@@ -126,7 +126,7 @@ body.rug-open #overlayText {
   margin-bottom: 0.75rem;
   font-family: var(--serif);
   direction: rtl;
-  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-size: var(--h-fa);
   line-height: 1.2;
 }
 
@@ -135,7 +135,7 @@ body.rug-open #overlayText {
   margin: 0 auto;
   font-family: var(--serif);
   font-weight: 600;
-  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  font-size: var(--h-display);
   line-height: 1.15;
 }
 

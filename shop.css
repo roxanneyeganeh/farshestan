@@ -27,6 +27,12 @@
 
   --gutter: 3rem;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Type scale shared by every page (the homepage headline sets it) */
+  --h-display: clamp(1.75rem, 3.4vw, 2.75rem);   /* page titles and section headings */
+  --h-fa: clamp(1.5rem, 2.4vw, 2rem);            /* the Persian word above a heading */
+  --h-title: clamp(1.4rem, 2vw, 1.75rem);        /* product names, empty states, smaller headings */
+  --h-sub: clamp(1.2rem, 1.6vw, 1.45rem);        /* card and list headings */
 }
 
 *,
@@ -103,17 +109,17 @@ button {
 ========================================================= */
 
 #shop-intro {
-  padding: 150px var(--gutter) 3.5rem;
+  padding: 140px var(--gutter) 2.5rem;
 }
 
+/* Persian word above the Latin title, as on the homepage */
 .shop-intro-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "latin persian"
-    "text  persian";
-  column-gap: 3rem;
-  align-items: end;
+    "persian"
+    "latin"
+    "text";
 }
 
 #shop-intro h1 {
@@ -121,25 +127,25 @@ button {
   margin: 0;
   font-family: var(--serif);
   font-weight: 600;
-  font-size: clamp(2.5rem, 5vw, 4.25rem);
-  line-height: 1;
+  font-size: var(--h-display);
+  line-height: 1.1;
 }
 
 #shop-intro .fa-title {
   grid-area: persian;
-  align-self: end;
-  margin: 0;
-  font-size: clamp(3.25rem, 9vw, 7.75rem);
-  font-weight: 600;
-  line-height: 0.9;
+  justify-self: start;
+  margin: 0 0 0.35rem;
+  font-size: var(--h-fa);
+  font-weight: 400;
+  line-height: 1.2;
   color: var(--madder);
 }
 
 #shop-intro p {
   grid-area: text;
-  margin: 1.75rem 0 0;
-  max-width: 58ch;
-  font-size: 1.1rem;
+  margin: 1.1rem 0 0;
+  max-width: 62ch;
+  font-size: 1.05rem;
   line-height: 1.55;
 }
 
@@ -428,7 +434,7 @@ body.no-intro #filter-controls {
   padding: 5rem 0;
   text-align: center;
   font-family: var(--serif);
-  font-size: 1.6rem;
+  font-size: var(--h-sub);
   color: var(--muted);
 }
 
@@ -521,7 +527,7 @@ body.no-intro #filter-controls {
   margin: 0 0 0.5rem;
   font-family: var(--serif);
   font-weight: normal;
-  font-size: 2rem;
+  font-size: var(--h-title);
 }
 
 .grid-message p {
@@ -677,8 +683,8 @@ body.no-intro #filter-controls {
   margin: 0 0 0.5rem;
   font-family: var(--serif);
   font-weight: normal;
-  font-size: 2.2rem;
-  line-height: 1.15;
+  font-size: var(--h-title);
+  line-height: 1.2;
 }
 
 .modal-price {
@@ -757,19 +763,6 @@ body.no-intro #filter-controls {
 ========================================================= */
 
 @media (max-width: 900px) {
-  .shop-intro-inner {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "persian"
-      "latin"
-      "text";
-  }
-
-  #shop-intro .fa-title {
-    justify-self: start;
-    margin-bottom: 0.5rem;
-  }
-
   .modal-content {
     grid-template-columns: 1fr;
   }
@@ -835,9 +828,6 @@ body.no-intro #filter-controls {
     max-height: 94vh;
   }
 
-  .modal-title {
-    font-size: 1.75rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -856,8 +846,8 @@ body.no-intro #filter-controls {
 
 .section-fa {
   display: block;
-  margin: 0 0 0.3rem;
-  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  margin: 0 0 0.35rem;
+  font-size: var(--h-fa);
   text-align: left;
 }
 
@@ -896,7 +886,7 @@ body.no-intro #filter-controls {
   margin: 0 0 1rem;
   font-family: var(--serif);
   font-weight: 600;
-  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  font-size: var(--h-display);
   line-height: 1.1;
 }
 
@@ -948,8 +938,8 @@ body.no-intro #filter-controls {
 
 .region-panel .place-fa {
   display: block;
-  font-size: 3rem;
-  line-height: 1;
+  font-size: var(--h-fa);
+  line-height: 1.2;
   color: var(--madder);
   text-align: left;
 }
@@ -958,7 +948,7 @@ body.no-intro #filter-controls {
   margin: 0.4rem 0 0.25rem;
   font-family: var(--serif);
   font-weight: normal;
-  font-size: 1.9rem;
+  font-size: var(--h-title);
 }
 
 .region-panel .meta {
@@ -1121,7 +1111,7 @@ body.no-intro #filter-controls {
 .sr-icon::after { content: ''; position: absolute; right: -6px; bottom: -6px; width: 8px; height: 2px; background: var(--ink); transform: rotate(45deg); }
 .filter-search { position: relative; }
 .search-box {
-  display: flex; align-items: center; gap: 0.9rem; min-height: 64px; padding: 0.4rem 1rem 0.4rem 1.2rem;
+  display: flex; align-items: center; gap: 0.9rem; min-height: 56px; padding: 0.3rem 1rem 0.3rem 1.2rem;
   background: var(--card); box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08), 0 1px 0 rgba(0,0,0,0.02);
   transition: box-shadow 0.25s;
 }
@@ -1137,9 +1127,9 @@ body.no-intro #filter-controls {
 .search-tok span { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: rgba(247,242,235,0.15); font-size: 0.85rem; }
 .search-tok:hover { background: var(--madder); }
 @keyframes searchpop { from { transform: scale(0.6); opacity: 0; } }
-.search-in { flex: 1; min-width: 8rem; height: 46px; padding: 0; border: 0; background: none; font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.6rem); color: var(--ink); outline: none !important; }
+.search-in { flex: 1; min-width: 8rem; height: 42px; padding: 0; border: 0; background: none; font-family: var(--serif); font-size: var(--h-sub); color: var(--ink); outline: none !important; }
 .search-in::placeholder { color: #a39a8e; }
-.search-ph { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.6rem); color: #a39a8e; pointer-events: none; white-space: nowrap; overflow: hidden; max-width: 100%; }
+.search-ph { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-family: var(--serif); font-size: var(--h-sub); color: #a39a8e; pointer-events: none; white-space: nowrap; overflow: hidden; max-width: 100%; }
 .search-ph::after { content: ''; display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -0.15em; background: var(--madder); animation: searchblink 1s steps(1) infinite; }
 @keyframes searchblink { 50% { opacity: 0; } }
 .search-ph[hidden] { display: none; }

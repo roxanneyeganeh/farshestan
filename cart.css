@@ -44,7 +44,7 @@
   margin: 0 0 0.35rem;
   font-family: var(--serif);
   font-weight: normal;
-  font-size: 1.5rem;
+  font-size: var(--h-sub);
   line-height: 1.25;
 }
 
@@ -88,7 +88,7 @@
   margin: 0 0 0.75rem;
   font-family: var(--serif);
   font-weight: normal;
-  font-size: 2.25rem;
+  font-size: var(--h-title);
 }
 
 @media (max-width: 900px) {
