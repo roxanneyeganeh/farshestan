@@ -164,7 +164,7 @@
     const num = s => { const m = String(s).replace(/[£,\s]/g, '').match(/^(\d+(?:\.\d+)?)(k?)$/i); return m ? Math.round(parseFloat(m[1]) * (m[2] ? 1000 : 1)) : null; };
     const down = n => Math.max(MIN, Math.ceil(n / 100) * 100 - 100), up = n => Math.min(MAX, Math.floor(n / 100) * 100 + 100);
     function parse(text) {
-      const w = text.toLowerCase().replace(/[–—]/g, '-').replace(/,/g, ' ').split(/\s+/).filter(Boolean);
+      const w = text.toLowerCase().replace(/[–—]/g, '-').replace(/(\d),(?=\d{3}\b)/g, '$1').replace(/,/g, ' ').split(/\s+/).filter(Boolean);
       const out = { colours: [], price: null, sort: null, text: [] };
       for (let i = 0; i < w.length; i++) {
         const x = w[i];
