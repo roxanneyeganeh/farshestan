@@ -1,0 +1,80 @@
+/* =========================================================
+   FARSHESTAN — CORNERS
+   One corner style for the whole site. Every page loads this
+   file last, so these two settings decide every corner:
+
+   --r-control  buttons, inputs, chips, the search bar, tags
+   --r-surface  product cards, images, panels, pop-ups
+
+   Round things (colour dots, pins, arrow buttons) stay round.
+========================================================= */
+
+:root {
+  --r-control: 0px;   /* sharp corners everywhere */
+  --r-surface: 0px;
+}
+
+
+/* ---------- controls ---------- */
+.btn,
+.cta-button,
+.add-to-cart,
+.continue-btn,
+.create-account-btn,
+.home-cta,
+.rug-card-link,
+.cart-cta,
+.cart-qty,
+.play-toggle,
+.chips-chip,
+.search-box,
+.search-tok,
+.search-item,
+.search-item.go,
+.pin-peek,
+.input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="search"],
+.subscribe-form input[type="email"],
+.subscribe-form button,
+.signup input,
+.signup button,
+#filter-controls .custom-select,
+.price-select-wrapper .custom-select {
+  border-radius: var(--r-control) !important;
+}
+
+/* inputs inside the search bar take the bar's shape, not their own */
+.search-box input { border-radius: 0 !important; }
+
+/* the woven dashed line inside the homepage button follows its shape */
+.home-cta::before { border-radius: var(--r-control) !important; }
+
+/* small buttons inside the cart's quantity control */
+.cart-qty button { border-radius: var(--r-control) !important; }
+
+
+/* ---------- surfaces ---------- */
+.image-item,
+.car-card,
+.modal-content,
+#modal-image,
+.region-panel,
+.region-thumbs button,
+.search-panel,
+.summary,
+.rug-card,
+.media,
+.story-img,
+.cart-row-frame,
+.cart-item-img {
+  border-radius: var(--r-surface) !important;
+  overflow: hidden;
+}
+
+/* the product popup: the picture keeps its own corners on the outer edge only */
+.modal-content #modal-image { border-radius: 0 !important; }
+.modal-media { border-radius: 0; }
