@@ -86,7 +86,7 @@
 
   /* =========================================================
      Shared for Chips+ and Search+: faceted counts, sorting,
-     text search (English or Persian town names), sticky bar
+     text search (English or Persian town names)
   ========================================================= */
   const TOWNS = {"1": ["Tabriz", "تبریز"], "2": ["Nain", "نائین"], "3": ["Isfahan", "اصفهان"], "4": ["Kashan", "کاشان"], "5": ["Qom", "قم"], "6": ["Mashhad", "مشهد"], "7": ["Kerman", "کرمان"], "8": ["Heriz", "هریس"], "9": ["Bidjar", "بیجار"], "10": ["Bakhtiari", "بختیاری"], "11": ["Sarouk", "ساروق"], "12": ["Malayer", "ملایر"], "13": ["Yazd", "یزد"], "14": ["Afshar", "افشار"], "15": ["Luri", "لری"], "16": ["Hamadan", "همدان"], "17": ["Moud", "مود"], "18": ["Baluch", "بلوچ"], "19": ["Qashqai", "قشقایی"], "20": ["Kurdistan", "کردستان"], "21": ["Ardabil", "اردبیل"], "22": ["Shiraz", "شیراز"], "23": ["Zanjan", "زنجان"], "24": ["Bijar", "بیجار"], "25": ["Ghom", "قم"], "26": ["Senneh", "سنه"], "27": ["Kalat", "کلات"], "28": ["Khoy", "خوی"], "29": ["Varamin", "ورامین"], "30": ["Tafresh", "تفرش"], "31": ["Fars", "فارس"], "32": ["Jozan", "جوزان"], "33": ["Kashmar", "کاشمر"], "34": ["Tuiserkan", "تویسرکان"], "35": ["Dorokhsh", "درخش"], "36": ["Saveh", "ساوه"], "37": ["Ferahan", "فراهان"], "38": ["Nahavand", "نهاوند"], "39": ["Tonekabon", "تنکابن"], "40": ["Ravar", "راور"], "41": ["Sultanabad", "سلطان‌آباد"], "42": ["Behbahan", "بهبهان"], "43": ["Khorasan", "خراسان"], "45": ["Maragheh", "مراغه"], "46": ["Neiriz", "نی‌ریز"], "47": ["Delijan", "دلیجان"], "48": ["Langarud", "لنگرود"], "49": ["Gonbad", "گنبد"]};
   let sortMode = 'featured';
@@ -105,13 +105,6 @@
     const colourN = v => all.filter(p => p.dominantColor === v && inPrice(p, pr) && nameMatches(p)).length;
     const priceN = ps => all.filter(p => (!sel.length || sel.includes(p.dominantColor)) && inPrice(p, [ps.min, ps.max]) && nameMatches(p)).length;
     return { colourN, priceN };
-  }
-  // the whole filter area sticks under the menu pill; mark it when it is stuck
-  let watching = false;
-  function stickyWatch() {
-    if (watching) return; watching = true;
-    const sentinel = el('div', 'filters-sentinel'); host.before(sentinel);
-    new IntersectionObserver(([e]) => host.classList.toggle('stuck', !e.isIntersecting && e.boundingClientRect.top < 84), { rootMargin: '-84px 0px 0px 0px' }).observe(sentinel);
   }
   function applyGridExtras() {
     const plus = true;
@@ -149,7 +142,6 @@
       </div>
       <div class="search-panel" id="search-list" role="listbox" aria-label="Suggestions"></div>`;
     host.append(v);
-    stickyWatch();
     const input = $('.search-in', v), panel = $('.search-panel', v), ph = $('.search-ph', v);
     let towns = [];       // chosen town tokens
     let active = -1, items = [];
